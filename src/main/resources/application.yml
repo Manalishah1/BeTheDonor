@@ -1,4 +1,5 @@
 server:
+  port: 8081
   error:
     include:message: always
     include-binding-errors: always
@@ -8,9 +9,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/bethedonor
     username: root
-    password: admin@123
-  thymleaf:
-    suffix: .html
+    password: Prakash1163.
 
   jpa:
     hibernate:

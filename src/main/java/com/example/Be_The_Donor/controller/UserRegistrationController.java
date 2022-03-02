@@ -18,7 +18,7 @@ public class UserRegistrationController
     @RequestMapping("api/v1/registration")
     public String registration()
     {
-        return "Registration Page";
+        return "registration";
     }
 
     @PostMapping("api/v1/registration")
