@@ -25,7 +25,7 @@ public class UserRegistrationController
     public void register(@RequestBody RegistrationRequest registrationRequest)
     {
          registrationService.register(registrationRequest);
-        System.out.println("Registration email successfully sent to " + registrationRequest.getEmail());
+        System.out.println("Registration email successfully sent to the mail " + registrationRequest.getEmail());
     }
 
     @GetMapping("/api/v1/registration/confirm")
