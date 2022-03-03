@@ -15,20 +15,20 @@ public class UserRegistrationController
     private final RegistrationService registrationService;
 
 
-    @RequestMapping("api/v1/registration")
+    @RequestMapping("/api/v1/registration")
     public String registration()
     {
         return "registration";
     }
 
-    @PostMapping("api/v1/registration")
+    @PostMapping("/api/v1/registration")
     public void register(@RequestBody RegistrationRequest registrationRequest)
     {
          registrationService.register(registrationRequest);
         System.out.println("Registration email successfully sent to " + registrationRequest.getEmail());
     }
 
-    @GetMapping("api/v1/registration/confirm")
+    @GetMapping("/api/v1/registration/confirm")
     public String confirm(@RequestParam("token") String token)
     {
         return registrationService.confirmToken(token);
