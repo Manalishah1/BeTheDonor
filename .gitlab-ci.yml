@@ -3,6 +3,7 @@ image: maven:latest
 stages:
   - build
   - test
+  - deploy
 
 workflow:
   rules:
@@ -27,6 +28,20 @@ test:
   script:
     - echo test_stage
 
-
+deploy_dev:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=bethedonor-dev --api-key=$HEROKU_API_KEY
+  environment:
+    name: dev
+    url: https://bethedonor-dev.herokuapp.com
+  only:
+    - master
+  tags:
+    - ugrad
 
 
