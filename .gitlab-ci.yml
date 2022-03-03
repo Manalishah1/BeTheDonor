@@ -42,10 +42,4 @@ deploy_dev:
     url: https://bethedonor-dev.herokuapp.com
   only:
     - master
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> dharmik_dev
