@@ -60,4 +60,6 @@ public class ApplicationUserService implements UserDetailsService {
         userRepository.enableApplicationUser(email);
 
     }
+
+
 }
