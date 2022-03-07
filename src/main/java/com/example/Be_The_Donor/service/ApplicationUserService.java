@@ -62,7 +62,11 @@ public class ApplicationUserService implements UserDetailsService {
 
     }
 
+<<<<<<< HEAD
     public Optional<ApplicationUser> findByEmail(String email){
         return userRepository.findByEmail(email);
     }
+=======
+
+>>>>>>> dharmik_dev
 }
