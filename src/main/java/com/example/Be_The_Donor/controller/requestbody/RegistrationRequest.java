@@ -1,18 +1,22 @@
 package com.example.Be_The_Donor.controller.requestbody;
 
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class RegistrationRequest {
 
+    public RegistrationRequest()
+    {
+
+    }
+
     //We need to capture these things
+
     public String firstName;
     public String lastName;
     public String email;
