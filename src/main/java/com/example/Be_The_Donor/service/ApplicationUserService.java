@@ -62,4 +62,10 @@ public class ApplicationUserService implements UserDetailsService {
 
     }
 
+
+    public Optional<ApplicationUser> findByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
+
+
 }
