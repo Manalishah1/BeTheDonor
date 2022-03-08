@@ -44,7 +44,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 //                .formLogin().loginProcessingUrl("/authenticate").usernameParameter("email")
 //                .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
         ;
