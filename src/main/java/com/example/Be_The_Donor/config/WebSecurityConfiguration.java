@@ -1,6 +1,8 @@
 package com.example.Be_The_Donor.config;
 
 
+import com.example.Be_The_Donor.security.JwtAuthenticationEntryPoint;
+import com.example.Be_The_Donor.security.JwtRequestFilter;
 import com.example.Be_The_Donor.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +12,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -22,17 +26,33 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+
+    private final JwtRequestFilter jwtRequestFilter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**").permitAll()
+                .antMatchers("/accessdenied","/authenticate","userLogin")
+                .permitAll()
+                .antMatchers("/loginSuccess*").hasAnyAuthority("USER")
                 .anyRequest()
                 .authenticated().and()
-                .formLogin().loginPage("/api/v1/login");
+//                .formLogin().loginProcessingUrl("/authenticate").usernameParameter("email")
+//                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
+        ;
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
+
 
 
     @Override
