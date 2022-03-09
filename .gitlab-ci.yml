@@ -34,7 +34,7 @@ code_quality:
   image: maven:3-jdk-11
   variables:
     UPLOAD_QUALITY_REPORT: 'curl -X PUT -H "Authorization: Token $QSCORED_API_KEY" + -H
-     "username:dhsoni2510@gmail.com" -H "Content-Type: application/xml"
+     "username:dhsoni2510@gmail.com" -H "Content-Type: multipart/form-data"
       --url "https://qscored.com/api/upload/file.xml?is_open_access=off&version=$CI_PIPELINE_IID&project_name=bethedonor-project" 
       -F "file=@DesigniteAnalysis.xml"'
 
