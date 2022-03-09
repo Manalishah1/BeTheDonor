@@ -28,7 +28,6 @@ test:
   script:
     - echo test_stage
 
-
 deploy_dev:
   stage: deploy
   image: ruby:latest
