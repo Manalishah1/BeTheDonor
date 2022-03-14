@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @AllArgsConstructor
 public class UserRegistrationController
 {
-
     private final RegistrationService registrationService;
 
     @GetMapping("/api/v1/registration")
