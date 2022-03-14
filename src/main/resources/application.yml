@@ -8,7 +8,7 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_23_TEST?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/CSCI5308_23_TEST?createDatabaseIfNotExist=true
     username: CSCI5308_23_TEST_USER
     password: Phubaigh6li1Aef1
 
