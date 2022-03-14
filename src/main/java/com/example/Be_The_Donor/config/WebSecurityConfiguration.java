@@ -1,8 +1,6 @@
 package com.example.Be_The_Donor.config;
 
 
-import com.example.Be_The_Donor.security.JwtAuthenticationEntryPoint;
-import com.example.Be_The_Donor.security.JwtRequestFilter;
 import com.example.Be_The_Donor.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @AllArgsConstructor
@@ -25,10 +21,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-
-    private final JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,17 +31,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**").permitAll()
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
-                .antMatchers("/loginSuccess*").hasAnyAuthority("USER")
+                .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
+                .antMatchers("/loginSuccess1").hasAnyAuthority("USER")
                 .anyRequest()
                 .authenticated().and()
-//                .formLogin().loginProcessingUrl("/authenticate").usernameParameter("email")
-//                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .formLogin().loginPage("/api/v1/login").usernameParameter("email")
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
         ;
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

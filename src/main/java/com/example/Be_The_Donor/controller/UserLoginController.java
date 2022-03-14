@@ -1,12 +1,11 @@
 package com.example.Be_The_Donor.controller;
 
 import com.example.Be_The_Donor.config.PasswordEncoder;
-import com.example.Be_The_Donor.entity.ApplicationUser;
-import com.example.Be_The_Donor.security.JwtTokenUtil;
+import com.example.Be_The_Donor.controller.requestbody.RegistrationRequest;
+import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
 import com.example.Be_The_Donor.service.ApplicationUserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,15 +15,18 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+
 public class UserLoginController {
 
     @Autowired
@@ -37,55 +39,21 @@ public class UserLoginController {
     @Autowired
     private DaoAuthenticationProvider authenticationManager;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private ApplicationUserService userDetailsService;
 
-  /*  @RequestMapping(value = "/Test", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> getUser(HttpServletResponse httpServletResponse, @RequestBody ApplicationUser user) {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
 
-
-            ApplicationUser applicationUser = applicationUserService.findByEmail(user.getEmail()).orElse(null);
-
-            boolean isPasswordMatch = passwordEncoder.bCryptPasswordEncoder().matches(user.getPassword(), applicationUser.getPassword());
-            if (isPasswordMatch) {
-                System.out.println("check");
-                if (applicationUser.getEmail().equals(user.getEmail())) {
-                    response.put("data", "Login Successfully Done");
-                    httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
-                }
-            } else {
-                System.out.println("incorrect username or password");
-            }
-
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return response;
-    }*/
-
-    @GetMapping("/loginSuccess")
-    public String viewLoginPage() {
-        // custom logic before showing login page...
-
-        return "loginSuccess";
+    @GetMapping("/api/v1/login")
+    public String viewLoginPage(Model model) {
+        model.addAttribute("user", new RegistrationRequest());
+        return "login";
     }
 
-    @PostMapping("/loginSuccess")
-    public String checkAuthentication() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "Login Successful");
 
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return "redirect:/loginSuccess";
+    @GetMapping("/api/v1/loginSuccess")
+    public String checkAuthentication() {
+            return "loginSuccess";
     }
 
 
@@ -129,24 +97,37 @@ public class UserLoginController {
     }
 
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(HttpServletRequest request, @RequestBody ApplicationUser user) throws Exception {
-        Authentication authentication = authenticate(user.getEmail(), user.getPassword());
+    @RequestMapping(value = "/api/v1/authenticate", method = RequestMethod.POST)
+
+    public String createAuthenticationToken(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") RegistrationRequest  applicationUser) throws Exception {
+
+        Authentication authentication = authenticate(applicationUser.getEmail(), applicationUser.getPassword());
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(applicationUser.getEmail());
         // Principal principal = request.getUserPrincipal();
 
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(user.getEmail());
-        applicationUserService.loadUserByUsername(user.getEmail());
+
+        //applicationUserService.loadUserByUsername(applicationUser.getEmail());
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
 
         // Create a new session and add the security context.
         HttpSession session = request.getSession(true);
-        session.setAttribute(user.getEmail(), securityContext);
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        session.setAttribute(applicationUser.getEmail(), securityContext);
 
-        return ResponseEntity.ok(token);
+        if(userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"))){
+            return "redirect:/loginSuccess1";
+        }else if(userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"))){
+            return "redirect:/api/v1/loginSuccess";
+        } else{
+            return "redirect:/accessdenied";
+        }
+
+
+
     }
 
 
