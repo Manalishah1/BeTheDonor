@@ -21,8 +21,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
