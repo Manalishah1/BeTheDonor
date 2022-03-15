@@ -28,7 +28,6 @@ class RegistrationServiceTest {
     @InjectMocks
     RegistrationService registrationService;
 
-
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -42,42 +41,33 @@ class RegistrationServiceTest {
     @Mock
     private EmailValidator emailValidator;
 
-
-
-
-
     @Test
     @DisplayName("Testing register method of service layer for valid user information")
     @Order(1)
-    void registerValidUserTest()
-    {
-        String token ="abctoken";
+    void registerValidUserTest() {
+        String token = "abctoken";
 
 
-        RegistrationRequest registrationRequest = new RegistrationRequest("Dharmik","Soni",
-                "dhsoni2510@gmail.com","9029892923","Donor","Dharmik","Dharmik");
+        RegistrationRequest registrationRequest = new RegistrationRequest("Dharmik", "Soni",
+                "dhsoni2510@gmail.com", "9029892923", "Donor", "Dharmik", "Dharmik");
         Mockito.doReturn(token).when(applicationUserService).signUpUser(any());
-        Mockito.doNothing().when(emailSender).send(any(),any());
+        Mockito.doNothing().when(emailSender).send(any(), any());
         Mockito.doReturn(true).when(bodyValidator).validate(registrationRequest);
         Mockito.doReturn(true).when(emailValidator).validate(registrationRequest.getEmail());
-
         registrationService.register(registrationRequest);
-
-
     }
 
     @Test
     @DisplayName("Testing register method of service layer for invalid user information")
     @Order(2)
-    void registerInValidUserTest()
-    {
-        String token ="abctoken";
+    void registerInValidUserTest() {
+        String token = "abctoken";
 
 
-        RegistrationRequest registrationRequest = new RegistrationRequest("","Soni",
-                "dhsoni2510@yahoo.com","9029892923","Donor","Dharmik","Dhar");
+        RegistrationRequest registrationRequest = new RegistrationRequest("", "Soni",
+                "dhsoni2510@yahoo.com", "9029892923", "Donor", "Dharmik", "Dhar");
         Mockito.doReturn(token).when(applicationUserService).signUpUser(any());
-        Mockito.doNothing().when(emailSender).send(any(),any());
+        Mockito.doNothing().when(emailSender).send(any(), any());
         Mockito.doReturn(false).when(bodyValidator).validate(registrationRequest);
         Mockito.doReturn(false).when(emailValidator).validate(registrationRequest.getEmail());
 

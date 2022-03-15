@@ -1,41 +1,38 @@
 package com.example.Be_The_Donor.repository;
-
 import com.example.Be_The_Donor.entity.ApplicationUser;
 import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.Optional;
 
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserRepositoryTest {
+@TestPropertySource(locations = "classpath:application-integrationtest.properties")
+class UserRepositoryTest
+{
     @Autowired
     private UserRepository userRepository;
 
     @Test
     @Order(1)
+    @DisplayName("Testing save user method in repository layer")
     @Rollback(value = false)
     public void saveUserTest() {
         ApplicationUser applicationUser = ApplicationUser.builder()
                 .firstname("Dharmik").lastname("Soni").email("dhsoni2510@gmail.com").enabled(false).phone_number("9029892923").password("Dharmik").type_of_user("Donor").build();
 
         userRepository.save(applicationUser);
-
         Assertions.assertThat(applicationUser.getId()).isGreaterThan(0);
 
     }
 
     @Test
     @Order(2)
+    @DisplayName("Testing findEmail() method in repository layer")
     @Rollback(value = false)
     public void emailTest() {
         ApplicationUser appUser = null;
@@ -44,13 +41,13 @@ class UserRepositoryTest {
         if (applicationUser.isPresent()) {
             appUser = applicationUser.get();
         }
-
         Assertions.assertThat(appUser.getEmail()).isEqualTo("dhsoni2510@gmail.com");
     }
 
 
     @Test
     @Order(3)
+    @DisplayName("Testing enableApplicationUser() method in repository layer")
     @Rollback(value = false)
     void enableApplicationUserTest()
     {
