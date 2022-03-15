@@ -27,7 +27,7 @@ test:
   tags:
     - ugrad
   script:
-    - echo test_stage
+    - mvn test
 
 
 code-quality:
