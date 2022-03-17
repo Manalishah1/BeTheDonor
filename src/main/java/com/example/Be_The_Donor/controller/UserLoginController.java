@@ -107,10 +107,13 @@ public class UserLoginController {
         // Principal principal = request.getUserPrincipal();
 
 
+
         //applicationUserService.loadUserByUsername(applicationUser.getEmail());
 
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
+        String currentPrincipalName = authentication.getName();
+        System.out.println(currentPrincipalName);
 
         // Create a new session and add the security context.
         HttpSession session = request.getSession(true);
