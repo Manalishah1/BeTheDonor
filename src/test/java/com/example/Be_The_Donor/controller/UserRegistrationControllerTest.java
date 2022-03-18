@@ -7,25 +7,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @ExtendWith(SpringExtension.class)
@@ -63,7 +55,6 @@ class UserRegistrationControllerTest
         Mockito.doNothing().when(registrationService).register(registrationRequest);
         userRegistrationController.register(registrationRequest,bindingResult);
 
-
     }
 
     @Test
@@ -76,10 +67,7 @@ class UserRegistrationControllerTest
         String url = "/api/v1/registration";
         mockMvc.perform(post(url).content(objectMapper.writeValueAsString(registrationRequest))).andExpect(model().hasErrors());
         userRegistrationController.register(registrationRequest,bindingResult);
-
-
     }
-
 
     @Test
     @DisplayName("GET Registration Page testing")
