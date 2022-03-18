@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -46,8 +47,8 @@ public class OrderServiceImpl implements OrderService {
         }
         Orders newOrder = new Orders();
         newOrder.setUserId(user);
-        Double total = (Double) jsonObj.get("total");
-        newOrder.setTotalPrice(total);
+        Double total = Double.parseDouble((String) jsonObj.get("total"));
+        newOrder.setTotal(total);
         orderRepository.save(newOrder);
         Long orderId = newOrder.getOrderId();
         Orders order = orderRepository.getById(orderId);
@@ -71,7 +72,32 @@ public class OrderServiceImpl implements OrderService {
             int quantity = Integer.parseInt(map.get("quantity"));
             newOrderItems.setQuantity(quantity);
             orderItemsRepository.save(newOrderItems);
+
+            Product updateProduct = productRepository.getById(productId);
+            updateProduct.setQuantity(updateProduct.getQuantity() - quantity);
+            productRepository.save(updateProduct);
         }
         return true;
+    }
+
+    @Override
+    public List<Orders> getOrders() {
+        Long id = Long.valueOf(1);
+        boolean userExists = userRepository.existsById(id);
+        ApplicationUser user = new ApplicationUser();
+        if (userExists) {
+            user = userRepository.getById(id);
+        }
+        List<Orders> orders = orderRepository.findByUserId(user);
+        System.out.println(orders.size());
+        return orders;
+    }
+
+    @Override
+    public List<OrderItem> getOrderItems(Orders orders) {
+        List<OrderItem> orderItems = null;
+        orderItems = orderItemsRepository.findByOrderId(orders);
+        System.out.println(orderItems.size());
+        return orderItems;
     }
 }
