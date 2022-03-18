@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
@@ -40,5 +40,7 @@ spring:
           timeout: 3000
           writetimeout: 5000
 
-
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
