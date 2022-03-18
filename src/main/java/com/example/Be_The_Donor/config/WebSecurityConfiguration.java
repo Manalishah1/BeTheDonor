@@ -18,20 +18,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 {
 
-
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
-                .csrf().disable()
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**").permitAll()
+                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**").permitAll()
+                .antMatchers("/accessdenied","/authenticate","userLogin")
+                .permitAll()
+                .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
+                .antMatchers("/loginSuccess1").hasAnyAuthority("USER")
                 .anyRequest()
                 .authenticated().and()
-                .formLogin().loginPage("/api/v1/login");
+                .formLogin().loginPage("/api/v1/login").usernameParameter("email")
+                .and()
+                .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
+        ;
+//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 

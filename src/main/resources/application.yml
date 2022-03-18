@@ -1,5 +1,5 @@
 server:
-  port: 8081
+
   error:
     include:message: always
     include-binding-errors: always
@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

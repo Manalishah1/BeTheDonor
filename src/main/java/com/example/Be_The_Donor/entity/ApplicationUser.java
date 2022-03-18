@@ -2,10 +2,7 @@ package com.example.Be_The_Donor.entity;
 
 
 import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +17,9 @@ import java.util.Collections;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class ApplicationUser implements UserDetails {
 
     @Id
