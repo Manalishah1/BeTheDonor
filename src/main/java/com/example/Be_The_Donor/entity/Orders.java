@@ -11,7 +11,7 @@ public class Orders {
     @JoinColumn(name="userId")
     private ApplicationUser userId;
     @Column
-    private Double TotalPrice;
+    private Double total;
 
     public Long getOrderId() {
         return orderId;
@@ -29,11 +29,11 @@ public class Orders {
         this.userId = userId;
     }
 
-    public Double getTotalPrice() {
-        return TotalPrice;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setTotalPrice(Double totalPrice) {
-        TotalPrice = totalPrice;
+    public void setTotal(Double totalPrice) {
+        total = totalPrice;
     }
 }
