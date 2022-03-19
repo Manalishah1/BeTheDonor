@@ -5,7 +5,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.example.Be_The_Donor.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -48,7 +50,8 @@ public class ProductServiceTest {
 		product.setPrice(200.0d);
 		product.setQuantity(5);
 //		Checking with dummy data, not saving it in db, but returning the dummy product
-		when(productRepository.save(Mockito.any(Product.class))).thenReturn(product);
+		when(productRepository.save(Mockito.any())).thenReturn(product);
+		when(productRepository.findById(Mockito.any())).thenReturn(Optional.of(product));
 //      Checking with dummy data for updating and checking to see if it not null and has at least 1 product
 		Product productResp = service.addQuantity(product);
 		assertThat(productResp).isNotNull();
