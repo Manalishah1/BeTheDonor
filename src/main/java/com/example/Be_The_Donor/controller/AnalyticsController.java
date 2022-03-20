@@ -6,23 +6,33 @@ import com.example.Be_The_Donor.entity.Donors;
 import com.example.Be_The_Donor.entity.Patients;
 import com.example.Be_The_Donor.entity.Riders;
 import com.example.Be_The_Donor.entity.TotalAmount;
+import com.example.Be_The_Donor.repository.DonorRepository;
+import com.example.Be_The_Donor.repository.PatientRepository;
+import com.example.Be_The_Donor.repository.RiderRepository;
 import com.example.Be_The_Donor.service.AnalyticsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
-@RestController
+@Controller
 @RequestMapping("/api/v1/analytics")
 public class AnalyticsController {
 //	Creating the reference of AnalyticsService
 	private AnalyticsService analyticsService;
+	private final PatientRepository patientRepository;
+	private final RiderRepository riderRepository;
+	private final DonorRepository donorRepository;
 
-	public AnalyticsController(AnalyticsService analyticsService) {
+	public AnalyticsController(AnalyticsService analyticsService, PatientRepository patientRepository, RiderRepository riderRepository, DonorRepository donorRepository) {
 		super();
 		this.analyticsService = analyticsService;
+		this.patientRepository = patientRepository;
+		this.riderRepository = riderRepository;
+		this.donorRepository = donorRepository;
 	}
 	
 	
@@ -50,6 +60,17 @@ public class AnalyticsController {
 		totalAmount.setTotalAmount(analyticsService.totalAmountOfHelp());
 		return new ResponseEntity<TotalAmount>(totalAmount, HttpStatus.OK);
 		
+	}
+
+	@GetMapping("")
+	public String getAnalytics(Model model){
+		List<Patients> PatientsModel =patientRepository.findAll();
+		List<Donors> DonorModel = donorRepository.findAll();
+		List<Riders> RiderModel = riderRepository.findAll();
+		model.addAttribute("patients", PatientsModel);
+		model.addAttribute("donors",DonorModel);
+		model.addAttribute("riders",RiderModel);
+		return "analyticsdashboard";
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface DonorRepository extends JpaRepository<Donors, Long> {
 	
 	List<Donors> findAllByHelpDone(Boolean flag);
+	List<Donors> findAll();
 	
 	@Query("SELECT SUM(m.amount) FROM Donors m where m.helpDone = true")
 	Double selectTotals();

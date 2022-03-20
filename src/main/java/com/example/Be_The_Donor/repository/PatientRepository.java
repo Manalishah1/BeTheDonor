@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // jpa repository - api for CRUD operations
 public interface PatientRepository extends JpaRepository<Patients, Long> {
 	List<Patients> findAllByIshelped(Boolean flag);
+	List<Patients> findAll();
 }
