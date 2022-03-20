@@ -2,6 +2,7 @@ package com.example.Be_The_Donor.controller;
 
 import com.example.Be_The_Donor.config.PasswordEncoder;
 import com.example.Be_The_Donor.controller.requestbody.RegistrationRequest;
+import com.example.Be_The_Donor.entity.ApplicationUser;
 import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
 import com.example.Be_The_Donor.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,6 @@ import java.util.Map;
 
 public class UserLoginController {
 
-    @Autowired
-    ApplicationUserService applicationUserService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -51,24 +50,12 @@ public class UserLoginController {
     }
 
 
-    @GetMapping("/api/v1/loginSuccess")
+    @GetMapping("/loginSuccess1")
     public String checkAuthentication() {
-            return "loginSuccess";
+
+        return "loginSuccess";
     }
 
-
-    @RequestMapping(value = "/loginSuccess1", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> checkAuthentication1() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "Login Successful1");
-
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return response;
-    }
 
     @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
     @ResponseBody
@@ -99,38 +86,45 @@ public class UserLoginController {
 
     @RequestMapping(value = "/api/v1/authenticate", method = RequestMethod.POST)
 
-    public String createAuthenticationToken(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") RegistrationRequest  applicationUser) throws Exception {
+    public String createAuthenticationToken(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") RegistrationRequest applicationUser) throws Exception {
 
         Authentication authentication = authenticate(applicationUser.getEmail(), applicationUser.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(applicationUser.getEmail());
         // Principal principal = request.getUserPrincipal();
-
-
-
-        //applicationUserService.loadUserByUsername(applicationUser.getEmail());
-
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-        String currentPrincipalName = authentication.getName();
-        System.out.println(currentPrincipalName);
 
         // Create a new session and add the security context.
         HttpSession session = request.getSession(true);
         session.setAttribute(applicationUser.getEmail(), securityContext);
 
-        if(userDetails.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("USER"))){
-            return "redirect:/loginSuccess1";
-        }else if(userDetails.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"))){
+        if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"))) {
+            if (((ApplicationUser) userDetails).getType_of_user().equals("Donor")) {
+                System.out.println("Donor found");
+                return "redirect:/api/v1/donorview";
+
+            }
+            if (((ApplicationUser) userDetails).getType_of_user().equals("Rider")) {
+                return "redirect:/loginSuccess1";
+                //Add Rider API
+
+            }
+            if (((ApplicationUser) userDetails).getType_of_user().equals("Patient")) {
+                return "redirect:loginSuccess";
+                //Add Patient API
+
+            }
+
+
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"))) {
             return "redirect:/api/v1/loginSuccess";
-        } else{
+        } else {
             return "redirect:/accessdenied";
         }
-
-
-
+        return "redirect:/loginSuccess1";
     }
 
 
