@@ -15,13 +15,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
-{
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
 
     @Override
@@ -29,8 +27,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**").permitAll()
-                .antMatchers("/accessdenied","/authenticate","userLogin")
+                .antMatchers("/api/v*/**", "/styles/css/**", "/images/**", "/templates/**", "/js/**").permitAll()
+                .antMatchers("/accessdenied")
                 .permitAll()
                 .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
                 .antMatchers("/loginSuccess1").hasAnyAuthority("USER")
@@ -44,16 +42,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
     }
 
 
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider()
-    {
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider =
                 new DaoAuthenticationProvider();
         provider.setPasswordEncoder(bCryptPasswordEncoder);

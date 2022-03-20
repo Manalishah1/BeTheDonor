@@ -1,0 +1,92 @@
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link th:href="@{/styles/css/donor.css}" rel="stylesheet"/>
+
+    <title>DonorDashBoard</title>
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/donorjs.js}"></script>
+</head>
+<body style="background-color:#0dcaf0;">
+<h1>Patient Dashboard</h1>
+
+
+<div class="donor-dashboard">
+
+    <div class="column-labels">
+        <label class="product-image">Image</label>
+        <label class="product-details">Product</label>
+        <label class="product-price">OrderValue</label>
+        <label class="product-quantity">Select</label>
+        <label class="product-removal">Remove</label>
+        <label class="product-line-price">Total</label>
+    </div>
+
+    <div class="product">
+        <div class="product-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Patient_Care_Cartoon.svg/1280px-Patient_Care_Cartoon.svg.png">
+        </div>
+        <div class="product-details">
+            <div class="product-title">Prachi</div>
+            <p class="product-description">Oil,Butter,Bread</p>
+        </div>
+        <div class="product-price" id="pp1">12</div>
+        <div class="product-quantity">
+            <input type="checkbox" id="1" onclick="callf()">
+        </div>
+        <div class="product-removal">
+            <button class="remove-product">
+            </button>
+        </div>
+        <div class="product-line-price" id="pl1">0</div>
+    </div>
+
+    <div class="product">
+        <div class="product-image">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Patient_Care_Cartoon.svg/1280px-Patient_Care_Cartoon.svg.png">
+        </div>
+        <div class="product-details">
+            <div class="product-title">Manali</div>
+            <p class="product-description">Milk,Chocolates</p>
+        </div>
+        <div class="product-price" id="pp2">45</div>
+        <div class="product-quantity">
+            <input type="checkbox" id="2" onclick="callf()">
+        </div>
+        <div class="product-removal">
+            <button class="remove-product">
+
+            </button>
+        </div>
+        <div class="product-line-price" id="pl2">0</div>
+    </div>
+
+    <div class="totals">
+        <div class="totals-item">
+            <label>Subtotal</label>
+            <div class="totals-value" id="cart-subtotal">0</div>
+        </div>
+        <div class="totals-item">
+            <label>Tax (5%)</label>
+            <div class="totals-value" id="cart-tax">0</div>
+        </div>
+        <div class="totals-item">
+            <label>Shipping</label>
+            <div class="totals-value" id="cart-shipping">0</div>
+        </div>
+        <div class="totals-item totals-item-total">
+            <label>Grand Total</label>
+            <div class="totals-value" id="cart-total">0</div>
+        </div>
+    </div>
+
+    <button class="checkout">Checkout</button>
+
+</div>
+</body>
+<script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+</html>
