@@ -33,11 +33,4 @@ public class ProductController {
     public ResponseEntity<List<Product>> getProducts(Model model){
         return new ResponseEntity<List<Product>>(productService.getProducts(), HttpStatus.OK);
     }
-
-    @ModelAttribute
-    public String addAttributes(Model model) {
-        List<Product> product = productRepository.findAll();
-        model.addAttribute("products", product);
-        return "products";
-    }
 }
