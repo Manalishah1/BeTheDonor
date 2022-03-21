@@ -112,7 +112,7 @@ public class UserLoginController {
 
             }
             if (((ApplicationUser) userDetails).getType_of_user().equals("Patient")) {
-                return "redirect:loginSuccess";
+                return "redirect:/patientDashboard";
                 //Add Patient API
 
             }
