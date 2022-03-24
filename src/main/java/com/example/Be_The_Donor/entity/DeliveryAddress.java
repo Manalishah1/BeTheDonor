@@ -8,18 +8,15 @@ public class DeliveryAddress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addressId;
     @Column
-    private String streetName;
+    private String address;
     @Column
-    private String cityName;
+    private String city;
     @Column
-    private String provinceName;
+    private String province;
     @Column
-    private String countryName;
+    private String country;
     @Column
     private String postalCode;
-    @Column
-    private String unitNumber;
-
     public Long getAddressId() {
         return addressId;
     }
@@ -28,36 +25,36 @@ public class DeliveryAddress {
         this.addressId = addressId;
     }
 
-    public String getStreetName() {
-        return streetName;
+    public String getAddress() {
+        return address;
     }
 
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCity(String cityName) {
+        this.city = cityName;
     }
 
-    public String getProvinceName() {
-        return provinceName;
+    public String getProvince() {
+        return province;
     }
 
-    public void setProvinceName(String provinceName) {
-        this.provinceName = provinceName;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getCountryName() {
-        return countryName;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setCountry(String countryName) {
+        this.country = countryName;
     }
 
     public String getPostalCode() {
@@ -66,13 +63,5 @@ public class DeliveryAddress {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
-    }
-
-    public String getUnitNumber() {
-        return unitNumber;
-    }
-
-    public void setUnitNumber(String unitNumber) {
-        this.unitNumber = unitNumber;
     }
 }
