@@ -12,6 +12,9 @@ public class Orders {
     private ApplicationUser userId;
     @Column
     private Double total;
+    @ManyToOne
+    @JoinColumn(name="deliveryAdressId")
+    private DeliveryAddress deliveryAddressId;
 
     public Long getOrderId() {
         return orderId;
