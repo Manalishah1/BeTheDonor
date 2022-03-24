@@ -12,9 +12,12 @@ spring:
     username: CSCI5308_23_TEST_USER
     password: Phubaigh6li1Aef1
 
+
   jpa:
     hibernate:
       ddl-auto: update
+      connection:
+        release_mode: after_statement
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect

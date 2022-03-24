@@ -4,6 +4,7 @@ import com.example.Be_The_Donor.config.PasswordEncoder;
 import com.example.Be_The_Donor.controller.requestbody.RegistrationRequest;
 import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
 import com.example.Be_The_Donor.service.ApplicationUserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-
+@AllArgsConstructor
 public class UserLoginController {
 
     @Autowired

@@ -5,11 +5,13 @@ import javax.persistence.*;
 @Entity
 public class Orders {
     @Id
+    @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     @ManyToOne
-    @JoinColumn(name="userId")
+    @JoinColumn(name="user_id")
     private ApplicationUser userId;
+
     @Column
     private Double total;
 

@@ -17,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 {
-
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -26,7 +25,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**","/patientDashboard","/patientOrders","/patientDashboard.js","/patientOrders.js").permitAll()
+                .antMatchers("/api/v*/**","/static/**","/styles/css/**","/images/**","/templates/**","/js/**","/patientDashboard","/patientOrders","/patientDashboard.js","/patientOrders.js").permitAll()
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
                 .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
@@ -35,8 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
                 .authenticated().and()
                 .formLogin().loginPage("/api/v1/login").usernameParameter("email")
                 .and()
-                .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
-        ;
+                .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied");
 //        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
