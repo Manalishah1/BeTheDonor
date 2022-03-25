@@ -2,9 +2,12 @@ package com.example.Be_The_Donor.repository;
 
 import com.example.Be_The_Donor.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 
+@Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
     @Override
     Product getById(Long aLong);

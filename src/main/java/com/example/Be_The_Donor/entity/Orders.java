@@ -12,6 +12,17 @@ public class Orders {
     private ApplicationUser userId;
     @Column
     private Double total;
+    @ManyToOne
+    @JoinColumn(name="addressId")
+    private DeliveryAddress deliveryAddressId;
+
+    public DeliveryAddress getDeliveryAddressId() {
+        return deliveryAddressId;
+    }
+
+    public void setDeliveryAddressId(DeliveryAddress deliveryAddressId) {
+        this.deliveryAddressId = deliveryAddressId;
+    }
 
     public Long getOrderId() {
         return orderId;
