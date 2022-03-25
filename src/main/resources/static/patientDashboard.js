@@ -5,7 +5,7 @@ $(document).ready(function() {
     function fetchProducts() {
         $.ajax({
             type: "GET",
-            url: "/api/v1/getProducts",
+            url: "/api/v1/products",
             success: function(result) {
                 resultStr = "{\"result\":" + JSON.stringify(result) + "}";
                 resultJSON = JSON.parse(resultStr);
