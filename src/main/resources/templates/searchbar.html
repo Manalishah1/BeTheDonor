@@ -27,12 +27,12 @@
                         <div class="row justify-content-center">
                             <h5 id="heading" class="card-title">SEARCH LOCATION TO FIND PATIENTS</h5>
                             <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                                <form  method="post"  class="mx-1 mx-md-4" id="form" AUTOCOMPLETE="off" >
+                                <form  method="get" th:action="@{/api/v1/riderDashboard/city}"  class="mx-1 mx-md-4" id="form" AUTOCOMPLETE="off" >
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <div class="form-outline flex-fill mb-0">
                                             <div class="input-group">
-                                                <input type="search" class="form-control border border-info "  id="city" placeholder="Search" aria-label="Search" aria-describedby="search-addon" AUTOCOMPLETE="off"/>
-                                                <button type="button" id="btn" class="btn btn-info border border-dark">Search
+                                                <input type="search" th:name="cityName" class="form-control border border-info " id="city" placeholder="Search" aria-label="Search" aria-describedby="search-addon" AUTOCOMPLETE="off"/>
+                                                <button type="submit" id="btn" class="btn btn-info border border-dark" >Search
                                                 </button>
                                             </div>
                                         </div>
@@ -43,9 +43,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
 
 
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

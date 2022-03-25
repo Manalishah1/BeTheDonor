@@ -1,5 +1,7 @@
 package com.example.Be_The_Donor.controller;
 
+import com.example.Be_The_Donor.dto.PatientRiderDto;
+import com.example.Be_The_Donor.entity.PatientDetails;
 import com.example.Be_The_Donor.service.RiderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,25 +10,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
-@ControllerAdvice
 @RequestMapping("/api/v1/riderDashboard")
 public class RiderController
 {
     RiderService riderService;
 
-    @GetMapping
-    public String getRiderDashboard(Model model)
+    @GetMapping("/city")
+    public String getRiderDashboard(@RequestParam(value = "cityName",required = false) String cityName,Model model)
     {
+        System.out.println("cityname passed in controller is: " + cityName);
+        ArrayList<PatientRiderDto> patientDetails = (ArrayList<PatientRiderDto>) riderService.getByCityName(cityName);
+        if(patientDetails.isEmpty())
+        {
+           return "redirect:/api/v1/riderDashboard?noPatient";
+        }
+
+        model.addAttribute("cityName",cityName);
+       model.addAttribute("patients",patientDetails);
         return "riderDashboard";
     }
 
@@ -44,7 +52,6 @@ public class RiderController
         }
 
         return new ResponseEntity<String>(resp, HttpStatus.OK);
-
     }
 
 

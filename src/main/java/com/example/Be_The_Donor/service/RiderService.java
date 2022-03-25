@@ -1,5 +1,8 @@
 package com.example.Be_The_Donor.service;
 
+import com.example.Be_The_Donor.dto.PatientRiderDto;
+import com.example.Be_The_Donor.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,8 +11,11 @@ import java.util.List;
 @Service
 public class RiderService
 {
+    @Autowired
+    OrderRepository orderRepository;
 
-    static  ArrayList<String> cityList = new ArrayList<>() ;
+
+ /*   static  ArrayList<String> cityList = new ArrayList<>() ;
 
     static
     {
@@ -17,9 +23,14 @@ public class RiderService
         cityList.add("Toronto");
         cityList.add("Haka");
     }
-
+*/
     public List<String> getCities()
     {
-        return cityList;
+       return orderRepository.findCities();
+    }
+
+    public List<PatientRiderDto>  getByCityName(String cityName)
+    {
+        return orderRepository.getByCityName(cityName);
     }
 }

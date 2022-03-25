@@ -27,5 +27,7 @@ $(document).ready(function () {
        $('#heading').text("You have selected " + cityName);
 
    });
+
+
 });
 

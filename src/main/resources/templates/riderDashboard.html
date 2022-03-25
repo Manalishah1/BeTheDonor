@@ -10,18 +10,97 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
    <div th:replace="searchbar.html::searchbar"></div>
 
+
    <div class="container-fluid">
-       <div class="card w-50 bg-dark  shadow-lg rounded-3 text-white bg-gradient" style="margin: .50rem .25rem .25rem .25rem">
-           <div class="card-body">
-               <h4 class="card-title"> Patient Name</h4>
-               <h5>Patient Address</h5>
-               <button class="btn btn-outline-info font-weight-bold">Open Details</button>
-           </div>
+
+       <div th:text="${cityName}"></div>
+
+      <form  th:object="${patients}">
+
+            <table>
+                <tbody>
+                <div th:if="${param.noPatient}">
+
+                    <!-- Flexbox container for aligning the toasts -->
+                    <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+
+                        <!-- Then put toasts within -->
+                        <div class="toast bg-info text-white fade show " id="myToast" data-bs-autohide="false" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+
+                                <strong class="mr-auto">Sorry! Search location again</strong>
+                                <button type="button" class="btn-close" id="hideBtn" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                No Patients Found
+                            </div>
+                        </div>
+                    </div>
+
+                    <script th:inline="javascript">
+
+                        var element = document.getElementById("myToast");
+                        var btn= document.getElementById("hideBtn")
+
+
+                        // Create toast instance
+                        var myToast = new bootstrap.Toast(element);
+
+
+                        hideBtn.addEventListener("click", function(){
+                            myToast.hide();
+                        });
+                    </script>
+
+                </div>
+
+                    <!--<tr class="animate" th:each="patient : ${patients}">
+                        <div class="card w-50 bg-dark  shadow-lg rounded-3 text-white bg-gradient" data-mdb-animation-start="onLoad"  data-mdb-animation="slide-right"  style="margin: .50rem .25rem .25rem .25rem">
+                            <div class="card-body">
+                                <h4 class="card-title" th:text="${patient.firstname}"> Patient Name</h4>
+                                <h5 th:text="${patient.city}">Patient Address</h5>
+                                <button class="btn btn-outline-info font-weight-bold">Open Details</button>
+                            </div>
+                        </div>
+                    </tr>-->
+
+                <div class="card-deck">
+                    <tr class="animate" th:each="patient :${patients}">
+                        <div class="card w-75 shadow-lg rounded-2 text-black font-weight-bold" style="margin: .50rem .25rem .25rem .25rem">
+                            <div class="card-body">
+                                <div class="card-title" th:text="${patient.firstname}"></div>
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-info" th:text="${patient.address}"><i class="fa fa-map-marker"></i> Address</li>
+                                    <li class="list-group-item list-group-item-info" th:text="${patient.city}"><i class="fa fa-map-marker"></i> City</li>
+                                    <li class="list-group-item list-group-item-info" th:text="${patient.postal_code}"><i class="fa fa-map-marker"></i> Postal Code</li>
+                                    <li class="list-group-item list-group-item-info" th:text="${patient.phone_number}"><i class="fa fa-phone"></i> Mobile</li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-outline-info font-weight-bold">Open Details</button>
+                            </div>
+                        </div>
+
+                    </tr>
+                </div>
+
+
+
+
+
+                </tbody>
+            </table>
+
+       </form>
+       <!--
 
        </div>
        <div class="card w-50 bg-dark  shadow-lg rounded-3 text-white bg-gradient" style="margin: .50rem .25rem .25rem .25rem">
@@ -39,7 +118,7 @@
                <button class="btn btn-outline-info font-weight-bold">Open Details</button>
            </div>
 
-       </div>
+       </div>-->
    </div>
 
 
