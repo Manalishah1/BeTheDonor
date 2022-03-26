@@ -35,25 +35,25 @@ public class AnalyticsController {
 		this.donorRepository = donorRepository;
 	}
 	
-	
+//	making call to the api /api/v1/analytics/patients and checking if we are getting success response (200 OK) or not
 	@GetMapping("/patients")
 	public ResponseEntity<List<Patients>> getAllHelpedPatients(){
 		return new ResponseEntity<List<Patients>>(analyticsService.getAllHelpedPatients(), HttpStatus.OK);
 		
 	}
-	
+//	making call to the api /api/v1/analytics/donors and checking if we are getting success response (200 OK) or not
 	@GetMapping("/donors")
 	public ResponseEntity<List<Donors>> getAllDonorsWhoHelped(){
 		return new ResponseEntity<List<Donors>>(analyticsService.getAllDonorsWhoHelped(), HttpStatus.OK);
 		
 	}
-	
+//	making call to the api /api/v1/analytics/riders and checking if we are getting success response (200 OK) or not
 	@GetMapping("/riders")
 	public ResponseEntity<List<Riders>> getAllRidersWhoDeliver(){
 		return new ResponseEntity<List<Riders>>(analyticsService.getAllRidersWhoDeliver(), HttpStatus.OK);
 		
 	}
-	
+//	making call to the api /api/v1/analytics/total and checking if we are getting success response (200 OK) or not
 	@GetMapping("/total")
 	public ResponseEntity<TotalAmount> getAllProducts(){
 		TotalAmount totalAmount = new TotalAmount();
