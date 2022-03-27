@@ -4,6 +4,7 @@ package com.example.Be_The_Donor.service;
 import com.example.Be_The_Donor.controller.requestbody.RegistrationRequest;
 import com.example.Be_The_Donor.email.EmailSender;
 
+import com.example.Be_The_Donor.entity.ApplicationUser;
 import com.example.Be_The_Donor.entity.UserConfirmationToken;
 import com.example.Be_The_Donor.repository.UserRepository;
 import com.example.Be_The_Donor.validator.BodyValidator;
@@ -40,6 +41,7 @@ class RegistrationServiceTest {
     private BodyValidator bodyValidator;
     @Mock
     private EmailValidator emailValidator;
+    private ApplicationUser Donor;
 
     @Test
     @DisplayName("Testing register method of service layer for valid user information")
@@ -64,7 +66,7 @@ class RegistrationServiceTest {
         String token = "abctoken";
 
 
-        RegistrationRequest registrationRequest = new RegistrationRequest("", "Soni",
+        RegistrationRequest registrationRequest = new RegistrationRequest("Dharmik", "Soni",
                 "dhsoni2510@yahoo.com", "9029892923", "Donor", "Dharmik", "Dhar");
         Mockito.doReturn(token).when(applicationUserService).signUpUser(any());
         Mockito.doNothing().when(emailSender).send(any(), any());
