@@ -100,31 +100,30 @@ public class UserLoginController {
         session.setAttribute(applicationUser.getEmail(), securityContext);
 
         if (userDetails.getAuthorities().stream()
-                .anyMatch(r -> r.getAuthority().equals("USER"))) {
-            if (((ApplicationUser) userDetails).getType_of_user().equals("Donor")) {
-                System.out.println("Donor found");
-                return "redirect:/api/v1/donorview";
+                .anyMatch(r -> r.getAuthority().equals("Donor"))) {
+            System.out.println("Donor found");
+            return "redirect:/api/v1/donorview";
 
-            }
-            if (((ApplicationUser) userDetails).getType_of_user().equals("Rider")) {
-                return "redirect:/loginSuccess1";
-                //Add Rider API
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("Patient"))) {
+            System.out.println("Patient found");
+            return "redirect:/loginSuccess";
+            //Add Patient API
 
-            }
-            if (((ApplicationUser) userDetails).getType_of_user().equals("Patient")) {
-                return "redirect:loginSuccess";
-                //Add Patient API
-
-            }
-
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("Rider"))) {
+            System.out.println("Rider found");
+            return "redirect:/loginSuccess";
+            //Add Rider API
 
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"))) {
             return "redirect:/api/v1/loginSuccess";
+            //Add Admin API
         } else {
             return "redirect:/accessdenied";
         }
-        return "redirect:/loginSuccess1";
+
     }
 
 

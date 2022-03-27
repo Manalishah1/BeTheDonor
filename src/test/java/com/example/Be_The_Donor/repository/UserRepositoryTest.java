@@ -23,7 +23,7 @@ class UserRepositoryTest
     @Rollback(value = false)
     public void saveUserTest() {
         ApplicationUser applicationUser = ApplicationUser.builder()
-                .firstname("Dharmik").lastname("Soni").email("dhsoni2510@gmail.com").enabled(false).phone_number("9029892923").password("Dharmik").type_of_user("Donor").build();
+                .firstname("Dharmik").lastname("Soni").email("dhsoni2510@gmail.com").enabled(false).phone_number("9029892923").password("Dharmik").applicationUserRole("Donor").build();
 
         userRepository.save(applicationUser);
         Assertions.assertThat(applicationUser.getId()).isGreaterThan(0);

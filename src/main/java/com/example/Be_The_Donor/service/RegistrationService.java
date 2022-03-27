@@ -50,9 +50,9 @@ public class RegistrationService {
                 registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPhone_number(),
-                registrationRequest.getType_of_user(),
+               // registrationRequest.getType_of_user(),
                 registrationRequest.getPassword(),
-                ApplicationUserRole.USER
+                registrationRequest.getApplication_user_role()
         ));
         String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
         System.out.println(registrationRequest.getEmail());
