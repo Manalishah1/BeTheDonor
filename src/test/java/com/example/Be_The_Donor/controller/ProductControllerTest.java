@@ -51,12 +51,15 @@ public class ProductControllerTest {
 	@MockBean
 	ProductController controller;
 // This method to be executed before each invocation of testUpdateProducts
+//	setup function will execute before the execution of every test case
     @BeforeEach
     public void setup() {
 //    	Receiving the controller objects as parameters, building MOCKMvc instance by registering the controller instance
         this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
+//    here we are making call to the api /api/v1/products put call and checking if we are getting success response (200 OK) or not
+//for that we are mocking the service layer function productService.addQuantity
 //    Creating mock product with the name "Dummy", with price 200 and with quantity 5
 	@Test
 	public void testUpdateProducts() throws Exception {
@@ -75,6 +78,8 @@ public class ProductControllerTest {
 //  API value is got
 		mockMvc.perform(requestBuilder).andExpect(status().isOk());
 	}
+//	here we are making call to the api /api/v1/products get call and checking if we are getting success response (200 OK) or not
+//for that we are mocking the service layer function productService.getProducts
 	//    Creating mock product with the name "Dummy", with price 200 and with quantity 5
 	@Test
 	public void testGetProducts() throws Exception {

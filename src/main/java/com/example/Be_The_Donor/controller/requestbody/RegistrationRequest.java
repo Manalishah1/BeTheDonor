@@ -32,7 +32,7 @@ public class RegistrationRequest {
     @NotNull(message = "Please fill the phone number field")
     @Size(min = 9,max = 10)
     public String phone_number;
-    public String application_user_role;
+    public String type_of_user;
     @NotEmpty(message = "Password can not be empty")
     public String password;
     @NotEmpty(message = "Confirm Password can not be empty")
