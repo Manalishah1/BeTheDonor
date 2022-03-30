@@ -9,6 +9,7 @@ import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
 import com.example.Be_The_Donor.validator.BodyValidator;
 import com.example.Be_The_Donor.validator.EmailValidator;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class RegistrationService {
+
 
     private EmailValidator emailValidator;
     private BodyValidator bodyValidator;
@@ -30,27 +32,27 @@ public class RegistrationService {
         boolean validBody = bodyValidator.validate(registrationRequest);
         if(!validBody)
         {
-            throw new IllegalStateException("Empty Field found");
+            System.out.println("Empty field found");
         }
         boolean validEmail = emailValidator.validate(registrationRequest.getEmail());
         if(!validEmail)
         {
-            throw new IllegalStateException("Not a valid email");
+            System.out.println("not a valid email");
         }
 
         boolean password_matched = registrationRequest.getPassword().equals(registrationRequest.getConfirm_password());
         if(!password_matched)
         {
-            throw new IllegalStateException("Password and Confirm password do not match");
+            System.out.println("Password and Confirm password do not match");
         }
         String token = applicationUserService.signUpUser(new ApplicationUser(
                 registrationRequest.getFirstName(),
                 registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPhone_number(),
-                registrationRequest.getType_of_user(),
+               // registrationRequest.getType_of_user(),
                 registrationRequest.getPassword(),
-                ApplicationUserRole.USER
+                registrationRequest.getApplication_user_role()
         ));
         String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
         System.out.println(registrationRequest.getEmail());
@@ -61,24 +63,34 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(String token) {
-        UserConfirmationToken userConfirmationToken = confirmationTokenService.getToken(token).orElseThrow(() -> new IllegalStateException("user token not found"));
 
-        if(userConfirmationToken.getConfirmedAt()!=null)
+        if(confirmationTokenService.getToken(token).isPresent())
         {
-            throw new IllegalStateException("email already confirmed");
+            UserConfirmationToken userConfirmationToken = confirmationTokenService.getToken(token).get();
+
+            if(userConfirmationToken.getConfirmedAt()!=null)
+            {
+                System.out.println("Email already exist");
+            }
+
+            LocalDateTime expiredAt = userConfirmationToken.getExpiresAt();
+
+            if(expiredAt.isBefore(LocalDateTime.now()))
+            {
+                System.out.println("Token expired");
+            }
+
+            confirmationTokenService.setConfirmedAt(token);
+            applicationUserService.enableApplicationUser(userConfirmationToken.getApplicationUser().getEmail());
+
+            return "confirmation";
+        }
+        else
+        {
+            return "Token not found";
         }
 
-        LocalDateTime expiredAt = userConfirmationToken.getExpiresAt();
 
-        if(expiredAt.isBefore(LocalDateTime.now()))
-        {
-            throw new IllegalStateException("token expired");
-        }
-
-        confirmationTokenService.setConfirmedAt(token);
-        applicationUserService.enableApplicationUser(userConfirmationToken.getApplicationUser().getEmail());
-
-        return "confirmation";
 
     }
 

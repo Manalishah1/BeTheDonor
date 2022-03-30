@@ -1,11 +1,7 @@
 package com.example.Be_The_Donor.entity;
 
 
-import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +16,9 @@ import java.util.Collections;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Builder
 public class ApplicationUser implements UserDetails {
 
     @Id
@@ -38,29 +36,38 @@ public class ApplicationUser implements UserDetails {
     private String lastname;
     private String email;
     private String phone_number;
-    private String type_of_user;
+    // private String type_of_user;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private ApplicationUserRole applicationUserRole;
+
+   // @Enumerated(EnumType.STRING)
+    private String applicationUserRole;
     private Boolean locked = false;
     private Boolean enabled = false;
 
-    public ApplicationUser(String firstname, String lastname, String email, String phone_number, String type_of_user, String password,
-                           ApplicationUserRole applicationUserRole
-                           ) {
+    public ApplicationUser(String firstname, String lastname, String email, String phone_number/*, String type_of_user*/, String password,
+                           String applicationUserRole
+    ) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phone_number = phone_number;
-        this.type_of_user = type_of_user;
+        // this.type_of_user = type_of_user;
         this.password = password;
+        this.applicationUserRole = applicationUserRole;
+    }
+
+    public String getApplicationUserRole() {
+        return applicationUserRole;
+    }
+
+    public void setApplicationUserRole(String applicationUserRole) {
         this.applicationUserRole = applicationUserRole;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(applicationUserRole.name());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(applicationUserRole);
         return Collections.singleton(authority);
     }
 
@@ -80,15 +87,6 @@ public class ApplicationUser implements UserDetails {
 
     public String getLastname() {
         return lastname;
-    }
-
-
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public String getType_of_user() {
-        return type_of_user;
     }
 
     @Override

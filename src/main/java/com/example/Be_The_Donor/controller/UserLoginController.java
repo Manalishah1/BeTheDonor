@@ -1,83 +1,61 @@
 package com.example.Be_The_Donor.controller;
 
 import com.example.Be_The_Donor.config.PasswordEncoder;
+import com.example.Be_The_Donor.controller.requestbody.RegistrationRequest;
 import com.example.Be_The_Donor.entity.ApplicationUser;
+import com.example.Be_The_Donor.enumerators.ApplicationUserRole;
 import com.example.Be_The_Donor.service.ApplicationUserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@AllArgsConstructor
+
 public class UserLoginController {
 
-    @Autowired
-    ApplicationUserService applicationUserService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @RequestMapping(value = "/Test", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> getUser(HttpServletResponse httpServletResponse , @RequestBody ApplicationUser user) {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
+
+    @Autowired
+    private DaoAuthenticationProvider authenticationManager;
 
 
-            ApplicationUser applicationUser = applicationUserService.findByEmail(user.getEmail()).orElse(null);
+    @Autowired
+    private ApplicationUserService userDetailsService;
 
-            boolean isPasswordMatch = passwordEncoder.bCryptPasswordEncoder().matches(user.getPassword(),applicationUser.getPassword());
-            if(isPasswordMatch) {
-                System.out.println("check");
-                if (applicationUser.getEmail().equals(user.getEmail())) {
-                    response.put("data", "Login Successfully Done");
-                    httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
-                }
-            }
-            else{
-                System.out.println("incorrect username or password");
-            }
 
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return response;
+    @GetMapping("/api/v1/login")
+    public String viewLoginPage(Model model) {
+        model.addAttribute("user", new RegistrationRequest());
+        return "login";
     }
 
 
-    @RequestMapping(value = "/loginSuccess", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> checkAuthentication() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "Login Successful for USER");
+    @GetMapping("/loginSuccess1")
+    public String checkAuthentication() {
 
-        }catch (Exception ex){
-            response.put("error", ex.getMessage());
-        }
-        return response;
+        return "loginSuccess";
     }
 
-    @RequestMapping(value = "/loginSuccess1", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> checkAuthentication1() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "Login Successful FOR ADMIN");
-
-        }catch (Exception ex){
-            response.put("error", ex.getMessage());
-        }
-        return response;
-    }
 
     @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
     @ResponseBody
@@ -86,7 +64,7 @@ public class UserLoginController {
         try {
             response.put("data", "Logout Successful");
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             response.put("error", ex.getMessage());
         }
         return response;
@@ -99,10 +77,65 @@ public class UserLoginController {
         try {
             response.put("data", "access denied");
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             response.put("error", ex.getMessage());
         }
         return response;
+    }
+
+
+    @RequestMapping(value = "/api/v1/authenticate", method = RequestMethod.POST)
+
+    public String createAuthenticationToken(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") RegistrationRequest applicationUser) throws Exception {
+
+        Authentication authentication = authenticate(applicationUser.getEmail(), applicationUser.getPassword());
+        final UserDetails userDetails = userDetailsService
+                .loadUserByUsername(applicationUser.getEmail());
+        // Principal principal = request.getUserPrincipal();
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+
+        // Create a new session and add the security context.
+        HttpSession session = request.getSession(true);
+        session.setAttribute(applicationUser.getEmail(), securityContext);
+
+        if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("Donor"))) {
+            System.out.println("Donor found");
+            return "redirect:/api/v1/donorview";
+
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("Patient"))) {
+            System.out.println("Patient found");
+            return "redirect:/loginSuccess";
+            //Add Patient API
+
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("Rider"))) {
+            System.out.println("Rider found");
+            return "redirect:/loginSuccess";
+            //Add Rider API
+
+        } else if (userDetails.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"))) {
+            return "redirect:/api/v1/loginSuccess";
+            //Add Admin API
+        } else {
+            return "redirect:/accessdenied";
+        }
+
+    }
+
+
+    private Authentication authenticate(String username, String password) throws Exception {
+        try {
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
+        } catch (DisabledException e) {
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
     }
 
 }

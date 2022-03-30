@@ -1,18 +1,36 @@
 package com.example.Be_The_Donor.controller;
 
 
+import com.example.Be_The_Donor.entity.OrderItem;
+import com.example.Be_The_Donor.entity.OrderResponse;
+import com.example.Be_The_Donor.entity.Orders;
 import com.example.Be_The_Donor.exception.ErrorResponse;
+import com.example.Be_The_Donor.repository.OrderItemsRepository;
+import com.example.Be_The_Donor.repository.OrderRepository;
+import com.example.Be_The_Donor.repository.UserRepository;
 import com.example.Be_The_Donor.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import org.json.simple.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class OrderController
 {
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    OrderItemsRepository orderItemsRepository;
 
     ErrorResponse er = new ErrorResponse();
 
@@ -30,5 +48,18 @@ public class OrderController
             return er;
         }
     }
-}
 
+    @GetMapping(value = "/api/v1/getOrders/{id}")
+    @ResponseBody
+    public List<OrderResponse> getOrdersByUserId(@PathVariable String id) throws Exception {
+        Long userId = Long.valueOf(id);
+        List<OrderResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);
+        return orderResponses;
+    }
+
+    @GetMapping(value = "/api/v1/getOrders")
+    public List<OrderResponse> getAllOrders() {
+        List<OrderResponse> orderResponses = orderService.getOrderResponse();
+        return orderResponses;
+    }
+}
