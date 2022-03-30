@@ -6,6 +6,7 @@ import com.beTheDonor.repository.OrderRepository;
 import com.beTheDonor.repository.UserRepository;
 import com.beTheDonor.entity.OrderResponse;
 import com.beTheDonor.exception.ErrorResponse;
+import com.beTheDonor.service.CreditAmountService;
 import com.beTheDonor.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +30,24 @@ public class OrderController
     @Autowired
     OrderItemsRepository orderItemsRepository;
 
+    @Autowired
+    CreditAmountService creditAmountService;
+
     ErrorResponse er = new ErrorResponse();
 
     @PostMapping(value = "/api/v1/order")
     public ErrorResponse addOrder(@RequestBody JSONObject payload) throws Exception {
         Boolean response = orderService.addOrder(payload);
         if(response == true) {
+            creditAmountService.orderFromCredits();
             er.setCode(200);
             er.setMessage("Order Added Successfully.");
-            return er;
         }
         else {
             er.setCode(500);
             er.setMessage("Failed to add order. Try after sometime.");
-            return er;
         }
+        return er;
     }
 
     @GetMapping(value = "/api/v1/getOrders/{id}")

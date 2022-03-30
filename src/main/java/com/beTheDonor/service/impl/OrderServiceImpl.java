@@ -1,8 +1,10 @@
-package com.beTheDonor.service;
+package com.beTheDonor.service.impl;
 
 import com.beTheDonor.entity.*;
 import com.beTheDonor.exception.ResourceNotFoundException;
 import com.beTheDonor.repository.*;
+import com.beTheDonor.service.CreditAmountService;
+import com.beTheDonor.service.OrderService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     DeliveryAddressRepository deliveryAddressRepository;
+
+    @Autowired
+    CreditAmountService creditAmountService;
 
     @Override
     public Boolean addOrder(JSONObject payload) {
@@ -93,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
             updateProduct.setQuantity(updateProduct.getQuantity() - quantity);
             productRepository.save(updateProduct);
         }
+        creditAmountService.orderFromCredits();
         return true;
     }
 
