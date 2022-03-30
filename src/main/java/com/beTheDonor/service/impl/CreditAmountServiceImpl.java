@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,15 +29,13 @@ public class CreditAmountServiceImpl implements CreditAmountService {
         Double currentAmount = creditAmount.getCreditAmount();
         Double tip = creditAmountRepository.getById(1).getRiderTip();
         List<Orders> orders = orderRepository.findByOrderStatusAndTotalLessThanEqual("pending payment",currentAmount-tip);
-        System.out.println("size:"+orders.size());
         for(int i=0;i<orders.size();i++) {
             Long orderId = orders.get(i).getOrderId();
-            System.out.println(orderId);
             if(currentAmount >= orders.get(i).getTotal() + tip) {
                 currentAmount -= orders.get(i).getTotal() + tip;
                 creditAmount.setCreditAmount(currentAmount);
                 orders.get(i).setOrderStatus("pending delivery");
-                System.out.println("updated: "+orders.get(i).getOrderId());
+                orders.get(i).setOrderPaidOn(new Date());
                 creditAmountRepository.save(creditAmount);
                 orderRepository.save(orders.get(i));
             }

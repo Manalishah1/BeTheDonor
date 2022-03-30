@@ -10,11 +10,15 @@ public class Orders {
     private Long orderId;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date timestamp;
+    private Date orderPlacedOn;
     @PrePersist
     private void onCreate() {
-        timestamp = new Date();
+        orderPlacedOn = new Date();
     }
+    @Column
+    private Date orderPaidOn;
+    @Column
+    private Date orderDeliveredOn;
     @ManyToOne
     @JoinColumn(name="userId")
     private ApplicationUser userId;
@@ -66,11 +70,27 @@ public class Orders {
         this.orderStatus = order_status;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getOrderPlacedOn() {
+        return orderPlacedOn;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setOrderPlacedOn(Date timestamp) {
+        this.orderPlacedOn = timestamp;
+    }
+
+    public Date getOrderPaidOn() {
+        return orderPaidOn;
+    }
+
+    public void setOrderPaidOn(Date orderPaidOn) {
+        this.orderPaidOn = orderPaidOn;
+    }
+
+    public Date getOrderDeliveredOn() {
+        return orderDeliveredOn;
+    }
+
+    public void setOrderDeliveredOn(Date orderDeliveredOn) {
+        this.orderDeliveredOn = orderDeliveredOn;
     }
 }
