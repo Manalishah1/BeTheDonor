@@ -63,12 +63,11 @@ public class OrderServiceImpl implements OrderService {
         newOrder.setUserId(user);
         Double total = Double.parseDouble((String) jsonObj.get("total"));
         newOrder.setTotal(total);
+        newOrder.setOrderStatus("pending payment");
         newOrder.setDeliveryAddressId(deliveryAddressRepository.getById(deliveryAddress.getAddressId()));
         orderRepository.save(newOrder);
         Long orderId = newOrder.getOrderId();
         Orders order = orderRepository.getById(orderId);
-
-
 
         ArrayList<HashMap<String,String>> jsonList = (ArrayList) payload.get("order");
         for (HashMap<String,String> map:

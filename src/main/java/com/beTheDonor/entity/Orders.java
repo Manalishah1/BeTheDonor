@@ -12,6 +12,8 @@ public class Orders {
     private ApplicationUser userId;
     @Column
     private Double total;
+    @Column
+    private String orderStatus;
     @ManyToOne
     @JoinColumn(name="addressId")
     private DeliveryAddress deliveryAddressId;
@@ -46,5 +48,13 @@ public class Orders {
 
     public void setTotal(Double totalPrice) {
         total = totalPrice;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String order_status) {
+        this.orderStatus = order_status;
     }
 }
