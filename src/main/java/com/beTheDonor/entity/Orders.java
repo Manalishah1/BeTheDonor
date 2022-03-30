@@ -1,12 +1,20 @@
 package com.beTheDonor.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date timestamp;
+    @PrePersist
+    private void onCreate() {
+        timestamp = new Date();
+    }
     @ManyToOne
     @JoinColumn(name="userId")
     private ApplicationUser userId;
@@ -56,5 +64,13 @@ public class Orders {
 
     public void setOrderStatus(String order_status) {
         this.orderStatus = order_status;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }
