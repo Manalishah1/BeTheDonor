@@ -4,7 +4,7 @@ package com.beTheDonor.controller;
 import com.beTheDonor.repository.OrderItemsRepository;
 import com.beTheDonor.repository.OrderRepository;
 import com.beTheDonor.repository.UserRepository;
-import com.beTheDonor.entity.OrderResponse;
+import com.beTheDonor.entity.PatientOrdersResponse;
 import com.beTheDonor.exception.ErrorResponse;
 import com.beTheDonor.service.CreditAmountService;
 import com.beTheDonor.service.OrderService;
@@ -52,15 +52,15 @@ public class OrderController
 
     @GetMapping(value = "/api/v1/getOrders/{id}")
     @ResponseBody
-    public List<OrderResponse> getOrdersByUserId(@PathVariable String id) throws Exception {
+    public List<PatientOrdersResponse> getOrdersByUserId(@PathVariable String id) throws Exception {
         Long userId = Long.valueOf(id);
-        List<OrderResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);
+        List<PatientOrdersResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);
         return orderResponses;
     }
 
     @GetMapping(value = "/api/v1/getOrders")
-    public List<OrderResponse> getAllOrders() {
-        List<OrderResponse> orderResponses = orderService.getOrderResponse();
+    public List<PatientOrdersResponse> getAllOrders() {
+        List<PatientOrdersResponse> orderResponses = orderService.getOrderResponse();
         return orderResponses;
     }
 }
