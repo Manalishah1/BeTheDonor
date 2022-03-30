@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Long> {
     List<Orders> findByUserId(ApplicationUser user);
+    List<Orders> findByOrderStatusAndTotalLessThanEqual(String orderStatus,Double total);
 }
