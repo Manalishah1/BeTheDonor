@@ -1,16 +1,19 @@
 package com.example.Be_The_Donor.entity;
 
 import com.example.Be_The_Donor.dto.PatientRiderDto;
+import com.example.Be_The_Donor.model.PatientRiderModel;
 
 import javax.persistence.*;
 
 @NamedNativeQuery(name = "Orders.getByCityName",
-query = " select firstname,address,city,postal_code,phone_number from orders o " +
-        "             inner join delivery_address da on o.address_id = da.address_id " +
-        "            inner join application_user au on o.user_id = au.id " +
-        "             where city = ?1 ",
-resultSetMapping = "Mapping.PatientRiderDto")
-@SqlResultSetMapping(name = "Mapping.PatientRiderDto",classes = @ConstructorResult(targetClass = PatientRiderDto.class,columns = {@ColumnResult(name = "firstname"),@ColumnResult(name = "address"),@ColumnResult(name = "city"),@ColumnResult(name = "postal_code"),@ColumnResult(name = "phone_number")}))
+query = " select  o.order_id, p.product_name,oi.quantity,au.firstname,da.address,da.city,da.postal_code,au.phone_number from product p " +
+        "inner join order_item oi on p.product_id = oi.product_id " +
+        "inner join orders o on oi.order_id = o.order_id " +
+        "inner join delivery_address da on o.address_id = da.address_id " +
+        "inner join application_user au on o.user_id = au.id " +
+        "where city = ?1 ",
+resultSetMapping = "PatientRiderModel")
+@SqlResultSetMapping(name = "PatientRiderModel",classes = @ConstructorResult(targetClass = PatientRiderModel.class,columns = { @ColumnResult(name = "order_id"),@ColumnResult(name = "product_name"),@ColumnResult(name = "quantity"),@ColumnResult(name = "firstname"),@ColumnResult(name = "address"),@ColumnResult(name = "city"),@ColumnResult(name = "postal_code"),@ColumnResult(name = "phone_number")}))
 @Entity
 public class Orders {
 

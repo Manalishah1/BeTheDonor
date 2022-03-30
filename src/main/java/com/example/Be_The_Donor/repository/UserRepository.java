@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,6 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long>
     @Query("UPDATE ApplicationUser a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableApplicationUser(String email);
+
 
 }

@@ -14,20 +14,43 @@ $(function() {
                 }
             });
         },
-        minLength : 2,
+        minLength : 1,
         cache: false
     });
+
+});
+
+
+
+$(document).on("click",".close",function (evt){
+    evt.preventDefault();
+    console.log("hELLO");
+    $(this).parent().parent().parent().prop('hidden',true);
 });
 
 
-$(document).ready(function () {
+function load(orderId)
+{
 
-   $('#btn').bind("click",function () {
-       var cityName = document.getElementById("city").value;
-       $('#heading').text("You have selected " + cityName);
+    var order_id = orderId;
+    console.log(orderId);
+     $('.orderItems').each(function (){
+        var value = $(this).data("id");
+        console.log(value);
+        if (value == order_id)
+        {
+            $(this).removeAttr('hidden');
+        }
+        else
+        {
+            $(this).prop('hidden',true);
+        }
+     });
+}
 
-   });
 
 
-});
+
+
+
 

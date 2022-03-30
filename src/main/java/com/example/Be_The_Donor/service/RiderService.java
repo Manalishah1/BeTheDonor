@@ -1,6 +1,7 @@
 package com.example.Be_The_Donor.service;
 
 import com.example.Be_The_Donor.dto.PatientRiderDto;
+import com.example.Be_The_Donor.model.PatientRiderModel;
 import com.example.Be_The_Donor.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class RiderService
        return orderRepository.findCities();
     }
 
-    public List<PatientRiderDto>  getByCityName(String cityName)
+    public List<PatientRiderModel>  getByCityName(String cityName)
     {
         return orderRepository.getByCityName(cityName);
     }

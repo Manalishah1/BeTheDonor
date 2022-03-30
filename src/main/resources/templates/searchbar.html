@@ -12,10 +12,14 @@
 
 <div id="searchFragment" th:fragment="searchbar">
 <!-- Image and text -->
-    <nav class="navbar navbar-light bg-info">
+    <nav class="navbar navbar-expand-lg navbar-fixed-top bg-info">
         <div>
             <img width="40" height="40" alt="Sample image" class="img-fluid" th:src="@{/images/scooter.png}">
         </div>
+        <a class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin: .30rem"  onclick="$('#form1').submit();" id="navbarSupportedContent">
+            <span class="btn btn-outline-light " type="submit">Logout</span>
+        </a>
+        <form style="visibility: hidden" id="form1" method="post" action="#" th:action="@{/api/v1/login}"></form>
     </nav>
 
     <div class="card text-center text-black border border-info bg-light ">
