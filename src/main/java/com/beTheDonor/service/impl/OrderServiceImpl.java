@@ -34,14 +34,12 @@ public class OrderServiceImpl implements OrderService {
     CreditAmountService creditAmountService;
 
     @Override
-    public Boolean addOrder(JSONObject payload) {
+    public Boolean addOrder(JSONObject payload, String userId) {
         JSONObject jsonObj = payload;
-        Long userId;
-        userId = ((Number) jsonObj.get("userId")).longValue();
         ApplicationUser user;
-        boolean userExists = userRepository.existsById(userId);
+        boolean userExists = userRepository.existsByEmail(userId);
         if (userExists) {
-            user = userRepository.getById(userId);
+            user = userRepository.getByEmail(userId);
         }
         else {
             throw new ResourceNotFoundException("User with User ID: "+ userId +" is not present.");
@@ -103,11 +101,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Orders> getOrdersByUserId(Long userId) {
-        boolean userExists = userRepository.existsById(userId);
+    public List<Orders> getOrdersByUserId(String userId) {
+        boolean userExists = userRepository.existsByEmail(userId);
         ApplicationUser user = new ApplicationUser();
         if (userExists) {
-            user = userRepository.getById(userId);
+            user = userRepository.getByEmail(userId);
         }
         List<Orders> orders = orderRepository.findByUserId(user);
         System.out.println(orders.size());
@@ -123,7 +121,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<PatientOrdersResponse> getOrdersResponseByUserId(Long userId) {
+    public List<PatientOrdersResponse> getOrdersResponseByUserId(String userId) {
         List<PatientOrdersResponse> orderResponses = new ArrayList<>();
         List<Orders> orders = getOrdersByUserId(userId);
         return formOrderResponses(orderResponses, orders);

@@ -113,7 +113,6 @@ $(document).on("click", "#placeOrder", function() {
     var strJSON = JSON.parse(str);
     var addressJSON = JSON.parse(address);
     var payload = {
-        "userId": 1,
         "order": strJSON,
         "total": parseFloat(total).toFixed(2),
         "address": addressJSON
