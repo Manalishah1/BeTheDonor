@@ -123,8 +123,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> getOrdersResponseByUserId(Long userId) {
-        List<OrderResponse> orderResponses = new ArrayList<>();
+    public List<PatientOrdersResponse> getOrdersResponseByUserId(Long userId) {
+        List<PatientOrdersResponse> orderResponses = new ArrayList<>();
         List<Orders> orders = getOrdersByUserId(userId);
         return formOrderResponses(orderResponses, orders);
     }
@@ -136,25 +136,32 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderResponse> getOrderResponse() {
-        List<OrderResponse> orderResponses = new ArrayList<>();
+    public List<PatientOrdersResponse> getOrderResponse() {
+        List<PatientOrdersResponse> orderResponses = new ArrayList<>();
         List<Orders> orders = getAllOrders();
         return formOrderResponses(orderResponses, orders);
     }
 
-    private List<OrderResponse> formOrderResponses(List<OrderResponse> orderResponses, List<Orders> orders) {
+    private List<PatientOrdersResponse> formOrderResponses(List<PatientOrdersResponse> orderResponses, List<Orders> orders) {
         for (int i = 0; i < orders.size(); i++) {
-            OrderResponse orderResponse;
+            PatientOrdersResponse orderResponse;
             List<OrderItem> orderItem = getOrderItems(orders.get(i));
             List<String> productName = new ArrayList<>();
             List<Double> price = new ArrayList<>();
             List<Integer> quantity = new ArrayList<>();
 
-            orderResponse = new OrderResponse();
+            orderResponse = new PatientOrdersResponse();
             orderResponse.setOrderId(orders.get(i).getOrderId());
             orderResponse.setTotalAmount(orders.get(i).getTotal());
             orderResponse.setFirstName(orders.get(i).getUserId().getFirstname());
             orderResponse.setLastName(orders.get(i).getUserId().getLastname());
+            if(orders.get(i).getOrderStatus().equals("pending payment")) {
+                orderResponse.setOrderStatus("Order Placed");
+            } else if(orders.get(i).getOrderStatus().equals("pending delivery")) {
+                orderResponse.setOrderStatus("Order Paid, Pending Delivery");
+            } else if(orders.get(i).getOrderStatus().equals("delivered")) {
+                orderResponse.setOrderStatus("Order Delivered");
+            }
 
             for (int j = 0; j < orderItem.size(); j++) {
                 productName.add(orderItem.get(j).getProductId().getProductName());

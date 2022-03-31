@@ -2,12 +2,13 @@ package com.beTheDonor.entity;
 
 import java.util.List;
 
-public class OrderResponse {
+public class PatientOrdersResponse {
     Long orderId;
     Double TotalAmount;
     List<String> productName;
     List<Integer> quantity;
     List<Double> price;
+    String orderStatus;
 
     public String getFirstName() {
         return firstName;
@@ -66,5 +67,13 @@ public class OrderResponse {
 
     public void setPrice(List<Double> price) {
         this.price = price;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

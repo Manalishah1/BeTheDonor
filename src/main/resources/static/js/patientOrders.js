@@ -11,7 +11,7 @@ $(document).ready(function() {
                     var str="";
                     for(var i=0;i<orderCount;i++)
                     {
-                    str+="<div class='container'> <table class='table table-striped'> <p>Order Id: "+ resultJSON["result"][i]["orderId"]+"</p> <p>Order Total: "+resultJSON["result"][i]["totalAmount"]+"</p> <thead> <tr> <th>Product</th> <th>Price</th> <th>Quantity</th> </tr> </thead>";
+                    str+="<div class='container'> <table class='table table-striped'> <p>Order Id: "+ resultJSON["result"][i]["orderId"]+"</p> <p>Order Total: "+resultJSON["result"][i]["totalAmount"]+"</p> <p>Order Status: "+resultJSON["result"][i]["orderStatus"]+"</p> <thead> <tr> <th>Product</th> <th>Price</th> <th>Quantity</th> </tr> </thead>";
 
                     for(var j=0;j<resultJSON["result"][i]["productName"].length;j++)
                     {

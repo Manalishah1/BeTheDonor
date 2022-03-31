@@ -30,7 +30,6 @@ public class CreditAmountServiceImpl implements CreditAmountService {
         Double tip = creditAmountRepository.getById(1).getRiderTip();
         List<Orders> orders = orderRepository.findByOrderStatusAndTotalLessThanEqual("pending payment",currentAmount-tip);
         for(int i=0;i<orders.size();i++) {
-            Long orderId = orders.get(i).getOrderId();
             if(currentAmount >= orders.get(i).getTotal() + tip) {
                 currentAmount -= orders.get(i).getTotal() + tip;
                 creditAmount.setCreditAmount(currentAmount);
