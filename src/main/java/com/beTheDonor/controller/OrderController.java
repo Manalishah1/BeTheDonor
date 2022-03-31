@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import org.json.simple.JSONObject;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -36,8 +38,10 @@ public class OrderController
     ErrorResponse er = new ErrorResponse();
 
     @PostMapping(value = "/api/v1/patient/order")
-    public ErrorResponse addOrder(@RequestBody JSONObject payload) throws Exception {
-        Boolean response = orderService.addOrder(payload);
+    public ErrorResponse addOrder(@RequestBody JSONObject payload, HttpServletRequest request) throws Exception {
+        Principal principal = request.getUserPrincipal();
+        String userId = principal.getName();
+        Boolean response = orderService.addOrder(payload,userId);
         if(response == true) {
             creditAmountService.orderFromCredits();
             er.setCode(200);
@@ -50,10 +54,11 @@ public class OrderController
         return er;
     }
 
-    @GetMapping(value = "/api/v1/patient/getOrders/{id}")
+    @GetMapping(value = "/api/v1/patient/getOrders")
     @ResponseBody
-    public List<PatientOrdersResponse> getOrdersByUserId(@PathVariable String id) throws Exception {
-        Long userId = Long.valueOf(id);
+    public List<PatientOrdersResponse> getOrdersByUserId(HttpServletRequest request) throws Exception {
+        Principal principal = request.getUserPrincipal();
+        String userId = principal.getName();
         List<PatientOrdersResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);
         return orderResponses;
     }
