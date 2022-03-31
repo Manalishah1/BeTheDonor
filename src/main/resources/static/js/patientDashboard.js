@@ -15,7 +15,6 @@ $(document).ready(function() {
                 var str="";
                 for(var i=0;i<productCount;i++) {
                     str += "<div class='float-child card-body border mt-n1 py-4 text-center'> <h2 class='h5 mb-1'>"+resultJSON["result"][i]["productName"]+"</h2> <span class='d-block mb-3 font-size-xs text-muted'>Price <span class='font-weight-semibold'>"+resultJSON["result"][i]["price"]+"</span></span> <div class='div'> <p class='showError' style='display:none;'>Only <span>"+resultJSON["result"][i]["quantity"]+"</span> are left.</p> <input type='button' id='down' value='-'> <input class='item' id='item_"+resultJSON["result"][i]["productId"]+"' style='width:50px;' type='text' value='0' max='"+resultJSON["result"][i]["quantity"]+"'> <input type='button' id='up' value='+'> <br> </div> </div>";
-
                 }
                 $(".products-container").append(str);
             },
@@ -122,7 +121,7 @@ $(document).on("click", "#placeOrder", function() {
 
     $.ajax({
         type: "POST",
-        url: "/api/v1/order",
+        url: "/api/v1/patient/order",
         contentType: "application/json",
         dataType: "json",
         async: false,

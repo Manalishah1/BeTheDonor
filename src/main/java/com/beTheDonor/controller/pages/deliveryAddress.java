@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class deliveryAddress {
-    @RequestMapping(value = "/deliveryAddress")
+    @RequestMapping(value = "/patient/deliveryAddress")
     public String deliveryAddress() {
         return "deliveryAddress";
     }

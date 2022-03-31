@@ -2,7 +2,7 @@ $(document).ready(function() {
     function fetchOrders() {
             $.ajax({
                 type: "GET",
-                url: "/api/v1/getOrders",
+                url: "/api/v1/patient/getOrders/1",
                 success: function(result) {
                     resultStr = "{\"result\":" + JSON.stringify(result) + "}";
                     resultJSON = JSON.parse(resultStr);

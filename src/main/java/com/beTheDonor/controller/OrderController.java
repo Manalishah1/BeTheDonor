@@ -35,7 +35,7 @@ public class OrderController
 
     ErrorResponse er = new ErrorResponse();
 
-    @PostMapping(value = "/api/v1/order")
+    @PostMapping(value = "/api/v1/patient/order")
     public ErrorResponse addOrder(@RequestBody JSONObject payload) throws Exception {
         Boolean response = orderService.addOrder(payload);
         if(response == true) {
@@ -50,7 +50,7 @@ public class OrderController
         return er;
     }
 
-    @GetMapping(value = "/api/v1/getOrders/{id}")
+    @GetMapping(value = "/api/v1/patient/getOrders/{id}")
     @ResponseBody
     public List<PatientOrdersResponse> getOrdersByUserId(@PathVariable String id) throws Exception {
         Long userId = Long.valueOf(id);
@@ -58,7 +58,7 @@ public class OrderController
         return orderResponses;
     }
 
-    @GetMapping(value = "/api/v1/getOrders")
+    @GetMapping(value = "/api/v1/donor/getOrders")
     public List<PatientOrdersResponse> getAllOrders() {
         List<PatientOrdersResponse> orderResponses = orderService.getOrderResponse();
         return orderResponses;
