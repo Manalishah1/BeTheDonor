@@ -26,6 +26,8 @@ public class Orders {
     private Double total;
     @Column
     private String orderStatus;
+    @Column
+    private Double riderTip;
     @ManyToOne
     @JoinColumn(name="addressId")
     private DeliveryAddress deliveryAddressId;
@@ -92,5 +94,13 @@ public class Orders {
 
     public void setOrderDeliveredOn(Date orderDeliveredOn) {
         this.orderDeliveredOn = orderDeliveredOn;
+    }
+
+    public Double getRiderTip() {
+        return riderTip;
+    }
+
+    public void setRiderTip(Double riderTip) {
+        this.riderTip = riderTip;
     }
 }
