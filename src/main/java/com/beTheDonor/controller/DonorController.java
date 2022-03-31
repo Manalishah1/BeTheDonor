@@ -36,9 +36,11 @@ public class DonorController {
     @Autowired
     private ApplicationUserService userDetailsService;
 
-    @GetMapping("/api/v1/donorview")
+    @GetMapping("/donorview")
     public String donorLogin(Model model) {
         return "donorView";
     }
+
+
 
 }

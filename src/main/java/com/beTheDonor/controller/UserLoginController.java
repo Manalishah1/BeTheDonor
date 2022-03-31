@@ -98,7 +98,7 @@ public class UserLoginController {
         if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Donor"))) {
             System.out.println("Donor found");
-            return "redirect:/api/v1/donorview";
+            return "redirect:/donorview";
 
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Patient"))) {
