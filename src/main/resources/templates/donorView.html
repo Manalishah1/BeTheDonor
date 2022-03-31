@@ -9,59 +9,39 @@
     <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" th:src="@{/js/donorjs.js}"></script>
+
 </head>
 <body style="background-color:#0dcaf0;">
-<h1>Patient Dashboard</h1>
-
-
+<h1>Donor DashBoard</h1>
 <div class="donor-dashboard">
 
     <div class="column-labels">
         <label class="product-image">Image</label>
-        <label class="product-details">Product</label>
+        <label class="label-details">Product</label>
         <label class="product-price">OrderValue</label>
         <label class="product-quantity">Select</label>
         <label class="product-removal">Remove</label>
         <label class="product-line-price">Total</label>
     </div>
 
-    <div class="product">
+    <div class="product" id="product0" style="display: none">
         <div class="product-image">
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Patient_Care_Cartoon.svg/1280px-Patient_Care_Cartoon.svg.png">
         </div>
+      <!--  Test Div-->
         <div class="product-details">
-            <div class="product-title">Prachi</div>
-            <p class="product-description">Oil,Butter,Bread</p>
+            <div class="product-title" id = "pt">Prachi Raval</div>
+            <p class="product-description" id="pd">Oil,Butter,Bread</p>
         </div>
         <div class="product-price" id="pp1">12</div>
         <div class="product-quantity">
-            <input type="checkbox" id="1" onclick="callf()">
+            <input type="checkbox" id="1" onclick="callf(this)">
         </div>
         <div class="product-removal">
             <button class="remove-product">
             </button>
         </div>
         <div class="product-line-price" id="pl1">0</div>
-    </div>
-
-    <div class="product">
-        <div class="product-image">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Patient_Care_Cartoon.svg/1280px-Patient_Care_Cartoon.svg.png">
-        </div>
-        <div class="product-details">
-            <div class="product-title">Manali</div>
-            <p class="product-description">Milk,Chocolates</p>
-        </div>
-        <div class="product-price" id="pp2">45</div>
-        <div class="product-quantity">
-            <input type="checkbox" id="2" onclick="callf()">
-        </div>
-        <div class="product-removal">
-            <button class="remove-product">
-
-            </button>
-        </div>
-        <div class="product-line-price" id="pl2">0</div>
     </div>
 
     <div class="totals">
@@ -89,4 +69,6 @@
 </body>
 <script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+</script>
 </html>
