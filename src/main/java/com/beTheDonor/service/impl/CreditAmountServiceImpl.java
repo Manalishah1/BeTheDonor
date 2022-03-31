@@ -1,6 +1,5 @@
 package com.beTheDonor.service.impl;
 
-import com.beTheDonor.controller.UserLoginController;
 import com.beTheDonor.entity.CreditAmount;
 import com.beTheDonor.entity.Orders;
 import com.beTheDonor.repository.CreditAmountRepository;
@@ -28,7 +27,7 @@ public class CreditAmountServiceImpl implements CreditAmountService {
     public void orderFromCredits() {
         CreditAmount creditAmount = creditAmountRepository.getById(1);
         Double currentAmount = creditAmount.getCreditAmount();
-        Double tip = creditAmountRepository.getById(1).getRiderTip();
+        Double tip = creditAmountRepository.getById(1).getRiderTipPercent();
         List<Orders> orders = orderRepository.findByOrderStatusAndTotalLessThanEqual("pending payment",currentAmount-tip);
         for(int i=0;i<orders.size();i++) {
             if(currentAmount >= orders.get(i).getTotal() + tip) {
@@ -36,6 +35,7 @@ public class CreditAmountServiceImpl implements CreditAmountService {
                 creditAmount.setCreditAmount(currentAmount);
                 orders.get(i).setOrderStatus("pending delivery");
                 orders.get(i).setOrderPaidOn(new Date());
+                orders.get(i).setRiderTip(creditAmount.getRiderTipPercent()*orders.get(i).getTotal()/100);
                 creditAmountRepository.save(creditAmount);
                 orderRepository.save(orders.get(i));
             }
@@ -44,9 +44,9 @@ public class CreditAmountServiceImpl implements CreditAmountService {
     }
 
     @Override
-    public void updateTipAmount(Double tip) {
+    public void updateTipPercent(Double tip) {
         CreditAmount creditAmount = creditAmountRepository.getById(1);
-        creditAmount.setRiderTip(tip);
+        creditAmount.setRiderTipPercent(tip);
         creditAmountRepository.save(creditAmount);
     }
 }

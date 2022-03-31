@@ -11,7 +11,7 @@ public class CreditAmount {
     @Column(columnDefinition = "double default 0")
     private Double creditAmount;
     @Column()
-    private Double riderTip;
+    private Double riderTipPercent;
 
     public Integer getId() {
         return id;
@@ -33,11 +33,11 @@ public class CreditAmount {
         this.id = id;
     }
 
-    public Double getRiderTip() {
-        return riderTip;
+    public Double getRiderTipPercent() {
+        return riderTipPercent;
     }
 
-    public void setRiderTip(Double riderTip) {
-        this.riderTip = riderTip;
+    public void setRiderTipPercent(Double riderTip) {
+        this.riderTipPercent = riderTip;
     }
 }

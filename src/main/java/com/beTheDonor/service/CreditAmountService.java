@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 public interface CreditAmountService {
     void orderFromCredits();
 
-    void updateTipAmount(Double tip);
+    void updateTipPercent(Double tip);
 }

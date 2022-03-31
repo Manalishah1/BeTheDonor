@@ -18,15 +18,15 @@ public class CreditAmountController {
     @Autowired
     CreditAmountRepository creditAmountRepository;
 
-    @RequestMapping("/updateTip/{tip}")
+    @RequestMapping("/updateTipPercent/{tipPercent}")
     @ResponseBody
-    void updateTip(@PathVariable Double tip){
-        creditAmountService.updateTipAmount(tip);
+    void updateTip(@PathVariable Double tipPercent){
+        creditAmountService.updateTipPercent(tipPercent);
     }
 
-    @RequestMapping("/getTip")
+    @RequestMapping("/getTipPercent")
     @ResponseBody
     Double getTip() {
-        return creditAmountRepository.getById(1).getRiderTip();
+        return creditAmountRepository.getById(1).getRiderTipPercent();
     }
 }
