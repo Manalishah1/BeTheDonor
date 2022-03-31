@@ -29,14 +29,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
                 .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
-                .antMatchers("/loginSuccess1").hasAnyAuthority("USER")
+                .antMatchers("/donorview").hasAnyAuthority("Donor")
                 .anyRequest()
                 .authenticated().and()
                 .formLogin().loginPage("/api/v1/login").usernameParameter("email")
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
         ;
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
 
