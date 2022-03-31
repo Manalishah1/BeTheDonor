@@ -1,0 +1,44 @@
+server:
+  port: 8081
+  error:
+    include:message: always
+    include-binding-errors: always
+
+
+spring:
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_23_TEST?createDatabaseIfNotExist=true
+    username: CSCI5308_23_TEST_USER
+    password: Phubaigh6li1Aef1
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        formate_sql: true
+    show-sql: true
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: dhsoni2510@gmail.com
+    password: rjrgzkiwukrgurql
+
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+
+
+

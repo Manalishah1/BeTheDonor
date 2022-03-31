@@ -1,30 +1,49 @@
+$(document).ready(function () {
+    function fetchProducts() {
+        $.ajax({
+            type: "GET",
+            url: "/api/v1/getOrders",
+            success: function (result) {
+
+
+                resultStr = "{\"result\":" + JSON.stringify(result) + "}";
+                resultJSON = JSON.parse(resultStr);
+
+                for (var i = 0; i < resultJSON.result.length; i++) {
+                    // console.log(resultJSON.result.length);
+                    //console.log(resultJSON.result[i]);
+                    $('#product'+i).clone().insertAfter('#product'+i).attr('id','product'+(i+1)).css('display','block');
+                    $('#product'+(i+1)).find('.product-details').children(".product-title").html(resultJSON.result[i].firstName).attr('id','product-title'+(i+1));
+                    $('#product'+(i+1)).find('.product-details').children(".product-description").html(resultJSON.result[i].productName.join()).attr('id','product-description'+(i+1));
+                    $('#product'+(i+1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id','product-price'+(i+1));
+                    $('#product'+(i+1)).find('.product-quantity').children().attr('id','product-quantity'+(i+1));
+                    $('#product'+(i+1)).find('.product-line-price').attr('id','product-line-price'+(i+1));
+                }
+
+            },
+            error: function (e) {
+                console.log("ERROR: ", e);
+            },
+        });
+    }
+
+    fetchProducts();
+});
+
 /* Set rates + misc */
 var taxRate = 0.05;
 var shippingRate = 15.00;
 var fadeTime = 300;
 
 
-/* Assign actions */
-function callf(){
-    $('.product-quantity').change( function() {
-        for (var i = 0; i < 3; i++) {
-            if($('#'+ i).prop('checked')) {
-                var number = parseInt($('#pp'+i).text());
-                $('#pl'+i).text(number);
-
-            }
-            else{
-                $('#pl'+i).text('0');
-
-            }
-        }
-        updateTotal();
-    });
-
-
-    $('.product-removal button').click( function() {
-        removeItem(this);
-    });
+function callf(ele){
+    let orderNumber = $(ele).attr('id').split('product-quantity')[1];
+    if($('#product-quantity'+orderNumber).is(':checked')){
+        $('#product-line-price'+orderNumber).html($('#product-price'+orderNumber).html());
+    }else{
+        $('#product-line-price'+orderNumber).html('0');
+    }
+    updateTotal();
 
 }
 function updateTotal()

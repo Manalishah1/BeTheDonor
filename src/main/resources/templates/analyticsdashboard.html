@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" th:href="@{/styles/css/bootstrap.min.css}" />
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Be a Donor</title>
+</head>
+<body>
+<!-- top navigation bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top">
+    <div class="container-fluid">
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#sidebar"
+                aria-controls="offcanvasExample"
+        >
+            <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
+        </button>
+        <a class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold" href="#">Be a Donor - Analytics</a>
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#topNavBar"
+                aria-controls="topNavBar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <form class="d-flex ms-auto my-3 my-lg-0">
+                <div class="input-group">
+                    <input
+                            class="form-control"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                    />
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a
+                            class="nav-link dropdown-toggle ms-2"
+                            href="#"
+                            role="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        <i class="bi bi-person-fill"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- top navigation bar -->
+<!-- offcanvas -->
+<main class="mt-5 pt-3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Analytics Summary</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Patient
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="patient"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>IsHelped</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="patient : ${patients}">
+                                    <td th:text="${patient.getId()}">${patient.getId()}</td>
+                                    <td th:text="${patient.getPatientName()}">${patient.getPatientName()}</td>
+                                    <td th:text="${patient.getAge()}">${patient.getAge()}</td>
+                                    <td th:text="${patient.getIshelped()}">${patient.getIshelped()}</td>
+                                </tr>
+                                </tbody>
+                                <!--                                <tbody>-->
+                                <!--                                <tr>-->
+                                <!--                                    <td>1</td>-->
+                                <!--                                    <td>Jayshree</td>-->
+                                <!--                                    <td>28</td>-->
+                                <!--                                    <td>true</td>-->
+                                <!--                                </tr>-->
+                                <!--                                </tbody>-->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Donor
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="donor"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Amount</th>
+                                    <th>Helped done</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="donor : ${donors}">
+                                    <td th:text="${donor.getId()}">${donor.getId()}</td>
+                                    <td th:text="${donor.getDonorName()}">${donor.getDonorName()}</td>
+                                    <td th:text="${donor.getAge()}">${donor.getAge()}</td>
+                                    <td th:text="${donor.getAmount()}">${donor.getAmount()}</td>
+                                    <td th:text="${donor.getHelpDone()}">${donor.getHelpDone()}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Rider
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="rider"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Delivery</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="rider : ${riders}">
+                                    <td th:text="${rider.getId()}">${rider.getId()}</td>
+                                    <td th:text="${rider.getDriverName()}">${rider.getDriverName()}</td>
+                                    <td th:text="${rider.getAge()}">${rider.getAge()}</td>
+                                    <td th:text="${rider.getDelivery()}">${rider.getDelivery()}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="./js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+<script src="./js/jquery-3.5.1.js"></script>
+<script src="./js/jquery.dataTables.min.js"></script>
+<script src="./js/dataTables.bootstrap5.min.js"></script>
+<script src="./js/script.js"></script>
+</body>
+</html>

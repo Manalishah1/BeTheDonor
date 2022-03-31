@@ -2,7 +2,7 @@ $(function() {
     $('#city').autocomplete({
         source : function(request, response) {
             $.ajax({
-                url : "/api/v1/riderDashboard/keyword",
+                url : "/riderDashboard/keyword",
                 dataType : "json",
                 data : {
                     q : request.term
