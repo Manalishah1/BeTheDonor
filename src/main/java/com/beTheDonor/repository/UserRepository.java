@@ -23,4 +23,5 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long>
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableApplicationUser(String email);
 
+
 }

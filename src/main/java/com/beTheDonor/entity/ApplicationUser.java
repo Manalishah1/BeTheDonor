@@ -31,6 +31,7 @@ public class ApplicationUser implements UserDetails {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
+
     private Long id;
     private String firstname;
     private String lastname;

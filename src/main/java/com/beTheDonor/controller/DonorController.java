@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 
-public class DonorController {
+public class
+DonorController {
     @Autowired
     ApplicationUserService applicationUserService;
 

@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
@@ -57,7 +56,6 @@ class UserRegistrationControllerTest
         Mockito.doNothing().when(registrationService).register(registrationRequest);
         userRegistrationController.register(registrationRequest,bindingResult);
 
-
     }
 
     @Test
@@ -70,10 +68,7 @@ class UserRegistrationControllerTest
         String url = "/api/v1/registration";
         mockMvc.perform(post(url).content(objectMapper.writeValueAsString(registrationRequest))).andExpect(model().hasErrors());
         userRegistrationController.register(registrationRequest,bindingResult);
-
-
     }
-
 
     @Test
     @DisplayName("GET Registration Page testing")

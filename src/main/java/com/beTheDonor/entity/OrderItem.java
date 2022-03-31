@@ -10,6 +10,7 @@ public class OrderItem {
     @ManyToOne
     @JoinColumn(name="orderId")
     private Orders orderId;
+
     @ManyToOne
     @JoinColumn(name="productId")
     private Product productId;
