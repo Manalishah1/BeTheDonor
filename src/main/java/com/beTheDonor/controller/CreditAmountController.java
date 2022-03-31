@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import com.beTheDonor.repository.CreditAmountRepository;
 import com.beTheDonor.service.CreditAmountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +15,18 @@ public class CreditAmountController {
     @Autowired
     CreditAmountService creditAmountService;
 
+    @Autowired
+    CreditAmountRepository creditAmountRepository;
+
     @RequestMapping("/updateTip/{tip}")
     @ResponseBody
-    void getTipAmount(@PathVariable Double tip){
+    void updateTip(@PathVariable Double tip){
         creditAmountService.updateTipAmount(tip);
+    }
+
+    @RequestMapping("/getTip")
+    @ResponseBody
+    Double getTip() {
+        return creditAmountRepository.getById(1).getRiderTip();
     }
 }
