@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class PatientOrders {
-    @RequestMapping(value = "/patientOrders")
+    @RequestMapping(value = "/patient/orders")
     public String patientOrders() {
         return "patientOrders";
     }
