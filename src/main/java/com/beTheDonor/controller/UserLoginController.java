@@ -103,7 +103,7 @@ public class UserLoginController {
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Patient"))) {
             System.out.println("Patient found");
-            return "redirect:/loginSuccess";
+            return "redirect:/patient/dashboard";
             //Add Patient API
 
         } else if (userDetails.getAuthorities().stream()
