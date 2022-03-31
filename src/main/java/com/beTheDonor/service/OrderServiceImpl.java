@@ -2,9 +2,7 @@ package com.beTheDonor.service;
 
 import com.beTheDonor.entity.*;
 import com.beTheDonor.repository.*;
-import com.example.Be_The_Donor.entity.*;
 import com.beTheDonor.exception.ResourceNotFoundException;
-import com.example.Be_The_Donor.repository.*;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
