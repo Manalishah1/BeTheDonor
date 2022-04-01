@@ -262,11 +262,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Alisha</td>
-                                    <td>Joseph</td>
-                                    <td>jAlisha@yahoo.co.in</td>
-                                    <td>+91-9825471193</td>
+                                <tr th:each="riders : ${riders}">
+                                    <td th:text="${riders.firstname}"></td>
+                                    <td th:text="${riders.lastname}"></td>
+                                    <td th:text="${riders.email}"></td>
+                                    <td th:text="${riders.phone_number}"></td>
                                 </tr>
                                 </tbody>
                             </table>
