@@ -4,5 +4,6 @@ public enum ApplicationUserRole {
     USER,
     Patient,
     Rider,
+    Donor,
     ADMIN
 }

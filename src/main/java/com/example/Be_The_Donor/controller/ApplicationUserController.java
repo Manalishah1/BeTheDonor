@@ -29,4 +29,8 @@ public class ApplicationUserController {
     public ResponseEntity<List<ApplicationUser>> getRiders(){
         return new ResponseEntity<List<ApplicationUser>>(adminService.getRiders(), HttpStatus.OK);
     }
+    @GetMapping(path = "/getDonors")
+    public ResponseEntity<List<ApplicationUser>> getDonors(){
+        return new ResponseEntity<List<ApplicationUser>>(adminService.getDonors(), HttpStatus.OK);
+    }
 }

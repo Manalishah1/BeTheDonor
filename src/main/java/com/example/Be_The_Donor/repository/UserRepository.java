@@ -32,6 +32,9 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long>
             "WHERE a.applicationUserRole = 'Rider'")
     List<ApplicationUser> getRider();
 
+    @Query("select a from ApplicationUser a " +
+            "WHERE a.applicationUserRole = 'Donor'")
+    List<ApplicationUser> getDonor();
 
     @Override
     List<ApplicationUser> findAll();
