@@ -134,6 +134,39 @@
             <div class="col-md-12 mb-3">
                 <div class="card">
                     <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Product
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="product"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="products : ${products}">
+                                    <td th:text="${products.productName}"></td>
+                                    <td th:text="${products.quantity}"></td>
+                                    <td th:text="${products.price}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
                         <span><i class="bi bi-table me-2"></i></span> Patient
                     </div>
                     <div class="card-body">
@@ -161,7 +194,7 @@
                                 <tr>
                                     <td>Mohit</td>
                                     <td>Anandani</td>
-                                    <td>anandaniMohit15@gmail.com</td>
+                                    <td>am@gmail.com</td>
                                     <td>+1(903) 983 1511</td>
                                 </tr>
                                 </tbody>
