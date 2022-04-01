@@ -185,17 +185,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Rohit</td>
-                                    <td>Manchandani</td>
-                                    <td>rohitM09@gmail.com</td>
-                                    <td>+1(902) 983 1511</td>
-                                </tr>
-                                <tr>
-                                    <td>Mohit</td>
-                                    <td>Anandani</td>
-                                    <td>am@gmail.com</td>
-                                    <td>+1(903) 983 1511</td>
+                                <tr th:each="users : ${users}">
+                                    <td th:text="${users.firstname}"></td>
+                                    <td th:text="${users.lastname}"></td>
+                                    <td th:text="${users.email}"></td>
+                                    <td th:text="${users.phone_number}"></td>
                                 </tr>
                                 </tbody>
                             </table>

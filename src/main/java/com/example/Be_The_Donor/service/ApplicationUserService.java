@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -61,6 +62,8 @@ public class ApplicationUserService implements UserDetailsService {
         userRepository.enableApplicationUser(email);
 
     }
+
+    public List<ApplicationUser> findAll(){return userRepository.findAll();}
 
     public Optional<ApplicationUser> findByEmail(String email){
         return userRepository.findByEmail(email);
