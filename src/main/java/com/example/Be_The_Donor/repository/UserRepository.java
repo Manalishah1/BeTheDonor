@@ -23,6 +23,12 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long>
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableApplicationUser(String email);
 
+
+    @Query("select a from ApplicationUser a " +
+            "WHERE a.applicationUserRole = 'Patient'")
+    List<ApplicationUser> getPatient();
+
+
     @Override
     List<ApplicationUser> findAll();
 }

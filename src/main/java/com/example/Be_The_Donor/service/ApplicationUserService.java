@@ -63,6 +63,8 @@ public class ApplicationUserService implements UserDetailsService {
 
     }
 
+    public List<ApplicationUser> getPatients(){ return userRepository.getPatient();}
+
     public List<ApplicationUser> findAll(){return userRepository.findAll();}
 
     public Optional<ApplicationUser> findByEmail(String email){

@@ -25,6 +25,9 @@ public class AdminController {
         List<ApplicationUser> users = as.getUsers();
         model.addAttribute("users", users);
 
+        List<ApplicationUser> patients = as.getPatients();
+        model.addAttribute("patients", patients);
+
         return "admindashboard";
     }
 }

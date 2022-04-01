@@ -185,12 +185,18 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="users : ${users}">
-                                    <td th:text="${users.firstname}"></td>
-                                    <td th:text="${users.lastname}"></td>
-                                    <td th:text="${users.email}"></td>
-                                    <td th:text="${users.phone_number}"></td>
+                                <tr th:each="patients : ${patients}">
+                                    <td th:text="${patients.firstname}"></td>
+                                    <td th:text="${patients.lastname}"></td>
+                                    <td th:text="${patients.email}"></td>
+                                    <td th:text="${patients.phone_number}"></td>
                                 </tr>
+<!--                                <tr th:each="users : ${users}">-->
+<!--                                    <td th:text="${users.firstname}"></td>-->
+<!--                                    <td th:text="${users.lastname}"></td>-->
+<!--                                    <td th:text="${users.email}"></td>-->
+<!--                                    <td th:text="${users.phone_number}"></td>-->
+<!--                                </tr>-->
                                 </tbody>
                             </table>
                         </div>
