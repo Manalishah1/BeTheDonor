@@ -8,7 +8,7 @@ import com.beTheDonor.repository.UserRepository;
 import com.beTheDonor.config.PasswordEncoder;
 import com.beTheDonor.service.ApplicationUserService;
 import com.beTheDonor.service.ProductService;
-import com.beTheDonor.service.impl.DonorService;
+import com.beTheDonor.service.DonorService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
