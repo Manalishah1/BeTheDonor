@@ -15,4 +15,5 @@ public class AdminService {
         return ap.findAll();
     }
     public List<ApplicationUser> getPatients(){ return ap.getPatients(); }
+    public List<ApplicationUser> getRiders(){ return ap.getRider(); }
 }

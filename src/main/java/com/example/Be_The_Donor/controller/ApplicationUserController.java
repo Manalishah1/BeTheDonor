@@ -25,4 +25,8 @@ public class ApplicationUserController {
     public ResponseEntity<List<ApplicationUser>> getPatients(){
         return new ResponseEntity<List<ApplicationUser>>(adminService.getPatients(), HttpStatus.OK);
     }
+    @GetMapping(path = "/getRiders")
+    public ResponseEntity<List<ApplicationUser>> getRiders(){
+        return new ResponseEntity<List<ApplicationUser>>(adminService.getRiders(), HttpStatus.OK);
+    }
 }
