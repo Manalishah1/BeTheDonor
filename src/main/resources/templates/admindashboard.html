@@ -226,13 +226,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Rohan</td>
-                                    <td>Shah</td>
-                                    <td>rohanshah051@gmail.com</td>
-                                    <td>+1(902) 989 1235</td>
+                                <tr th:each="donors : ${donors}">
+                                    <td th:text="${donors.firstname}"></td>
+                                    <td th:text="${donors.lastname}"></td>
+                                    <td th:text="${donors.email}"></td>
+                                    <td th:text="${donors.phone_number}"></td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>

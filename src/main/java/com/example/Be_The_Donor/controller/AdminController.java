@@ -31,6 +31,9 @@ public class AdminController {
         List<ApplicationUser> riders = as.getRiders();
         model.addAttribute("riders", riders);
 
+        List<ApplicationUser> donors = as.getDonors();
+        model.addAttribute("donors", donors);
+
         return "admindashboard";
     }
 }
