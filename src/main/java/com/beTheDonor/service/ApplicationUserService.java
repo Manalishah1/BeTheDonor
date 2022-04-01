@@ -64,6 +64,12 @@ public class ApplicationUserService implements UserDetailsService {
 
     }
 
+    public List<ApplicationUser> getPatients(){ return userRepository.getPatient();}
+
+    public List<ApplicationUser> getRider(){ return userRepository.getRider();}
+
+    public List<ApplicationUser> getDonor(){ return userRepository.getDonor();}
+
     public List<ApplicationUser> findAll(){
         return userRepository.findAll();
     }

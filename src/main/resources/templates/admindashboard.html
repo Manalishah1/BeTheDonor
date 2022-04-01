@@ -130,6 +130,78 @@
                 <h4>Dashboard</h4>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Add Product
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="add_product"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><input type="text" id="product_name" class="form-control"  placeholder="Name"/></td>
+                                    <td><input type="number" id="product_quantity" class="form-control"  placeholder="Quantity"/></td>
+                                    <td><input type="number" id="product_price" class="form-control"  placeholder="Price"/></td>
+                                    <td><button type="button" class="btn btn-info btn-lg">Add</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Product
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="product"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="products : ${products}">
+                                    <td th:text="${products.productName}"></td>
+                                    <td th:text="${products.quantity}"></td>
+                                    <td th:text="${products.price}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12 mb-3">
                 <div class="card">
@@ -152,17 +224,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Rohit</td>
-                                    <td>Manchandani</td>
-                                    <td>rohitM09@gmail.com</td>
-                                    <td>+1(902) 983 1511</td>
-                                </tr>
-                                <tr>
-                                    <td>Mohit</td>
-                                    <td>Anandani</td>
-                                    <td>anandaniMohit15@gmail.com</td>
-                                    <td>+1(903) 983 1511</td>
+                                <tr th:each="patients : ${patients}">
+                                    <td th:text="${patients.firstname}"></td>
+                                    <td th:text="${patients.lastname}"></td>
+                                    <td th:text="${patients.email}"></td>
+                                    <td th:text="${patients.phone_number}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -193,13 +259,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Rohan</td>
-                                    <td>Shah</td>
-                                    <td>rohanshah051@gmail.com</td>
-                                    <td>+1(902) 989 1235</td>
+                                <tr th:each="donors : ${donors}">
+                                    <td th:text="${donors.firstname}"></td>
+                                    <td th:text="${donors.lastname}"></td>
+                                    <td th:text="${donors.email}"></td>
+                                    <td th:text="${donors.phone_number}"></td>
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
@@ -229,11 +294,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Alisha</td>
-                                    <td>Joseph</td>
-                                    <td>jAlisha@yahoo.co.in</td>
-                                    <td>+91-9825471193</td>
+                                <tr th:each="riders : ${riders}">
+                                    <td th:text="${riders.firstname}"></td>
+                                    <td th:text="${riders.lastname}"></td>
+                                    <td th:text="${riders.email}"></td>
+                                    <td th:text="${riders.phone_number}"></td>
                                 </tr>
                                 </tbody>
                             </table>
