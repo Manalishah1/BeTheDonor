@@ -29,6 +29,12 @@ public class Donors {
 	
 	@Column(name = "help_done")
 	private Boolean helpDone;
+
+	@Column(name = "email")
+	private String emailId;
+
+	@Column(name = "enabled")
+	private Boolean status;
 	
 
 	public Double getAmount() {
@@ -84,6 +90,29 @@ public class Donors {
 		this.helpDone = helpDone;
 	}
 
+	public String getEmailId() {
+		return emailId;
+	}
 
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	public Donors(Long id, String donorName, Long age, Double amount, Boolean helpDone, String emailId, Boolean status) {
+		this.id = id;
+		this.donorName = donorName;
+		this.age = age;
+		this.amount = amount;
+		this.helpDone = helpDone;
+		this.emailId = emailId;
+		this.status = status;
+	}
 }
