@@ -1,5 +1,7 @@
 package com.beTheDonor.service.impl;
 
+import com.beTheDonor.entity.ApplicationUser;
+import com.beTheDonor.entity.UserConfirmationToken;
 import com.beTheDonor.exception.ResourceNotFoundException;
 import com.beTheDonor.exception.StockNotPresentException;
 import com.beTheDonor.repository.ProductRepository;
@@ -7,8 +9,10 @@ import com.beTheDonor.entity.Product;
 import com.beTheDonor.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -74,5 +78,14 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(Product product){
         productRepository.save(product);
         return  product;
+    }
+
+    public void addProductinTable(Product product)
+    {
+        productRepository.save(product);
+    }
+    public void deleteProductinTable(long id)
+    {
+        productRepository.deleteById(id);
     }
 }

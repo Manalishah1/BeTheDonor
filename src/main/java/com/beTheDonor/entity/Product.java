@@ -45,4 +45,14 @@ public class Product {
     public void setProductName(String productName) {
         this.productName = productName;
     }
+
+    public Product(){
+
+    }
+
+    public Product(String productName, int quantity, Double price) {
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
