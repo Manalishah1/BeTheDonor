@@ -7,6 +7,7 @@ import com.beTheDonor.entity.Product;
 import com.beTheDonor.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,5 +75,17 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(Product product){
         productRepository.save(product);
         return  product;
+    }
+
+    @Override
+    public List<String> getCategories() {
+        List<Product> product = productRepository.findAll();
+        List<String> categories = new ArrayList<>();
+        for(int i =0; i< product.size();i++) {
+            if(!categories.contains(product.get(i).getCategory())) {
+                categories.add(product.get(i).getCategory());
+            }
+        }
+        return categories;
     }
 }

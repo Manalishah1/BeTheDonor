@@ -39,7 +39,6 @@ public class CreditAmountServiceImpl implements CreditAmountService {
                 creditAmountRepository.save(creditAmount);
                 orderRepository.save(orders.get(i));
             }
-            //rider send tip
         }
     }
 
