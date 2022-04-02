@@ -11,4 +11,5 @@ public interface ProductService {
     void removeQuantity(Product product);
     List<Product> getProducts();
     Product addProduct(Product product);
+    List<String> getCategories();
 }
