@@ -98,18 +98,18 @@ public class UserLoginController {
         if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Donor"))) {
             System.out.println("Donor found");
-            return "redirect:/api/v1/donorview";
+            return "redirect:/donorview";
 
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Patient"))) {
             System.out.println("Patient found");
-            return "redirect:/loginSuccess";
+            return "redirect:/patient/dashboard";
             //Add Patient API
 
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Rider"))) {
             System.out.println("Rider found");
-            return "redirect:/loginSuccess";
+            return "redirect:/riderDashboard";
             //Add Rider API
 
         } else if (userDetails.getAuthorities().stream()

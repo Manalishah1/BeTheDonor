@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import com.beTheDonor.exception.ErrorResponse;
 import com.beTheDonor.repository.OrderItemsRepository;
 import com.beTheDonor.repository.OrderRepository;
 import com.beTheDonor.repository.ProductRepository;
@@ -7,6 +8,8 @@ import com.beTheDonor.repository.UserRepository;
 import com.beTheDonor.config.PasswordEncoder;
 import com.beTheDonor.service.ApplicationUserService;
 import com.beTheDonor.service.ProductService;
+import com.beTheDonor.service.DonorService;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.stereotype.Controller;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 
-public class DonorController {
+public class
+DonorController {
     @Autowired
     ApplicationUserService applicationUserService;
-
+    @Autowired
+    DonorService donorService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -36,9 +41,19 @@ public class DonorController {
     @Autowired
     private ApplicationUserService userDetailsService;
 
-    @GetMapping("/api/v1/donorview")
+    @GetMapping("/donorview")
     public String donorLogin(Model model) {
         return "donorView";
     }
+
+
+
+    @PostMapping(value = "/finalOrder")
+    public ErrorResponse changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
+        System.out.println("order");
+        Boolean response = donorService.changeStatusOfOrder(payload);
+        return null;
+    }
+
 
 }

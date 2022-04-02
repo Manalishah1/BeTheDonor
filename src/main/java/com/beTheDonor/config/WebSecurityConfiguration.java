@@ -25,18 +25,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**","/patientDashboard","/patientOrders").permitAll()
+                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**").permitAll()
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
                 .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
-                .antMatchers("/loginSuccess1").hasAnyAuthority("USER")
+                .antMatchers("/riderDashboard").hasAnyAuthority("Rider")
+                .antMatchers("/donorview").hasAnyAuthority("Donor")
+                .antMatchers("/patient/**").hasAnyAuthority("Patient")
                 .anyRequest()
                 .authenticated().and()
                 .formLogin().loginPage("/api/v1/login").usernameParameter("email")
                 .and()
                 .logout().invalidateHttpSession(true).clearAuthentication(true).logoutSuccessUrl("/logoutSuccessful").permitAll().and().exceptionHandling().accessDeniedPage("/accessdenied")
         ;
-//        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
 
