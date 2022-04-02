@@ -1,14 +1,9 @@
 $(document).ready(function () {
 
-
-    function getCreditAmount() {
-
-    }
-
     function fetchProducts() {
         $.ajax({
             type: "GET",
-            url: "/api/v1/patient/getOrders",
+            url: "/api/v1/donor/getOrders",
             success: function (result) {
 
 
@@ -16,9 +11,10 @@ $(document).ready(function () {
                 resultJSON = JSON.parse(resultStr);
 
                 for (var i = 0; i < resultJSON.result.length; i++) {
+
                     if (resultJSON.result[i].orderStatus.indexOf("Order Placed") > -1) {
 
-                        $('#product' + i).clone().insertAfter('#product' + i).attr('id', 'product' + (i + 1)).css('display', 'block');
+                        $('#product0').clone().insertBefore('.totals').attr('id', 'product' + (i + 1)).css('display', 'block');
                         $('#product' + (i + 1)).find('.product-details').children(".product-title").html(resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
                         $('#product' + (i + 1)).find('.product-details').children(".product-description").html(resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
                         $('#product' + (i + 1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id', 'product-price' + (i + 1));
@@ -69,14 +65,29 @@ function updateTotal() {
 }
 
 function finalOrder() {
+    var totalAmountList =new Array();
     var myList = new Array();
-    for (var i = 0; i <= resultJSON.result.length; i++) {
-        if ($('#product-quantity' + i).is(':checked')) {
-            myList.push(i);
+    var orderList = new Array();
+    for (var i = 0; i < resultJSON.result.length; i++) {
+        orderList.push(resultJSON.result[i].orderId);
+        //totalAmountList.push()
+    }
+
+    for (var j = 0; j <= orderList.length; j++) {
+        console.log(orderList[j]);
+        var num = j + 1;
+        console.log(num)
+        console.log(($('#product-quantity' + num)));
+        if ($('#product-quantity' + num).is(':checked')) {
+            myList.push(orderList[j]);
+
+
         }
+
 
     }
     var str = "{\"orderId\":[" + myList.toString() + "]}";
+    console.log(myList)
     strJson = JSON.parse(str);
     $.ajax({
         type: "POST",
