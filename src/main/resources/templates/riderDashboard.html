@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+
 <head>
     <meta charset="UTF-8">
     <title>Rider Dashboard</title>
@@ -22,7 +23,7 @@
 
    <div class="container-fluid">
 
-      <form  th:action="@{/riderDashboard/selected}"  method="post" th:object="${chosenOrders}">
+      <form id="testForm" th:action="@{/riderDashboard/selected}"  method="post" th:object="${chosenOrders}">
 
             <table>
                 <tbody>
@@ -51,8 +52,6 @@
                         var btn= document.getElementById("hideBtn")
                         // Create toast instance
                         var myToast = new bootstrap.Toast(element);
-
-
                         hideBtn.addEventListener("click", function(){
                             myToast.hide();
                         });
@@ -62,13 +61,13 @@
 
                 <div class="form-group required-control">
                     <div class="card-deck">
-                        <tr th:each="patient, patientStat :${patients}" >
+                        <tr th:each="patient, Stat :${patients}" >
                             <div class="row ">
-                                <div class="card w-50  shadow-lg rounded-2 text-black font-weight-bold col-7" style="margin: .50rem .25rem .25rem .50rem" >
+                                <div class="card w-50  shadow-lg rounded-2 text-black font-weight-bold col-7" style="margin-bottom: 1rem">
 
                                     <div class="card-body">
                                                  <label>
-                                                 <input  type="checkbox" th:value="${patient.order_id}">
+                                                 <input  type="checkbox"  th:name="${patient.firstname}" th:value="${patient.orderId} ">
                                                 </label>
 
                                         <div class="card-title" ><i class="fa fa-user-circle" style="margin-right: .2rem"></i><span> Name: </span><span th:text="${patient.firstname}"></span></div>
@@ -81,15 +80,15 @@
                                     </div>
                                     <div class="card-footer bg-white" >
                                         <div >
-                                            <button type="button" id="show" th:data-id="${patient.order_id}" th:onclick="load(this.getAttribute('data-id'))" class="btn btn-outline-info font-weight-bold">Show Items</button>
+                                            <button type="button" id="show" th:data-id="${patient.orderId}" th:onclick="load(this.getAttribute('data-id'))" class="btn btn-outline-info font-weight-bold">Show Items</button>
                                         </div>
 
                                     </div>
                                 </div>
-                                <div  th:data-id="${patient.order_id}" class="card shadow-lg rounded-2 orderItems text-black font-weight-bold col-3 border" style="margin: .50rem .25rem .25rem .25rem" th:hidden ="true">
+                                <div  th:data-id="${patient.orderId}" class="card shadow-lg rounded-2 orderItems text-black font-weight-bold col-3 border" style="margin: .50rem .25rem .25rem .25rem" th:hidden ="true">
                                     <div class="card-body">
                                         <div class="position-absolute top-0 end-0">
-                                            <button th:data-id="${patient.order_id}"  type="button" class="close" aria-label="Close">
+                                            <button th:data-id="${patient.orderId}"  type="button" class="close" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -102,21 +101,17 @@
                         </tr>
 
                     </div>
-
-                    <div class="float-lg-end ">
-                        <button type="submit" class="btn-outline-info" style="margin-bottom: .25rem">Add Orders</button>
+                    <div th:unless ="${#lists.isEmpty(patients)}">
+                        <div class="float-lg-end "  >
+                            <button type="submit" id="order_btn" class="btn-outline-info" style="margin-bottom: .25rem">Add Orders</button>
+                        </div>
                     </div>
                 </div>
-
                 </tbody>
 
             </table>
 
-
-
-
        </form>
-
 
 </div>
 
