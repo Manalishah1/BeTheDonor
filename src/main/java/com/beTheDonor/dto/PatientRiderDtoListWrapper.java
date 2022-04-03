@@ -7,13 +7,7 @@ public class PatientRiderDtoListWrapper {
 
    public ArrayList<PatientRiderDto> patientRiderDtos ;
 
-
-   public PatientRiderDtoListWrapper()
-   {
-
-   }
-
-   public void setPatientRiderDtos(ArrayList<PatientRiderDto> patientRiderDtos) {
+   public void setPatientRiderDto(ArrayList<PatientRiderDto> patientRiderDtos) {
       this.patientRiderDtos = patientRiderDtos;
    }
 
@@ -21,6 +15,5 @@ public class PatientRiderDtoListWrapper {
    {
       return patientRiderDtos;
    }
-
 
 }

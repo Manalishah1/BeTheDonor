@@ -1,5 +1,7 @@
 package com.beTheDonor.service.impl;
 
+import com.beTheDonor.entity.ApplicationUser;
+import com.beTheDonor.entity.UserConfirmationToken;
 import com.beTheDonor.exception.ResourceNotFoundException;
 import com.beTheDonor.exception.StockNotPresentException;
 import com.beTheDonor.repository.ProductRepository;
@@ -7,8 +9,11 @@ import com.beTheDonor.entity.Product;
 import com.beTheDonor.service.ProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -74,5 +79,31 @@ public class ProductServiceImpl implements ProductService {
     public Product addProduct(Product product){
         productRepository.save(product);
         return  product;
+    }
+
+    public void addProductinTable(Product product)
+    {
+        productRepository.save(product);
+    }
+    public void deleteProductinTable(long id)
+    {
+        productRepository.deleteById(id);
+    }
+
+    public void updateProductinTable(int qty, double price, long id)
+    {
+        productRepository.updateProducts(qty, price, id);
+    }
+
+    @Override
+    public List<String> getCategories() {
+        List<Product> product = productRepository.findAll();
+        List<String> categories = new ArrayList<>();
+        for(int i =0; i< product.size();i++) {
+            if(!categories.contains(product.get(i).getCategory())) {
+                categories.add(product.get(i).getCategory());
+            }
+        }
+        return categories;
     }
 }

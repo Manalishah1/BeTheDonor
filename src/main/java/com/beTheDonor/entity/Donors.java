@@ -27,9 +27,6 @@ public class Donors {
     @Column(name = "age")
     private Long age;
 
-    public Donors(long l, String jayshree, long l1, double v, boolean b) {
-    }
-
 //    @Column(name = "email")
 //    private String email;
 

@@ -25,8 +25,8 @@ class AnalyticsControllerTest {
 
     @MockBean
     AnalyticsController analyticsController;
-//we are checking analyticsService.getAllHelpedPatients()
-//we are mocking the patientRepository.findAllByIshelped(true) before executing above call
+    //we are checking analyticsService.getAllHelpedPatients()
+    //we are mocking the patientRepository.findAllByIshelped(true) before executing above call
     @Test
     @DisplayName("success getAllHelpedPatients test")
     @Order(1)
@@ -35,8 +35,8 @@ class AnalyticsControllerTest {
                         .accept(MediaType.parseMediaType("application/json")))
                 .andExpect(status().isOk());
     }
-//we are checking analyticsService.getAllDonorsWhoHelped();
-//we are mocking the donorRepository.findAllByHelpDone(true) before executing above call
+    //we are checking analyticsService.getAllDonorsWhoHelped();
+    //we are mocking the donorRepository.findAllByHelpDone(true) before executing above call
     @Test
     @DisplayName("success getAllDonorsWhoHelped test")
     @Order(2)
@@ -45,8 +45,8 @@ class AnalyticsControllerTest {
                         .accept(MediaType.parseMediaType("application/json")))
                 .andExpect(status().isOk());
     }
-//we are checking analyticsService.getAllRidersWhoDeliver()
-//we are mocking the riderRepository.findAllByDelivery(true) before executing above call
+    //we are checking analyticsService.getAllRidersWhoDeliver()
+    //we are mocking the riderRepository.findAllByDelivery(true) before executing above call
     @Test
     @DisplayName("success getAllRidersWhoDeliver test")
     @Order(3)
@@ -55,8 +55,8 @@ class AnalyticsControllerTest {
                         .accept(MediaType.parseMediaType("application/json")))
                 .andExpect(status().isOk());
     }
-//we are checking analyticsService.totalAmountOfHelp()
-//we are mocking the donorRepository.selectTotals(true) before executing above call
+    //we are checking analyticsService.totalAmountOfHelp()
+    //we are mocking the donorRepository.selectTotals(true) before executing above call
     @Test
     @DisplayName("success getAllProducts test")
     @Order(4)
