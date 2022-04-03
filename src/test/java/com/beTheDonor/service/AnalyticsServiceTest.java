@@ -41,7 +41,7 @@ class AnalyticsServiceTest {
         Assertions.assertEquals("jayshree",patientsList.get(0).getPatientName());
     }
 
-    @Test
+   /* @Test
     @DisplayName("Testing getAllDonorsWhoHelped Function")
     @Order(2)
     @Ignore
@@ -49,7 +49,7 @@ class AnalyticsServiceTest {
         Mockito.doReturn(Arrays.asList(new Donors(1L,"jayshree",28L,5000D,true))).when(donorRepository).findAllByHelpDone(true);
         List<Donors> donorsList = analyticsService.getAllDonorsWhoHelped();
         Assertions.assertEquals("jayshree", donorsList.get(0).getDonorName());
-    }
+    }*/
 
     @Test
     @DisplayName("Testing getAllRidersWhoDeliver Function")
