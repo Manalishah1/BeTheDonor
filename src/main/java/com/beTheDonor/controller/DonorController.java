@@ -6,8 +6,9 @@ import com.beTheDonor.exception.ErrorResponse;
 import com.beTheDonor.repository.*;
 import com.beTheDonor.config.PasswordEncoder;
 import com.beTheDonor.service.ApplicationUserService;
-import com.beTheDonor.service.ProductService;
 import com.beTheDonor.service.DonorService;
+import com.beTheDonor.service.ProductService;
+import lombok.AllArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,8 +24,7 @@ import java.util.Map;
 
 @Controller
 
-public class
-DonorController {
+public class DonorController {
     @Autowired
     ApplicationUserService applicationUserService;
     @Autowired
@@ -41,6 +41,7 @@ DonorController {
     UserRepository userRepository;
     @Autowired
     OrderItemsRepository orderItemsRepository;
+    @Autowired
     DonorRepository donorRepository;
     @Autowired
     private DaoAuthenticationProvider authenticationManager;
@@ -52,15 +53,14 @@ DonorController {
 
     @GetMapping("/donorview")
     public String donorLogin(Model model) {
-        model.addAttribute("stripePublicKey", stripePublicKey);
         return "donorView";
     }
 
 
-    @PostMapping(value = "/finalOrder")
-    public @ResponseBody Response changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
+    @PostMapping(value = "/finalOrderDonor")
+    public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
+        System.out.println("Donor");
         Boolean response = donorService.changeStatusOfOrder(payload);
-        return new Response(true, "");
     }
 
     @PostMapping(value = "/donationInfo")
@@ -73,5 +73,20 @@ DonorController {
         return null;
     }
 
+    @GetMapping(value = "/getDonationById")
+    @ResponseBody
+    public Map<String, Object> getDonationById(HttpServletRequest request) throws Exception {
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            Principal principal = request.getUserPrincipal();
+            String userId = principal.getName();
+            Long id = userRepository.getByEmail(userId).getId();
+            Donors donor = donorService.getDonationById(id);
+            responseMap.put("data", donor);
+        } catch (Exception ex) {
+            responseMap.put("error", ex.getMessage());
+        }
+        return responseMap;
+    }
 
 }

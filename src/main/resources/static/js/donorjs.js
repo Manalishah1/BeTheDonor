@@ -40,7 +40,6 @@ function fetchProducts() {
 }
 
 
-
 function callf(ele) {
     let orderNumber = $(ele).attr('id').split('product-quantity')[1];
     if ($('#product-quantity' + orderNumber).is(':checked')) {
@@ -57,6 +56,63 @@ function updateTotal() {
         sum += parseFloat($(this).text());
         $('#cart-subtotal').text(sum);// Or this.innerHTML, this.innerText
         recalculateCart();
+    });
+}
+
+function finalOrder() {
+    var totalAmountList = new Array();
+    var selectedOrders = new Array();
+    var nameList = "";
+    var orderList = new Array();
+    for (var i = 0; i < resultJSON.result.length; i++) {
+        orderList.push(resultJSON.result[i].orderId);
+
+    }
+
+    for (var j = 0; j <= orderList.length; j++) {
+        var num = j + 1;
+        if ($('#product-quantity' + num).is(':checked')) {
+            selectedOrders.push(orderList[j]);
+            totalAmountList.push(resultJSON.result[j].totalAmount);
+            nameList += '"' + resultJSON.result[j].firstName + '",';
+
+        }
+    }
+    nameList = nameList.slice(0, -1);
+    var str = "{\"orderId\":[" + selectedOrders.toString() + "]}";
+    strJson = JSON.parse(str);
+    $.ajax({
+        type: "POST",
+        url: "/finalOrderDonor",
+        contentType: "application/json",
+        dataType: "json",
+        async: false,
+        data: JSON.stringify(strJson),
+        success: function (result) {
+            location.reload();
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
+    });
+
+    var str1 = {donationAmount: totalAmountList};
+    console.log(str1);
+
+
+    $.ajax({
+        type: "POST",
+        url: "/donationInfo",
+        contentType: "application/json",
+        dataType: "json",
+        async: false,
+        data: JSON.stringify(str1),
+        success: function (result) {
+            location.reload();
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
     });
 }
 
@@ -116,7 +172,7 @@ function removeItem(removeButton) {
     });
 }
 
-function getDonation(){
+function getDonation() {
     $.ajax({
         type: "GET",
         url: "/getDonationById",
@@ -124,7 +180,10 @@ function getDonation(){
         dataType: "json",
         async: false,
         success: function (result) {
-           console.log(result.data);
+            resultStr = "{\"result\":" + JSON.stringify(result) + "}";
+            resultJSON = JSON.parse(resultStr);
+            console.log(resultJSON["result"]["data"]["amount"]);
+            $('#totalDonation').append(resultJSON["result"]["data"]["amount"]);
         },
         error: function (e) {
             console.log("ERROR: ", e);

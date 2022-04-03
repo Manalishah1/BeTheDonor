@@ -8,6 +8,7 @@ import com.beTheDonor.service.impl.RiderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,9 +23,14 @@ import java.util.stream.Collectors;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/riderDashboard")
-public class RiderController
-{
+public class RiderController {
     RiderService riderService;
+
+
+    @PostMapping(value = "/finalOrderRider")
+    public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
+
+    }
 
     @GetMapping("/city")
     public String getRiderDashboard(@RequestParam(value = "cityName",required = false) String cityName,Model model)
@@ -39,7 +45,7 @@ public class RiderController
 
         if(patientRiderDtoList.isEmpty())
         {
-           return "redirect:/riderDashboard?noPatient";
+            return "redirect:/riderDashboard?noPatient";
         }
         model.addAttribute("cityName",cityName);
         PatientRiderDtoListWrapper chosenOrders = new PatientRiderDtoListWrapper();
