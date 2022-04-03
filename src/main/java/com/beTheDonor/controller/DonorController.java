@@ -53,7 +53,6 @@ public class DonorController {
 
     @GetMapping("/donorview")
     public String donorLogin(Model model) {
-        model.addAttribute("stripePublicKey", stripePublicKey);
         return "donorView";
     }
 
@@ -62,7 +61,6 @@ public class DonorController {
     public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
         System.out.println("Donor");
         Boolean response = donorService.changeStatusOfOrder(payload);
-        return new Response(true, "");
     }
 
     @PostMapping(value = "/donationInfo")
