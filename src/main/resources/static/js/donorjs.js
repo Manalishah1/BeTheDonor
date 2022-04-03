@@ -181,7 +181,10 @@ function getDonation(){
         dataType: "json",
         async: false,
         success: function (result) {
+            resultStr = "{\"result\":" + JSON.stringify(result) + "}";
+            resultJSON = JSON.parse(resultStr);
            console.log(result.data);
+            $('#totalDonation').html(resultJSON.result.amount);
         },
         error: function (e) {
             console.log("ERROR: ", e);

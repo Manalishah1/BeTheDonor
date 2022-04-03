@@ -23,7 +23,7 @@
 
 <div class="container-fluid">
 
-    <form th:action="@{/riderDashboard/selected}" method="post" th:object="${chosenOrders}">
+    <form th:object="${chosenOrders}">
 
         <table>
             <tbody>
@@ -66,14 +66,14 @@
             <div class="form-group required-control">
                 <div class="card-deck">
                     <tr th:each="patient, patientStat :${patients}">
-                        <div class="product" id="product" th:text="${#lists.size(patients)}"  > </div>
+                        <div class="product" id="product" th:text="${#lists.size(patients)}"></div>
                         <div class="row ">
                             <div class="card w-50  shadow-lg rounded-2 text-black font-weight-bold col-7"
                                  style="margin: .50rem .25rem .25rem .50rem">
 
                                 <div class="card-body">
                                     <label>
-                                        <input type="checkbox" th:id="${patient.order_id}"
+                                        <input type="checkbox" th:id="'c'+${patient.order_id}"
                                                th:value="${patient.order_id}">
                                     </label>
 
@@ -128,10 +128,9 @@
                     </tr>
 
                 </div>
-
                 <div class="float-lg-end ">
-                    <button type="submit" class="btn-outline-info" style="margin-bottom: .25rem"
-                            onclick="addOrder(this)">Add Orders
+                    <button type="button" class="btn-outline-info" style="margin-bottom: .25rem"
+                            onclick="addOrder()">Add Orders
                     </button>
                 </div>
             </div>
