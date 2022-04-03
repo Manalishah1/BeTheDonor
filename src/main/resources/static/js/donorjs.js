@@ -40,7 +40,6 @@ function fetchProducts() {
 }
 
 
-
 function callf(ele) {
     let orderNumber = $(ele).attr('id').split('product-quantity')[1];
     if ($('#product-quantity' + orderNumber).is(':checked')) {
@@ -62,8 +61,8 @@ function updateTotal() {
 
 function finalOrder() {
     var totalAmountList = new Array();
-    var myList = new Array();
-    var nameList ="";
+    var selectedOrders = new Array();
+    var nameList = "";
     var orderList = new Array();
     for (var i = 0; i < resultJSON.result.length; i++) {
         orderList.push(resultJSON.result[i].orderId);
@@ -73,18 +72,18 @@ function finalOrder() {
     for (var j = 0; j <= orderList.length; j++) {
         var num = j + 1;
         if ($('#product-quantity' + num).is(':checked')) {
-            myList.push(orderList[j]);
+            selectedOrders.push(orderList[j]);
             totalAmountList.push(resultJSON.result[j].totalAmount);
-            nameList += '"'+resultJSON.result[j].firstName+'",';
+            nameList += '"' + resultJSON.result[j].firstName + '",';
 
         }
     }
     nameList = nameList.slice(0, -1);
-    var str = "{\"orderId\":[" + myList.toString() + "]}";
+    var str = "{\"orderId\":[" + selectedOrders.toString() + "]}";
     strJson = JSON.parse(str);
     $.ajax({
         type: "POST",
-        url: "/finalOrder",
+        url: "/finalOrderDonor",
         contentType: "application/json",
         dataType: "json",
         async: false,
@@ -97,7 +96,7 @@ function finalOrder() {
         },
     });
 
-    var str1 = {donationAmount : totalAmountList};
+    var str1 = {donationAmount: totalAmountList};
     console.log(str1);
 
 
@@ -173,7 +172,7 @@ function removeItem(removeButton) {
     });
 }
 
-function getDonation(){
+function getDonation() {
     $.ajax({
         type: "GET",
         url: "/getDonationById",
@@ -183,7 +182,7 @@ function getDonation(){
         success: function (result) {
             resultStr = "{\"result\":" + JSON.stringify(result) + "}";
             resultJSON = JSON.parse(resultStr);
-           console.log(result.data);
+            console.log(result.data);
             $('#totalDonation').html(resultJSON.result.amount);
         },
         error: function (e) {
