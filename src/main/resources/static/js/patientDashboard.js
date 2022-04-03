@@ -6,6 +6,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             url: "/api/v1/products",
+            async: false,
             success: function(result) {
                 resultStr = "{\"result\":" + JSON.stringify(result) + "}";
                 resultJSON = JSON.parse(resultStr);
@@ -14,8 +15,7 @@ $(document).ready(function() {
                 localStorage.setItem("productCount", productCount);
                 var str="";
                 for(var i=0;i<productCount;i++) {
-                    str += "<div class='float-child card-body border mt-n1 py-4 text-center'> <h2 class='h5 mb-1'>"+resultJSON["result"][i]["productName"]+"</h2> <span class='d-block mb-3 font-size-xs text-muted'>Price <span class='font-weight-semibold'>"+resultJSON["result"][i]["price"]+"</span></span> <div class='div'> <p class='showError' style='display:none;'>Only <span>"+resultJSON["result"][i]["quantity"]+"</span> are left.</p> <input type='button' id='down' value='-'> <input class='item' id='item_"+resultJSON["result"][i]["productId"]+"' style='width:50px;' type='text' value='0' max='"+resultJSON["result"][i]["quantity"]+"'> <input type='button' id='up' value='+'> <br> </div> </div>";
-
+                    str+="<div class='Cart-Items filterDiv "+resultJSON['result'][i]['category']+"'> <div class='about'> <h1 class='title'>"+resultJSON['result'][i]['productName']+"</h1> <h3 class='subtitle'>"+resultJSON['result'][i]['comment']+"</h3> </div> <div class='div counter'> <p class='showError' style='display:none;'>Only <span>"+resultJSON['result'][i]['quantity']+"</span> are left.</p> <input type='button' id='down' class='btn' value='-'> <input class='item count' id='item_"+resultJSON['result'][i]['productId']+"' style='width:50px;' type='text' value='0' max='"+resultJSON['result'][i]['quantity']+"'> <input type='button' class='btn' id='up' value='+'> <br> </div> <div class='prices'> <div class='amount'>$"+resultJSON['result'][i]['price']+"</div>  </div> </div>";
                 }
                 $(".products-container").append(str);
             },
@@ -24,9 +24,57 @@ $(document).ready(function() {
             },
         });
     }
+
+    function fetchCategories() {
+        $.ajax({
+            type: "GET",
+            url: "/api/v1/products/getCategories",
+            async: false,
+            success: function(result) {
+                resultStr = "{\"result\":" + JSON.stringify(result) + "}";
+                resultJSON = JSON.parse(resultStr);
+                console.log(resultJSON["result"].length);
+                var str="<button class='category-btn active' id='category' value='showAll' onclick='filterSelection(\"all\")'> Show all</button>";
+                for(var i=0;i<resultJSON["result"].length;i++) {
+                    str += "<button class='category-btn' id='category' value='"+resultJSON["result"][i]+"'>"+resultJSON["result"][i]+"</button>";
+                    console.log(str);
+                }
+                $("#category-container").append(str);
+            },
+            error: function(e) {
+                console.log("ERROR: ", e);
+            },
+        });
+    }
+
+    fetchCategories();
     fetchProducts();
 
 });
+
+function getUserInput() {
+    var productCount = localStorage.getItem("productCount");
+    var resultStr = localStorage.getItem("resultStr");
+    var resultJSON = JSON.parse(resultStr);
+    var str = "[";
+    var total = parseFloat(0);
+    var itemCount = 0;
+    for (var i = 0; i < productCount; i++) {
+        if ($('#item_' + resultJSON["result"][i]["productId"]).attr('value') != 0) {
+            str += "{ \"productId\":\"" + resultJSON["result"][i]["productId"] + "\",\"quantity\":\"" + $('#item_' + resultJSON["result"][i]["productId"]).attr('value') + "\"},";
+
+            total += parseFloat($('#item_' + resultJSON["result"][i]["productId"]).attr('value')) * parseFloat(resultJSON["result"][i]["price"]);
+            itemCount += parseInt($('#item_' + resultJSON["result"][i]["productId"]).attr('value'));
+
+        }
+    }
+    str = str.slice(0, -1);
+    str += "]"
+    localStorage.setItem("orderJSONStr", str);
+    localStorage.setItem("orderTotal", total);
+    $('.total-amount').text(total);
+    $('.items-count').text(itemCount+" items");
+}
 
 $(document).on("click", '[id^="up"]', function() {
     var itemId = $(this).closest('div').find('.item').attr('id');
@@ -40,6 +88,8 @@ $(document).on("click", '[id^="up"]', function() {
     }
     $("#" + itemId).attr("value", value);
     $("#" + itemId).val(value);
+    getUserInput();
+
 });
 
 $(document).on("click", '[id^="down"]', function() {
@@ -55,6 +105,7 @@ $(document).on("click", '[id^="down"]', function() {
     }
     $("#" + itemId).attr("value", value);
     $("#" + itemId).val(value);
+    getUserInput();
 });
 
 $(document).on('input', '[id^="item_"]', function() {
@@ -68,9 +119,11 @@ $(document).on('input', '[id^="item_"]', function() {
     }
     $(this).attr("value", value);
     $(this).val(value);
+    getUserInput();
 });
 
 $(document).on('change', '[id^="item_"]', function() {
+
     var value = $(this).val();
     var max = $(this).attr('max');
     if (parseInt(value) > parseInt(max)) {
@@ -78,27 +131,10 @@ $(document).on('change', '[id^="item_"]', function() {
     } else {
         $(this).closest('div').find('.showError').attr("style", "display:none");
     }
+    getUserInput();
 });
 
-$(document).on("click", "#fetchUserInput", function() {
-    var productCount = localStorage.getItem("productCount");
-    var resultStr = localStorage.getItem("resultStr");
-    var resultJSON = JSON.parse(resultStr);
-    var str = "[";
-    var total = parseFloat(0);
-    for (var i = 0; i < productCount; i++) {
-        if ($('#item_' + resultJSON["result"][i]["productId"]).attr('value') != 0) {
 
-            str += "{ \"productId\":\"" + resultJSON["result"][i]["productId"] + "\",\"quantity\":\"" + $('#item_' + resultJSON["result"][i]["productId"]).attr('value') + "\"},";
-            console.log(str);
-            total += parseFloat($('#item_' + resultJSON["result"][i]["productId"]).attr('value')) * parseFloat(resultJSON["result"][i]["price"]);
-        }
-    }
-    str = str.slice(0, -1);
-    str += "]"
-    localStorage.setItem("orderJSONStr", str);
-    localStorage.setItem("orderTotal", total);
-});
 
 $(document).on("click", "#placeOrder", function() {
     var str = localStorage.getItem("orderJSONStr");
@@ -114,7 +150,6 @@ $(document).on("click", "#placeOrder", function() {
     var strJSON = JSON.parse(str);
     var addressJSON = JSON.parse(address);
     var payload = {
-        "userId": 1,
         "order": strJSON,
         "total": parseFloat(total).toFixed(2),
         "address": addressJSON
@@ -122,14 +157,13 @@ $(document).on("click", "#placeOrder", function() {
 
     $.ajax({
         type: "POST",
-        url: "/api/v1/order",
+        url: "/api/v1/patient/order",
         contentType: "application/json",
         dataType: "json",
         async: false,
         data: JSON.stringify(payload),
         success: function(result) {
-            location.reload();
-             $(".orderPlaced").attr("style", "display:block");
+            location.href = "/patient/order-placed";
         },
         error: function(e) {
             console.log("ERROR: ", e);
@@ -140,4 +174,28 @@ $(document).on("click", "#placeOrder", function() {
 $(document).on('change', '.field__input', function() {
     var value = $(this).val();
     $(this).attr("value", value);
+});
+
+$(document).on('click', '.category-btn', function() {
+
+    var divID = $(this).closest('div').attr('id');
+    $("#"+divID+">button.active").removeClass("active");
+    if($(this).hasClass('active')) {
+        $(this).removeClass('active')
+    }
+    else {
+        $(this).addClass('active')
+    }
+    var categorySelected = $(this).val();
+    if(categorySelected == 'showAll') {
+        $('.filterDiv ').removeAttr("style");
+    } else {
+        $('.filterDiv ').attr("style", "display:none");
+        $('.' + categorySelected).removeAttr("style");
+    }
+});
+
+$(document).on('click', '.removeAll', function() {
+    $('[id^="item_"]').attr("value", 0);
+    $('[id^="item_"]').val(0);
 });
