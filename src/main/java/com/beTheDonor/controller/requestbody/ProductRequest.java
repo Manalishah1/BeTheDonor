@@ -19,4 +19,6 @@ public class ProductRequest {
     private String productName;
     private int quantity;
     private Double price;
+    private String category;
+    private String comment;
 }

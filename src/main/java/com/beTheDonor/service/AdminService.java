@@ -28,7 +28,9 @@ public class AdminService {
        psi.addProductinTable(new Product(
                 productRequest.getProductName(),
                 productRequest.getQuantity(),
-                productRequest.getPrice()
+                productRequest.getPrice(),
+               productRequest.getCategory(),
+               productRequest.getComment()
         ));
     }
     public void delete(long id)
