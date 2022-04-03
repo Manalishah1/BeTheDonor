@@ -131,54 +131,49 @@
                 <h4>Dashboard</h4>
             </div>
         </div>
-
         <div class="row">
             <form th:action="@{/api/v1/admin/addProductsInTable}" method="get" th:object="${product}" class="col-md-12 mb-3">
-<!--                //mx-1 mx-md-4-->
-            <div class="col-md-12 mb-3">
-                <div class="card">
-                    <div class="card-header">
-                        <span><i class="bi bi-table me-2"></i></span> Add Product
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table
-                                    id="add_product"
-                                    class="table table-striped data-table"
-                                    style="width: 100%"
-                            >
-                                <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Category</th>
-                                    <th>Measure</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <form th:action="@{/api/v1/admin/addProductsInTable}" method="get" th:object="${product}" class="col-md-12 mb-3">
-                                <tr>
-                                    <td><input type="text" id="product_name" class="form-control" placeholder="Name" th:field="*{productName}"/></td>
-                                    <td><input type="number" id="product_quantity" class="form-control"  placeholder="Quantity" th:field="*{quantity}"/></td>
-                                    <td><input type="number" id="product_price" class="form-control"  placeholder="Price" th:field="*{price}"/></td>
-                                    <td><input type="text" id="product_category" class="form-control"  placeholder="Category" th:field="*{category}"/></td>
-                                    <td><input type="text" id="product_comment" class="form-control"  placeholder="Measure" th:field="*{comment}"/></td>
-                                    <td><button type="submit" class="btn btn-info btn-lg">Add</button></td>
-                                </tr>
-                                </form>
-                                </tbody>
-                            </table>
+                <div class="col-md-12 mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <span><i class="bi bi-table me-2"></i></span> Add Product
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table
+                                        id="add_product"
+                                        class="table table-striped data-table"
+                                        style="width: 100%"
+                                >
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Category</th>
+                                        <th>Measure</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <form th:action="@{/api/v1/admin/addProductsInTable}" method="get" th:object="${product}" class="col-md-12 mb-3">
+                                    <tr>
+                                        <td><input type="text" id="product_name" class="form-control" placeholder="Name" th:field="*{productName}"/></td>
+                                        <td><input type="number" id="product_quantity" class="form-control"  placeholder="Quantity" th:field="*{quantity}"/></td>
+                                        <td><input type="number" id="product_price" class="form-control"  placeholder="Price" th:field="*{price}"/></td>
+                                        <td><input type="text" id="product_category" class="form-control"  placeholder="Category" th:field="*{category}"/></td>
+                                        <td><input type="text" id="product_comment" class="form-control"  placeholder="Measure" th:field="*{comment}"/></td>
+                                        <td><button type="submit" class="btn btn-info btn-lg">Add</button></td>
+                                    </tr>
+                                    </form>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             </form>
         </div>
-
-
-
         <div class="row">
             <div class="col-md-12 mb-3">
                 <div class="card">
@@ -233,6 +228,7 @@
                            function updateP(pId){
                                var updatePrice = $("#price_"+pId).val();
                                var updateQty = $("#qty_"+pId).val();
+
                                console.log(updatePrice);
                                console.log(updateQty);
                                console.log("------"+pId+"------"+updateQty+"------"+updatePrice);
@@ -316,6 +312,51 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 mb-2">
+                <div class="card">
+                    <div class="card-header">
+                        <span><i class="bi bi-table me-2"></i></span> Add Rider Tip Percentage
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table
+                                    id="tip_percentage"
+                                    class="table table-striped data-table"
+                                    style="width: 100%"
+                            >
+                                <thead>
+                                <tr>
+                                    <th>Tip Percentage</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="number" id="tips" placeholder="Update tip percentage"  class="form-control"/></td>
+                                        <td><button type="button" th:data-id = "btn"  class="btn btn-primary btn-lg"  onclick="updateTip()">Update</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <script th:inline="javascript">
+                            function updateTip(){
+                                var updateTip1 = $("#tips").val();
+                                console.log("Update:"+updateTip1);
+
+                                 $.ajax({
+                                     url : "/api/v1/autoPayByCredit/updateTipPercent/" + updateTip1,
+                                     type: "GET",
+                                     success : function () {
+                                         location.reload();
+                                     }
+                                 });
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
