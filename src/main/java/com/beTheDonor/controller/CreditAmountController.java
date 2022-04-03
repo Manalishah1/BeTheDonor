@@ -29,4 +29,12 @@ public class CreditAmountController {
     Double getTip() {
         return creditAmountRepository.getById(1).getRiderTipPercent();
     }
+
+    @RequestMapping("/updateCreditAmount/{amount}")
+    @ResponseBody
+    String updateCreditAmount(@PathVariable Double amount){
+        System.out.println("reached"+amount);
+        creditAmountService.updateCreditAmount(amount);
+        return "patientOrderSuccessPage";
+    }
 }

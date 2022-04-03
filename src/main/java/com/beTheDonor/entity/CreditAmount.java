@@ -12,6 +12,8 @@ public class CreditAmount {
     private Double creditAmount;
     @Column()
     private Double riderTipPercent;
+    @Column
+    private Double fundRaised;
 
     public Integer getId() {
         return id;
@@ -39,5 +41,13 @@ public class CreditAmount {
 
     public void setRiderTipPercent(Double riderTip) {
         this.riderTipPercent = riderTip;
+    }
+
+    public Double getFundRaised() {
+        return fundRaised;
+    }
+
+    public void setFundRaised(Double fundRaised) {
+        this.fundRaised = fundRaised;
     }
 }
