@@ -28,9 +28,10 @@ public class RiderController {
 
 
     @PostMapping(value = "/finalOrderRider")
-    public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
-
+    public void getRiderOrders(@RequestBody JSONObject payload) throws Exception {
+        Boolean response = riderService.changeStatusOfOrder(payload);
     }
+
 
     @GetMapping("/city")
     public String getRiderDashboard(@RequestParam(value = "cityName",required = false) String cityName,Model model)
