@@ -59,7 +59,6 @@ public class DonorController {
 
     @PostMapping(value = "/finalOrderDonor")
     public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
-        System.out.println("Donor");
         Boolean response = donorService.changeStatusOfOrder(payload);
     }
 
