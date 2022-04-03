@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class DonorServiceImpl implements DonorService {
     @Autowired
@@ -21,6 +22,7 @@ public class DonorServiceImpl implements DonorService {
     DonorRepository donorRepository;
     @Autowired
     UserRepository userRepository;
+
     @Override
     public Boolean changeStatusOfOrder(JSONObject payload) {
         ArrayList<Long> jsonAddress = (ArrayList) payload.get("orderId");
@@ -38,7 +40,7 @@ public class DonorServiceImpl implements DonorService {
     }
 
     @Override
-    public Boolean storeTotalAmount(JSONObject payload, Long id){
+    public Boolean storeTotalAmount(JSONObject payload, Long id) {
         Donors donor = new Donors();
         boolean donorExists = donorRepository.existsByDonorId(id);
         List<Integer> totalAmount = (List<Integer>) payload.get("donationAmount");
@@ -62,6 +64,11 @@ public class DonorServiceImpl implements DonorService {
 
     @Override
     public Donors getDonationById(Long id) {
-        return null;
+        try {
+            return donorRepository.findByDonorId(id);
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 }
