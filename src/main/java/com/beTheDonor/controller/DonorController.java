@@ -66,5 +66,20 @@ DonorController {
         return null;
     }
 
+    @GetMapping(value = "/getDonationById")
+    @ResponseBody
+    public Map<String, Object> getDonationById(HttpServletRequest request) throws Exception {
+        Map<String, Object> responseMap = new HashMap<>();
+        try{
+            Principal principal = request.getUserPrincipal();
+            String userId = principal.getName();
+            Long id = userRepository.getByEmail(userId).getId();
+            Donors donor = donorService.getDonationById(id);
+            responseMap.put("data", donor);
+        }catch (Exception ex){
+            responseMap.put("error", ex.getMessage());
+        }
+        return  responseMap;
+    }
 
 }

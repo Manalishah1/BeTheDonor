@@ -1,20 +1,20 @@
-$(function() {
+$(function () {
     $('#city').autocomplete({
-        source : function(request, response) {
+        source: function (request, response) {
             $.ajax({
-                url : "/riderDashboard/keyword",
-                dataType : "json",
-                data : {
-                    q : request.term
+                url: "/riderDashboard/keyword",
+                dataType: "json",
+                data: {
+                    q: request.term
                 },
-                success : function(data) {
+                success: function (data) {
                     //alert(data);
                     console.log(data);
                     response(data);
                 }
             });
         },
-        minLength : 1,
+        minLength: 1,
         cache: false
     });
 
@@ -22,30 +22,25 @@ $(function() {
 
 
 
-$(document).on("click",".close",function (evt){
+$(document).on("click", ".close", function (evt) {
     evt.preventDefault();
-    console.log("hELLO");
-    $(this).parent().parent().parent().prop('hidden',true);
+    $(this).parent().parent().parent().prop('hidden', true);
 });
 
 
-function load(orderId)
-{
+function load(orderId) {
 
     var order_id = orderId;
     console.log(orderId);
-     $('.orderItems').each(function (){
+    $('.orderItems').each(function () {
         var value = $(this).data("id");
         console.log(value);
-        if (value == order_id)
-        {
+        if (value == order_id) {
             $(this).removeAttr('hidden');
+        } else {
+            $(this).prop('hidden', true);
         }
-        else
-        {
-            $(this).prop('hidden',true);
-        }
-     });
+    });
 }
 
 

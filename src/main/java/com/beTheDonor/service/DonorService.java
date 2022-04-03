@@ -52,18 +52,25 @@ public class DonorService {
             donor.setAmount(donor.getAmount() + sum.doubleValue());
         } else {
             ApplicationUser user = userRepository.findById(id).orElse(null);
-            if(user != null){
+            if (user != null) {
                 donor.setDonorId(id);
                 donor.setAmount(sum.doubleValue());
                 donor.setDonorName(user.getFirstname());
-               // donor.setEmail(user.getEmail());
+                // donor.setEmail(user.getEmail());
             }
         }
         donorRepository.save(donor);
         return true;
     }
 
+    public Donors getDonationById(Long id) {
+        try {
+            return donorRepository.findByDonorId(id);
+        } catch (Exception ex) {
+            return null;
+        }
 
+    }
 
 
 }
