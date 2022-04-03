@@ -198,10 +198,14 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="product : ${products}">
-                                    <td th:text="${product.productName}"></td>
-                                    <td th:text="${product.quantity}"></td>
-                                    <td th:text="${product.price}"></td>
-                                    <td><button type="button" th:data-id = "${product.productId}" class="btn btn-danger btn-lg"  onclick="delP(this.getAttribute('data-id'))">Delete</button></td>
+                                    <td><input type="text" id="productName" class="form-control"  disabled th:placeholder="${product.productName}" th:value = "${product.productName}"/></td>
+<!--                                    th:field="*{productName}"-->
+                                    <td><input type="text" th:id="'qty_'+${product.productId}" class="form-control"  th:placeholder="${product.quantity}" th:value = "${product.quantity}"/></td>
+                                    <td><input type="text" th:id="'price_'+${product.productId}" class="form-control"  th:placeholder="${product.price}" th:value = "${product.price}"/></td>
+<!--                                    <td th:text="${product.quantity}"></td>-->
+<!--                                    <td th:text="${product.price}"></td>-->
+                                    <td><button type="button" th:data-id = "${product.productId}"  class="btn btn-danger btn-lg"  onclick="delP(this.getAttribute('data-id'))">Delete</button>
+                                        <button type="button" th:data-id = "${product.productId}" th:data-qty = "${product.quantity}" th:data-price = "${product.price}" class="btn btn-primary btn-lg"  onclick="updateP(this.getAttribute('data-id'))">Update</button></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -209,6 +213,7 @@
 
                         <script th:inline="javascript">
                            function delP(pId){
+
                                console.log("------"+pId);
                                $.ajax({
                                    url : "/api/v1/admin/deleteProduct/" + pId,
@@ -217,6 +222,21 @@
                                        location.reload();
                                    }
                                });
+                           }
+                           function updateP(pId){
+                               var updatePrice = $("#price_"+pId).val();
+                               var updateQty = $("#qty_"+pId).val();
+                               console.log(updatePrice);
+                               console.log(updateQty);
+                               console.log("------"+pId+"------"+updateQty+"------"+updatePrice);
+
+                                 $.ajax({
+                                     url : "/api/v1/admin/updateProductsInTable/" + updateQty +"/" + updatePrice +"/" + pId,
+                                     type: "GET",
+                                     success : function () {
+                                         location.reload();
+                                     }
+                                 });
                            }
                         </script>
                     </div>

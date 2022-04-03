@@ -35,4 +35,9 @@ public class AdminService {
     {
         psi.deleteProductinTable(id);
     }
+
+    public void update(int qty, double price, long id)
+    {
+        psi.updateProductinTable(qty, price, id);
+    }
 }

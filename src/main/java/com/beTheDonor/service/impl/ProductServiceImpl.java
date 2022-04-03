@@ -88,4 +88,9 @@ public class ProductServiceImpl implements ProductService {
     {
         productRepository.deleteById(id);
     }
+
+    public void updateProductinTable(int qty, double price, long id)
+    {
+        productRepository.updateProducts(qty, price, id);
+    }
 }

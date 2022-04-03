@@ -67,4 +67,11 @@ public class AdminController {
         as.delete(id);
 //        //System.out.println("PRODUCTID:::::::::"+productRequest.getProductName());
     }
+
+    @GetMapping("/api/v1/admin/updateProductsInTable/{qty}/{price}/{id}")
+    public String updateProducts(@PathVariable int qty, @PathVariable double price, @PathVariable long id )
+    {
+        as.update(qty, price, id);
+        return "redirect:/admindashboard";
+    }
 }
