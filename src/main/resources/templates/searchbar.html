@@ -39,6 +39,22 @@
                                                 <button type="submit" id="btn" class="btn btn-info border border-dark" >Search
                                                 </button>
                                             </div>
+                                            <script th:inline="javascript">
+
+                                                $(document).ready(function() {
+                                                    $("#btn").click(function() {
+                                                        // disable button
+                                                        $(this).prop("disabled", true);
+                                                        // add spinner to button
+                                                        $(this).html(
+                                                            `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`
+                                                        );
+
+                                                        $('#form').submit();
+
+                                                    });
+                                                });
+                                            </script>
                                         </div>
                                     </div>
                                 </form>

@@ -1,7 +1,6 @@
 package com.beTheDonor.controller;
 
 import com.beTheDonor.controller.requestbody.RegistrationRequest;
-import com.beTheDonor.config.PasswordEncoder;
 import com.beTheDonor.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,9 +25,6 @@ import java.util.Map;
 
 public class UserLoginController {
 
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
 
     @Autowired
@@ -81,7 +77,6 @@ public class UserLoginController {
 
 
     @RequestMapping(value = "/api/v1/authenticate", method = RequestMethod.POST)
-
     public String createAuthenticationToken(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") RegistrationRequest applicationUser) throws Exception {
 
         Authentication authentication = authenticate(applicationUser.getEmail(), applicationUser.getPassword());

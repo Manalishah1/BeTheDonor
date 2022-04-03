@@ -40,9 +40,11 @@ public class ApplicationUser implements UserDetails {
     // private String type_of_user;
     private String password;
 
-
    // @Enumerated(EnumType.STRING)
     private String applicationUserRole;
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     private Boolean locked = false;
     private Boolean enabled = false;
 

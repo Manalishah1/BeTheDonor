@@ -43,11 +43,7 @@ public class RiderController
         }
         model.addAttribute("cityName",cityName);
         PatientRiderDtoListWrapper chosenOrders = new PatientRiderDtoListWrapper();
-        chosenOrders.setPatientRiderDtos(new ArrayList<>());
-        for(PatientRiderDto patientRiderDto:patientRiderDtoList)
-        {
-            chosenOrders.getPatientRiderDto().add(patientRiderDto);
-        }
+        chosenOrders.setPatientRiderDto(patientRiderDtoList);
         model.addAttribute("chosenOrders",chosenOrders);
         model.addAttribute("patients",patientRiderDtoList);
         return "riderDashboard";
