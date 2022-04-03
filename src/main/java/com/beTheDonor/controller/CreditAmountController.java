@@ -1,5 +1,4 @@
 package com.beTheDonor.controller;
-
 import com.beTheDonor.repository.CreditAmountRepository;
 import com.beTheDonor.service.CreditAmountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +27,13 @@ public class CreditAmountController {
     @ResponseBody
     Double getTip() {
         return creditAmountRepository.getById(1).getRiderTipPercent();
+    }
+
+    @RequestMapping("/updateCreditAmount/{amount}")
+    @ResponseBody
+    String updateCreditAmount(@PathVariable Double amount){
+        System.out.println("reached"+amount);
+        creditAmountService.updateCreditAmount(amount);
+        return "patientOrderSuccessPage";
     }
 }

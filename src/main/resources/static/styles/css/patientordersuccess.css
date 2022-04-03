@@ -4,7 +4,7 @@ body {
     background: #EBF0F5;
 }
 h1 {
-    color: #88B04B;
+    color: #17a2b8;
     font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
     font-weight: 900;
     font-size: 40px;
@@ -17,7 +17,7 @@ p {
     margin: 0;
 }
 i {
-    color: #9ABC66;
+    color: #17a2b8;
     font-size: 100px;
     line-height: 200px;
     margin-left:-15px;
@@ -29,4 +29,10 @@ i {
     box-shadow: 0 2px 3px #C8D0D8;
     display: inline-block;
     margin: 0 auto;
+}
+h2 {
+    color: #17a2b8;
+    font-size: 100px;
+    line-height: 200px;
+    margin-left:-15px;
 }
