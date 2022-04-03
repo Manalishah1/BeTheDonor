@@ -1,6 +1,7 @@
 package com.beTheDonor.controller;
 
 import com.beTheDonor.entity.Donors;
+import com.beTheDonor.entity.Response;
 import com.beTheDonor.exception.ErrorResponse;
 import com.beTheDonor.repository.*;
 import com.beTheDonor.config.PasswordEncoder;
@@ -9,6 +10,7 @@ import com.beTheDonor.service.ProductService;
 import com.beTheDonor.service.DonorService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,15 +47,20 @@ DonorController {
     @Autowired
     private ApplicationUserService userDetailsService;
 
+    @Value("${STRIPE_PUBLIC_KEY}")
+    private String stripePublicKey;
+
     @GetMapping("/donorview")
     public String donorLogin(Model model) {
+        model.addAttribute("stripePublicKey", stripePublicKey);
         return "donorView";
     }
 
 
     @PostMapping(value = "/finalOrder")
-    public void changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
+    public @ResponseBody Response changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
         Boolean response = donorService.changeStatusOfOrder(payload);
+        return new Response(true, "");
     }
 
     @PostMapping(value = "/donationInfo")
