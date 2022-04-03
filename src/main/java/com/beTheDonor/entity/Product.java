@@ -64,4 +64,14 @@ public class Product {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public Product(){
+
+    }
+
+    public Product(String productName, int quantity, Double price) {
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
