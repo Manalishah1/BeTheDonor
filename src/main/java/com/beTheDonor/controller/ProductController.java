@@ -57,4 +57,9 @@ public class ProductController {
         model.addAttribute("products", product);
         return "products";
     }
+
+    @GetMapping("/getCategories")
+    public ResponseEntity<List<String>> getCategories() {
+        return new ResponseEntity<List<String>>(productService.getCategories(), HttpStatus.OK);
+    }
 }

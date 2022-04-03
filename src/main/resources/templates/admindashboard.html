@@ -202,6 +202,7 @@
 <!--                                    th:field="*{productName}"-->
                                     <td><input type="text" th:id="'qty_'+${product.productId}" class="form-control"  th:placeholder="${product.quantity}" th:value = "${product.quantity}"/></td>
                                     <td><input type="text" th:id="'price_'+${product.productId}" class="form-control"  th:placeholder="${product.price}" th:value = "${product.price}"/></td>
+
 <!--                                    <td th:text="${product.quantity}"></td>-->
 <!--                                    <td th:text="${product.price}"></td>-->
                                     <td><button type="button" th:data-id = "${product.productId}"  class="btn btn-danger btn-lg"  onclick="delP(this.getAttribute('data-id'))">Delete</button>
@@ -213,7 +214,6 @@
 
                         <script th:inline="javascript">
                            function delP(pId){
-
                                console.log("------"+pId);
                                $.ajax({
                                    url : "/api/v1/admin/deleteProduct/" + pId,

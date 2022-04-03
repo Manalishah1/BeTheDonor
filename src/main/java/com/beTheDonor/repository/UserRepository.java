@@ -15,6 +15,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<ApplicationUser,Long>
 {
     Optional<ApplicationUser> findByEmail(String email);
+
     Boolean existsByEmail(String email);
     ApplicationUser getByEmail(String email);
 
@@ -31,6 +32,8 @@ public interface UserRepository extends JpaRepository<ApplicationUser,Long>
     @Query("select a from ApplicationUser a " +
             "WHERE a.applicationUserRole = 'Rider'")
     List<ApplicationUser> getRider();
+    public ApplicationUser findByResetPasswordToken(String token);
+
 
     @Query("select a from ApplicationUser a " +
             "WHERE a.applicationUserRole = 'Donor'")

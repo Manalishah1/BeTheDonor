@@ -3,6 +3,7 @@ package com.beTheDonor.service;
 
 import com.beTheDonor.entity.ApplicationUser;
 import com.beTheDonor.entity.UserConfirmationToken;
+//import com.beTheDonor.repository.PasswordTokenRepository;
 import com.beTheDonor.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,12 +20,14 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ApplicationUserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND = " User with email %s not found ";
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+//    private final PasswordTokenRepository passwordTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -76,4 +80,38 @@ public class ApplicationUserService implements UserDetailsService {
     public Optional<ApplicationUser> findByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    public ApplicationUser findUserByEmail(String email)
+    {
+        return userRepository.getByEmail(email);
+    }
+
+    public void updateResetPasswordToken(String token, String email)
+    {
+        ApplicationUser applicationUser = userRepository.getByEmail(email);
+        if(applicationUser != null)
+        {
+            applicationUser.setResetPasswordToken(token);
+            userRepository.save(applicationUser);
+        }
+        else
+        {
+            throw new UsernameNotFoundException("User with gven email not found");
+        }
+    }
+
+    public ApplicationUser getByResetPasswordToken(String token)
+    {
+        return userRepository.findByResetPasswordToken(token);
+    }
+
+    public void updatePassword(ApplicationUser applicationUser, String newPassword)
+    {
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+        applicationUser.setPassword(encodedPassword);
+        applicationUser.setResetPasswordToken(null);
+        userRepository.save(applicationUser);
+    }
+
+
 }

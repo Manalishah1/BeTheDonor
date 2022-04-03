@@ -20,7 +20,7 @@ public class PatientRiderDto
     private String city;
     private String postal_code;
     private String phone_number;
-    private BigInteger order_id;
+    private BigInteger orderId;
     private boolean checked;
     List<NameQuantity> nameQuantities = new ArrayList<>();
     static  List<PatientRiderDto> patientRiderDtoList;
@@ -31,13 +31,13 @@ public class PatientRiderDto
 
     }
 
-    public PatientRiderDto(String firstname, String address, String city, String postal_code, String phone_number, BigInteger order_id) {
+    public PatientRiderDto(String firstname, String address, String city, String postal_code, String phone_number, BigInteger orderId) {
         this.firstname = firstname;
         this.address = address;
         this.city = city;
         this.postal_code = postal_code;
         this.phone_number = phone_number;
-        this.order_id = order_id;
+        this.orderId = orderId;
     }
 
     public static ArrayList<PatientRiderDto> convertToDto(List<PatientRiderModel> patientRiderModelList)
@@ -49,7 +49,7 @@ public class PatientRiderDto
             if(patientRiderDtoHashMap.get(patientRiderModel.getOrder_id())==null)
             {
                 PatientRiderDto patientRiderDto = new PatientRiderDto();
-                patientRiderDto.setOrder_id(patientRiderModel.getOrder_id());
+                patientRiderDto.setOrderId(patientRiderModel.getOrder_id());
                 patientRiderDto.setFirstname(patientRiderModel.getFirstname());
                 patientRiderDto.setAddress(patientRiderModel.getAddress());
                 patientRiderDto.setCity(patientRiderModel.getCity());
@@ -74,6 +74,5 @@ public class PatientRiderDto
         }
         return new ArrayList<>(patientRiderDtoHashMap.values()) ;
     }
-
 
 }

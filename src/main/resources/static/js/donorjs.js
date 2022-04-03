@@ -1,50 +1,44 @@
-$(document).ready(function () {
-
-
-    function getCreditAmount() {
-
-    }
-
-    function fetchProducts() {
-        $.ajax({
-            type: "GET",
-            url: "/api/v1/patient/getOrders",
-            success: function (result) {
-
-
-                resultStr = "{\"result\":" + JSON.stringify(result) + "}";
-                resultJSON = JSON.parse(resultStr);
-
-                for (var i = 0; i < resultJSON.result.length; i++) {
-                    if (resultJSON.result[i].orderStatus.indexOf("Order Placed") > -1) {
-
-                        $('#product' + i).clone().insertAfter('#product' + i).attr('id', 'product' + (i + 1)).css('display', 'block');
-                        $('#product' + (i + 1)).find('.product-details').children(".product-title").html(resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
-                        $('#product' + (i + 1)).find('.product-details').children(".product-description").html(resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
-                        $('#product' + (i + 1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id', 'product-price' + (i + 1));
-                        $('#product' + (i + 1)).find('.product-quantity').children().attr('id', 'product-quantity' + (i + 1));
-                        $('#product' + (i + 1)).find('.product-line-price').attr('id', 'product-line-price' + (i + 1));
-                        $('#product' + (i + 1)).find('.product-details').children(".order-id").html(resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
-
-
-                    }
-
-                }
-
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-            },
-        });
-    }
-
-    fetchProducts();
-});
-
 /* Set rates + misc */
 var taxRate = 0.05;
 var shippingRate = 15.00;
 var fadeTime = 300;
+
+
+$(document).ready(function () {
+    fetchProducts();
+    getDonation();
+});
+
+
+function fetchProducts() {
+    $.ajax({
+        type: "GET",
+        url: "/api/v1/donor/getOrders",
+        success: function (result) {
+
+
+            resultStr = "{\"result\":" + JSON.stringify(result) + "}";
+            resultJSON = JSON.parse(resultStr);
+
+            for (var i = 0; i < resultJSON.result.length; i++) {
+                if (resultJSON.result[i].orderStatus.indexOf("Order Placed") > -1) {
+
+                    $('#product0').clone().insertBefore('.totals').attr('id', 'product' + (i + 1)).css('display', 'block');
+                    $('#product' + (i + 1)).find('.product-details').children(".product-title").html(resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".product-description").html(resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id', 'product-price' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-quantity').children().attr('id', 'product-quantity' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-line-price').attr('id', 'product-line-price' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".order-id").html(resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
+                }
+            }
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
+    });
+}
+
 
 
 function callf(ele) {
@@ -55,11 +49,9 @@ function callf(ele) {
         $('#product-line-price' + orderNumber).html('0');
     }
     updateTotal();
-
 }
 
 function updateTotal() {
-
     var sum = 0;
     $('div.product-line-price').each(function () {
         sum += parseFloat($(this).text());
@@ -69,13 +61,25 @@ function updateTotal() {
 }
 
 function finalOrder() {
+    var totalAmountList = new Array();
     var myList = new Array();
-    for (var i = 0; i <= resultJSON.result.length; i++) {
-        if ($('#product-quantity' + i).is(':checked')) {
-            myList.push(i);
-        }
+    var nameList ="";
+    var orderList = new Array();
+    for (var i = 0; i < resultJSON.result.length; i++) {
+        orderList.push(resultJSON.result[i].orderId);
 
     }
+
+    for (var j = 0; j <= orderList.length; j++) {
+        var num = j + 1;
+        if ($('#product-quantity' + num).is(':checked')) {
+            myList.push(orderList[j]);
+            totalAmountList.push(resultJSON.result[j].totalAmount);
+            nameList += '"'+resultJSON.result[j].firstName+'",';
+
+        }
+    }
+    nameList = nameList.slice(0, -1);
     var str = "{\"orderId\":[" + myList.toString() + "]}";
     strJson = JSON.parse(str);
     $.ajax({
@@ -92,9 +96,26 @@ function finalOrder() {
             console.log("ERROR: ", e);
         },
     });
-    console.log(strJson);
-}
 
+    var str1 = {donationAmount : totalAmountList};
+    console.log(str1);
+
+
+    $.ajax({
+        type: "POST",
+        url: "/donationInfo",
+        contentType: "application/json",
+        dataType: "json",
+        async: false,
+        data: JSON.stringify(str1),
+        success: function (result) {
+            location.reload();
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
+    });
+}
 
 /* Recalculate cart */
 function recalculateCart() {
@@ -124,7 +145,6 @@ function recalculateCart() {
     });
 }
 
-
 /* Update quantity */
 function updateQuantity(quantityInput) {
     /* Calculate line price */
@@ -143,7 +163,6 @@ function updateQuantity(quantityInput) {
     });
 }
 
-
 /* Remove item from cart */
 function removeItem(removeButton) {
     /* Remove row from DOM and recalc cart total */
@@ -151,5 +170,21 @@ function removeItem(removeButton) {
     productRow.slideUp(fadeTime, function () {
         productRow.remove();
         recalculateCart();
+    });
+}
+
+function getDonation(){
+    $.ajax({
+        type: "GET",
+        url: "/getDonationById",
+        contentType: "application/json",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+           console.log(result.data);
+        },
+        error: function (e) {
+            console.log("ERROR: ", e);
+        },
     });
 }
