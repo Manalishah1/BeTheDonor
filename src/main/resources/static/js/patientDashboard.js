@@ -15,7 +15,7 @@ $(document).ready(function() {
                 localStorage.setItem("productCount", productCount);
                 var str="";
                 for(var i=0;i<productCount;i++) {
-                    str+="<div class='Cart-Items filterDiv "+resultJSON['result'][i]['category']+"'> <div class='about'> <h1 class='title'>"+resultJSON['result'][i]['productName']+"</h1> <h3 class='subtitle'>"+resultJSON['result'][i]['comment']+"</h3> </div> <div class='div counter'> <p class='showError' style='display:none;'>Only <span>"+resultJSON['result'][i]['quantity']+"</span> are left.</p> <input type='button' id='down' class='btn' value='-'> <input class='item count' id='item_"+resultJSON['result'][i]['productId']+"' style='width:50px;' type='text' value='0' max='"+resultJSON['result'][i]['quantity']+"'> <input type='button' class='btn' id='up' value='+'> <br> </div> <div class='prices'> <div class='amount'>$"+resultJSON['result'][i]['price']+"</div>  </div> </div>";
+                    str+="<div class='Cart-Items filterDiv "+resultJSON['result'][i]['category']+"'> <div class='about'> <h1 class='title'>"+resultJSON['result'][i]['productName']+"</h1> <h3 class='subtitle'>"+resultJSON['result'][i]['comment']+"</h3> </div> <div class='error-div'><p class='showError' style='display:none;'>Only <span>"+resultJSON['result'][i]['quantity']+"</span> are left.</p></div><div class='div counter'>  <input type='button' id='down' class='btn' value='-'> <input class='item count' id='item_"+resultJSON['result'][i]['productId']+"' style='width:50px;' type='text' value='0' max='"+resultJSON['result'][i]['quantity']+"'> <input type='button' class='btn' id='up' value='+'> <br> </div> <div class='prices'> <div class='amount'>$"+resultJSON['result'][i]['price']+"</div>  </div> </div>";
                 }
                 $(".products-container").append(str);
             },
@@ -72,7 +72,7 @@ function getUserInput() {
     str += "]"
     localStorage.setItem("orderJSONStr", str);
     localStorage.setItem("orderTotal", total);
-    $('.total-amount').text(total);
+    $('.total-amount').text("$"+total);
     $('.items-count').text(itemCount+" items");
 }
 
@@ -84,7 +84,7 @@ $(document).on("click", '[id^="up"]', function() {
     if (value <= max - 1) {
         value = parseInt(value) + parseInt("1");
     } else {
-        $(this).closest('div').find('.showError').attr("style", "display:block");
+        $(this).closest('div div').find('.showError').attr("style", "display:block");
     }
     $("#" + itemId).attr("value", value);
     $("#" + itemId).val(value);
@@ -101,7 +101,7 @@ $(document).on("click", '[id^="down"]', function() {
         value = parseInt("0");
     }
     if (value <= max) {
-        $(this).closest('div').find('.showError').attr("style", "display:none");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:none");
     }
     $("#" + itemId).attr("value", value);
     $("#" + itemId).val(value);
@@ -113,9 +113,9 @@ $(document).on('input', '[id^="item_"]', function() {
     var max = $(this).attr('max');
     if (parseInt(value) > parseInt(max)) {
         value = parseInt(max);
-        $(this).closest('div').find('.showError').attr("style", "display:block");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:block");
     } else {
-        $(this).closest('div').find('.showError').attr("style", "display:none");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:none");
     }
     $(this).attr("value", value);
     $(this).val(value);
@@ -127,9 +127,9 @@ $(document).on('change', '[id^="item_"]', function() {
     var value = $(this).val();
     var max = $(this).attr('max');
     if (parseInt(value) > parseInt(max)) {
-        $(this).closest('div').find('.showError').attr("style", "display:block");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:block");
     } else {
-        $(this).closest('div').find('.showError').attr("style", "display:none");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:none");
     }
     getUserInput();
 });
