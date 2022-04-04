@@ -23,10 +23,9 @@ $(function () {
 function addOrder() {
 
     $.ajax({
-        type: "GET",
-        url: "/api/v1/donor/getOrders",
+            type: "GET",
+            url: "/api/v1/donor/getOrders",
         success: function (result) {
-
 
             resultStr = "{\"result\":" + JSON.stringify(result) + "}";
             resultJSON = JSON.parse(resultStr);
@@ -36,11 +35,12 @@ function addOrder() {
                 var n = (resultJSON.result[i].orderId);
                 if ($('#c' + n).is(':checked')) {
                     myList.push(n);
-
                 }
 
             }
             console.log(myList.toString());
+            pushOrderStatus(myList);
+
 
         },
         error: function (e) {
@@ -48,6 +48,34 @@ function addOrder() {
         },
     });
 
+}
+
+
+function pushOrderStatus(myList)
+{
+
+    var str = "{\"orderId\":[" + myList + "]}";
+    var payload = JSON.parse(str);
+    console.log(payload);
+    $.ajax({
+        type: 'POST',
+        url: "/riderDashboard/showSelectedOrders",
+        contentType: "application/json",
+        dataType: "json",
+        async: false,
+        data: JSON.stringify(payload),
+        success: function(e) {
+            window.location = "/riderDashboard/showSelectedOrders";
+        },
+        error: function(e) {
+            console.log("ERROR: ", e);
+        },
+        complete: function(xhr) {
+
+                window.location = "/riderDashboard/showSelectedOrders";
+
+        },
+    });
 }
 
 

@@ -8,7 +8,6 @@ import javax.validation.constraints.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 public class RegistrationRequest {
 

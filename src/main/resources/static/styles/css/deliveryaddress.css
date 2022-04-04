@@ -70,9 +70,8 @@ hr {
 }
 
 .field__label {
-    color: var(--color-gray);
+    font-weight: bold;
     font-size: 0.6rem;
-    font-weight: 300;
     text-transform: uppercase;
     margin-bottom: 0.25rem
 }
@@ -90,7 +89,7 @@ hr {
     background-color: transparent;
 }
 .field:focus-within {
-    border-color: #000;
+    border-color: #17a2b8;
 }
 
 .fields {
@@ -105,7 +104,7 @@ hr {
 }
 
 .button {
-    background-color: #000;
+    background-color: #17a2b8;
     text-transform: uppercase;
     font-size: 0.8rem;
     font-weight: 600;

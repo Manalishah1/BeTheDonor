@@ -113,6 +113,22 @@ function finalOrder() {
             console.log("ERROR: ", e);
         },
     });
+    $.ajax({
+           type: "POST",
+            url: "/paymentAmount",
+            contentType: "application/json",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify({
+                "amount": $('#cart-total').text()
+            }),
+            success: function(response) {
+                window.location = "/paymentGateway";
+            },
+            error: function(xhr) {
+               console.log(xhr);
+            }
+       });
 }
 
 /* Recalculate cart */
