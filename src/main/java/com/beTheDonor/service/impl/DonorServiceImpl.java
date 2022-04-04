@@ -25,19 +25,25 @@ public class DonorServiceImpl implements DonorService {
 
     @Override
     public Boolean changeStatusOfOrder(JSONObject payload) {
-        ArrayList<Long> jsonAddress = (ArrayList) payload.get("orderId");
-        for (int i = 0; i < jsonAddress.size(); i++) {
-            Orders order;
-            Long id;
-            id = ((Number) jsonAddress.get(i)).longValue();
-            order = orderRepository.getById(id);
-            order.setOrderStatus("pending delivery");
-            orderRepository.save(order);
+        try {
+            ArrayList<Long> jsonAddress = (ArrayList) payload.get("orderId");
+            for (int i = 0; i < jsonAddress.size(); i++) {
+                Orders order;
+                Long id;
+                id = ((Number) jsonAddress.get(i)).longValue();
+                order = orderRepository.getById(id);
+                order.setOrderStatus("pending delivery");
+                orderRepository.save(order);
+            }
 
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        return true;
+        return false;
     }
+
 
     @Override
     public Boolean storeTotalAmount(JSONObject payload, Long id) {

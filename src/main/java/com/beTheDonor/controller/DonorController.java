@@ -59,18 +59,17 @@ public class DonorController {
 
     @PostMapping(value = "/finalOrderDonor")
     public Boolean changeStatusAfterOrder(@RequestBody JSONObject payload) throws Exception {
-        Boolean response = donorService.changeStatusOfOrder(payload);
-        return response;
+        return donorService.changeStatusOfOrder(payload);
     }
 
     @PostMapping(value = "/donationInfo")
-    public ErrorResponse storeTotalAmount(@RequestBody JSONObject payload, HttpServletRequest request) throws Exception {
+    public Boolean storeTotalAmount(@RequestBody JSONObject payload, HttpServletRequest request) throws Exception {
         Principal principal = request.getUserPrincipal();
         Donors donor;
         String userId = principal.getName();
         Long id = userRepository.getByEmail(userId).getId();
         Boolean response = donorService.storeTotalAmount(payload, id);
-        return null;
+        return response;
     }
 
     @GetMapping(value = "/getDonationById")

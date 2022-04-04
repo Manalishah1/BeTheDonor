@@ -59,7 +59,8 @@ public class RiderController {
     @GetMapping("/keyword")
     public ResponseEntity<String> getRiders(@RequestParam(value = "q") String query)
     {
-        List<String> strings =riderService.getCities().stream().filter(city->city.toLowerCase().contains(query)).limit(20).collect(Collectors.toList());
+        int limitCities= 20;
+        List<String> strings =riderService.getCities().stream().filter(city->city.toLowerCase().contains(query)).limit(limitCities).collect(Collectors.toList());
         System.out.println("Cities are: " + strings);
         ObjectMapper mapper = new ObjectMapper();
         String resp = "";

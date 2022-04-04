@@ -37,6 +37,8 @@ public class OrderController
 
     ErrorResponse er = new ErrorResponse();
 
+    int successCode = 200;
+    int failCode= 500;
     @PostMapping(value = "/api/v1/patient/order")
     public ErrorResponse addOrder(@RequestBody JSONObject payload, HttpServletRequest request) throws Exception {
         Principal principal = request.getUserPrincipal();
@@ -44,11 +46,11 @@ public class OrderController
         Boolean response = orderService.addOrder(payload,userId);
         if(response == true) {
             creditAmountService.orderFromCredits();
-            er.setCode(200);
+            er.setCode(successCode);
             er.setMessage("Order Added Successfully.");
         }
         else {
-            er.setCode(500);
+            er.setCode(failCode);
             er.setMessage("Failed to add order. Try after sometime.");
         }
         return er;
