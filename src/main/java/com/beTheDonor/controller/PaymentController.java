@@ -68,4 +68,24 @@ public class PaymentController {
         return "transactionSuccess";
     }
 
+    // storing amount from donorview to payment gateway
+//    payload - amount in json format
+    @PostMapping(value = "/paymentAmount")
+    public @ResponseBody String paymentAmountAdd(@RequestBody JSONObject payload) {
+        HttpSession session = httpSessionFactory.getObject();
+        session.setAttribute("payment_amountToPay",payload.get("amount").toString());
+        System.out.println("===Payment Amount : "+session.getAttribute("payment_amountToPay"));
+        return "null";
+    }
+
+    @GetMapping("/paymentGateway")
+    public String paymentGateway(Model model) {
+        HttpSession session = httpSessionFactory.getObject();
+        String amount = session.getAttribute("payment_amountToPay").toString();
+        session.removeAttribute("payment_amountToPay");
+        System.out.println("===Payment GATEWAY : "+amount);
+        model.addAttribute("amount",amount);
+        model.addAttribute("stripePublicKey", API_PUBLIC_KEY);
+        return "paymentGateway";
+    }
 }
