@@ -114,6 +114,22 @@ function finalOrder() {
             console.log("ERROR: ", e);
         },
     });
+    $.ajax({
+           type: "POST",
+            url: "/paymentAmount",
+            contentType: "application/json",
+            dataType: "json",
+            async: false,
+            data: JSON.stringify({
+                "amount": $('#cart-total').text()
+            }),
+            success: function(response) {
+                window.location = "/paymentGateway";
+            },
+            error: function(xhr) {
+               console.log(xhr);
+            }
+       });
 }
 
 /* Recalculate cart */
@@ -191,129 +207,129 @@ function getDonation() {
     });
 }
 
-<!--custom javascript for handling subscription-->
-$(function () {
-    var API_KEY = $('#api-key').val();
-    // Create a Stripe client.
-    var stripe = Stripe(API_KEY);
-
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-
-    // Create an instance of the card Element.
-    var card = elements.create('card');
-
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function (event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        // handle payment
-        handlePayments();
-    });
-
-    //handle card submission
-    function handlePayments() {
-        var amountvalue = $('#cart-total').text();
-        console.log("Amount : ",amountvalue);
-        stripe.createToken(card).then(function (result) {
-            if (result.error) {
-                // Inform the user if there was an error.
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                // Send the token to your server.
-                var token = result.token.id;
-                var email = $('#email').val();
-                $.post(
-                    "/api/v1/create-charge",
-                    {email: email, token: token, amount : amountvalue},
-                    function (data) {
-                        finalOrder();
-                        window.location = '/paymentSuccess';
-                    }, 'json');
-            }
-        });
-    }
-
-    function finalOrder() {
-        var totalAmountList = new Array();
-        var selectedOrders = new Array();
-        var nameList ="";
-        var orderList = new Array();
-        for (var i = 0; i < resultJSON.result.length; i++) {
-            orderList.push(resultJSON.result[i].orderId);
-
-        }
-
-        for (var j = 0; j <= orderList.length; j++) {
-            var num = j + 1;
-            if ($('#product-quantity' + num).is(':checked')) {
-                selectedOrders.push(orderList[j]);
-                totalAmountList.push(resultJSON.result[j].totalAmount);
-                nameList += '"'+resultJSON.result[j].firstName+'",';
-
-            }
-        }
-        nameList = nameList.slice(0, -1);
-        var str = "{\"orderId\":[" + selectedOrders.toString() + "]}";
-        strJson = JSON.parse(str);
-        $.ajax({
-            type: "POST",
-            url: "/finalOrder",
-            contentType: "application/json",
-            dataType: "json",
-            async: false,
-            data: JSON.stringify(strJson),
-            success: function (result) {
-                location.reload();
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-            },
-        });
-
-        var str1 = {donationAmount : totalAmountList};
-        console.log(str1);
-
-
-        $.ajax({
-            type: "POST",
-            url: "/donationInfo",
-            contentType: "application/json",
-            dataType: "json",
-            async: false,
-            data: JSON.stringify(str1),
-            success: function (result) {
-                location.reload();
-            },
-            error: function (e) {
-                console.log("ERROR: ", e);
-            },
-        });
-    }
-
-});
-
-function checkout() {
-    var x = document.getElementById("paymentModule");
-    if (x.style.display === "none") {
-        x.style.display = "block";
-        $("#checkoutButton").html('Cancel');
-    } else {
-        x.style.display = "none";
-        $("#checkoutButton").html('Checkout');
-    }
-}
+//<!--custom javascript for handling subscription-->
+//$(function () {
+//    var API_KEY = $('#api-key').val();
+//    // Create a Stripe client.
+//    var stripe = Stripe(API_KEY);
+//
+//    // Create an instance of Elements.
+//    var elements = stripe.elements();
+//
+//    // Create an instance of the card Element.
+//    var card = elements.create('card');
+//
+//    // Add an instance of the card Element into the `card-element` <div>.
+//    card.mount('#card-element');
+//
+//    // Handle real-time validation errors from the card Element.
+//    card.addEventListener('change', function (event) {
+//        var displayError = document.getElementById('card-errors');
+//        if (event.error) {
+//            displayError.textContent = event.error.message;
+//        } else {
+//            displayError.textContent = '';
+//        }
+//    });
+//
+//    // Handle form submission.
+//    var form = document.getElementById('payment-form');
+//    form.addEventListener('submit', function (event) {
+//        event.preventDefault();
+//        // handle payment
+//        handlePayments();
+//    });
+//
+//    //handle card submission
+//    function handlePayments() {
+//        var amountvalue = $('#cart-total').text();
+//        console.log("Amount : ",amountvalue);
+//        stripe.createToken(card).then(function (result) {
+//            if (result.error) {
+//                // Inform the user if there was an error.
+//                var errorElement = document.getElementById('card-errors');
+//                errorElement.textContent = result.error.message;
+//            } else {
+//                // Send the token to your server.
+//                var token = result.token.id;
+//                var email = $('#email').val();
+//                $.post(
+//                    "/api/v1/create-charge",
+//                    {email: email, token: token, amount : amountvalue},
+//                    function (data) {
+//                        finalOrder();
+//                        window.location = '/paymentSuccess';
+//                    }, 'json');
+//            }
+//        });
+//    }
+//
+//    function finalOrder() {
+//        var totalAmountList = new Array();
+//        var selectedOrders = new Array();
+//        var nameList ="";
+//        var orderList = new Array();
+//        for (var i = 0; i < resultJSON.result.length; i++) {
+//            orderList.push(resultJSON.result[i].orderId);
+//
+//        }
+//
+//        for (var j = 0; j <= orderList.length; j++) {
+//            var num = j + 1;
+//            if ($('#product-quantity' + num).is(':checked')) {
+//                selectedOrders.push(orderList[j]);
+//                totalAmountList.push(resultJSON.result[j].totalAmount);
+//                nameList += '"'+resultJSON.result[j].firstName+'",';
+//
+//            }
+//        }
+//        nameList = nameList.slice(0, -1);
+//        var str = "{\"orderId\":[" + selectedOrders.toString() + "]}";
+//        strJson = JSON.parse(str);
+//        $.ajax({
+//            type: "POST",
+//            url: "/finalOrder",
+//            contentType: "application/json",
+//            dataType: "json",
+//            async: false,
+//            data: JSON.stringify(strJson),
+//            success: function (result) {
+//                location.reload();
+//            },
+//            error: function (e) {
+//                console.log("ERROR: ", e);
+//            },
+//        });
+//
+//        var str1 = {donationAmount : totalAmountList};
+//        console.log(str1);
+//
+//
+//        $.ajax({
+//            type: "POST",
+//            url: "/donationInfo",
+//            contentType: "application/json",
+//            dataType: "json",
+//            async: false,
+//            data: JSON.stringify(str1),
+//            success: function (result) {
+//                location.reload();
+//            },
+//            error: function (e) {
+//                console.log("ERROR: ", e);
+//            },
+//        });
+//    }
+//
+//});
+//
+//function checkout() {
+//    var x = document.getElementById("paymentModule");
+//    if (x.style.display === "none") {
+//        x.style.display = "block";
+//        $("#checkoutButton").html('Cancel');
+//    } else {
+//        x.style.display = "none";
+//        $("#checkoutButton").html('Checkout');
+//    }
+//}
