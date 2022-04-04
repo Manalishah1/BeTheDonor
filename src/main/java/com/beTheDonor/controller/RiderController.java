@@ -33,7 +33,6 @@ public class RiderController
         ArrayList<PatientRiderModel> patientDetails = (ArrayList<PatientRiderModel>)riderService.getByCityName(cityName);
         System.out.println(patientDetails.size());
 
-
         ArrayList<PatientRiderDto> patientRiderDtoList = PatientRiderDto.convertToDto(patientDetails);
         System.out.println("Dto size is: " + patientRiderDtoList.size());
 
@@ -70,6 +69,4 @@ public class RiderController
     {
         System.out.println("-------------"+chosenOrders.getPatientRiderDto().size());
     }
-
-
 }
