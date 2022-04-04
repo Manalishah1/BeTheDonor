@@ -198,4 +198,5 @@ $(document).on('click', '.category-btn', function() {
 $(document).on('click', '.removeAll', function() {
     $('[id^="item_"]').attr("value", 0);
     $('[id^="item_"]').val(0);
+    $('.total-amount').text('$0');
 });
