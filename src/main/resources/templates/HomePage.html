@@ -19,13 +19,13 @@
 </head>
 <body id="myPage">
 
-<section class="vh-100 bg-white" >
+<section class="vh-100 " >
 
 <!-- Navbar -->
 <div class="w3-top">
-  <div class="w3-bar w3-theme-d2 w3-left-align">
+  <div class="w3-bar w3-theme-d2 w3-left-align bg-info">
     <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-teal"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="#" class="w3-bar-item w3-button bg-dark"><i class="fa fa-home w3-margin-right"></i>Home</a>
     <a href="#team" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Team</a>
     <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Work</a>
     <a href="#roles" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Roles</a>
@@ -36,6 +36,12 @@
         <a th:href="@{/api/v1/analytics}" class="w3-bar-item w3-button">Analytics</a>
       </div>
     </div>
+
+    <form   type="submit" id="form3" method="get"  th:action="@{/api/v1/login}">
+      <a class=" w3-right " style="margin: 0 .30rem .30rem 0"   id="navbarSupportedContent">
+        <span class="btn btn-outline-light " type="submit">Login</span>
+      </a>
+    </form>
   </div>
 
   <!-- Navbar on small screens -->
@@ -51,7 +57,7 @@
 <div class="w3-display-container w3-animate-opacity" id="home">
   <img th:src="@{/images/donate6.jpg}" alt="boat" style="width:70%;min-height:350px;max-height:600px; display: block" >
   <div class="w3-container w3-display-bottomleft w3-margin-bottom">
-    <a class="w3-button w3-xlarge w3-theme w3-hover-teal" title="Donate Anonymously" th:href="@{/donate}">Click here To Donate Anonymously</a>
+    <a class="w3-button w3-xlarge w3-theme bg-info w3-hover-border-gray" title="Donate Anonymously" th:href="@{/donate}">Click Here To Donate Anonymously</a>
   </div>
 </div>
 
@@ -95,7 +101,7 @@
 </div>
 
 <!-- Work Row -->
-<div class="w3-row-padding w3-padding-64 w3-theme-l1" id="work">
+<div class="w3-row-padding w3-padding-64 w3-theme-l1 bg-info" id="work">
 
   <div >
     <h2>Our Work</h2>
@@ -110,7 +116,7 @@
   <p>Ask For Help, Be the donor, Serve as a Rider </p><br>
   <div class="w3-third w3-margin-bottom">
     <ul class="w3-ul w3-border w3-hover-shadow">
-      <li class="w3-theme">
+      <li class="w3-theme bg-info">
         <p class="w3-xlarge">Patient</p>
       </li>
       <li class="w3-padding-16"><b>Select Product</b></li>
@@ -118,7 +124,7 @@
       <li class="w3-padding-16"><b>Select Quantity</b>
       <li class="w3-padding-16"><b>Place order</b></li>
       <li class="w3-padding-16"><b>Sit Back and wait for your order to arrive :)</b></li>
-      <li class="w3-theme-l5 w3-padding-24">
+      <li class="w3-theme-l5 w3-padding-24 border border-info">
         <a class="w3-bar-item w3-button" th:href="@{/api/v1/registration}">Register Now</a>
       </li>
     </ul>
@@ -126,7 +132,7 @@
 
   <div class="w3-third w3-margin-bottom">
     <ul class="w3-ul w3-border w3-hover-shadow">
-      <li class="w3-theme-l2">
+      <li class="w3-theme-l2 bg-info">
         <p class="w3-xlarge">Donor</p>
       </li>
       <li class="w3-padding-16"><b>Donate Anonymously</b> </li>
@@ -134,7 +140,7 @@
       <li class="w3-padding-16"><b>View what the patients need</b> </li>
       <li class="w3-padding-16"><b>Select multiple patients</b> </li>
       <li class="w3-padding-16"><b>Checkout and Pay for the orders</b> </li>
-      <li class="w3-theme-l5 w3-padding-24">
+      <li class="w3-theme-l5 w3-padding-24 border border-info">
         <a class="w3-bar-item w3-button" th:href="@{/api/v1/registration}">Register Now</a>
       </li>
     </ul>
@@ -142,7 +148,7 @@
 
   <div class="w3-third w3-margin-bottom">
     <ul class="w3-ul w3-border w3-hover-shadow">
-      <li class="w3-theme">
+      <li class="w3-theme bg-info">
         <p class="w3-xlarge">Rider</p>
       </li>
       <li class="w3-padding-16"><b>Register as a Rider</b> </li>
@@ -150,7 +156,7 @@
       <li class="w3-padding-16"><b>View patients who need help in your city</b> </li>
       <li class="w3-padding-16"><b>Select multiple patients you want to deliver</b> </li>
       <li class="w3-padding-16"><b>Pick up the order and deliver, earn tips and blessings!!</b> </li>
-      <li class="w3-theme-l5 w3-padding-24">
+      <li class="w3-theme-l5 w3-padding-24 border-info border">
         <a class="w3-bar-item w3-button" th:href="@{/api/v1/registration}">Register Now</a>
       </li>
     </ul>
@@ -161,21 +167,21 @@
 <div class="w3-container w3-padding-64 w3-theme-l5" id="contact">
   <div class="w3-row">
     <div class="w3-col m5">
-      <div class="w3-padding-16"><span class="w3-xlarge w3-border-teal w3-bottombar">Contact Us</span></div>
+      <div class="w3-padding-16"><span class="w3-xlarge  border-bottom border-info">Contact Us</span></div>
       <h3>Address</h3>
       <p>Dalhousie University.</p>
-      <p><i class="fa fa-map-marker w3-text-teal w3-xlarge"></i>  Halifax, Canada</p>
-      <p><i class="fa fa-phone w3-text-teal w3-xlarge"></i>  +19029932608</p>
-      <p><i class="fa fa-envelope-o w3-text-teal w3-xlarge"></i>  bethedonor051@gmail.com</p>
+      <p><i class="fa fa-map-marker text-info w3-xlarge"></i>  Halifax, Canada</p>
+      <p><i class="fa fa-phone text-info w3-xlarge"></i>  +19029932608</p>
+      <p><i class="fa fa-envelope-o text-info w3-xlarge"></i>  bethedonor051@gmail.com</p>
     </div>
     <div class="w3-col m7">
-      <form class="w3-container w3-card-4 w3-padding-16 w3-white" action="/action_page.php" target="_blank">
+      <form class="w3-container w3-card-4 w3-padding-16 w3-white border-info border" action="/action_page.php" target="_blank">
         <div class="w3-section">
           <label>Name</label>
           <input class="w3-input" type="text" name="Name" required>
         </div>
         <div class="w3-section">
-          <label>Email</label>
+          <label >Email</label>
           <input class="w3-input" type="text" name="Email" required>
         </div>
         <div class="w3-section">
@@ -184,7 +190,7 @@
         </div>
         <input class="w3-check" type="checkbox" checked name="Like">
         <label>I Like it!</label>
-        <button type="submit" class="w3-button w3-right w3-theme">Send</button>
+        <button type="submit" class="btn btn-info w3-right">Send</button>
       </form>
     </div>
   </div>

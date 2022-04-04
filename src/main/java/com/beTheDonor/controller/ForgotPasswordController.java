@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -29,10 +28,12 @@ public class ForgotPasswordController
     @Autowired
     private JavaMailSender mailSender;
 
+
+
     @GetMapping("/forgotPassword")
     public String showForgotPasswordForm() {
 
-        return "forgotPassword";
+        return "forgot_password";
 
     }
 
@@ -58,7 +59,7 @@ public class ForgotPasswordController
             model.addAttribute("error", "Error while sending email");
         }
 
-        return "forgotPassword";
+        return "forgot_password";
     }
 
     @GetMapping("/reset_password")

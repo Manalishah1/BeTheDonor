@@ -43,7 +43,7 @@
                             <button type="button" class="btn-close" id="hideBtn" aria-label="Close"></button>
                         </div>
                         <div class="toast-body">
-                            No Patients Found
+                            No Orders Found
                         </div>
                     </div>
                 </div>
@@ -66,14 +66,14 @@
             <div class="form-group required-control">
                 <div class="card-deck">
                     <tr th:each="patient, patientStat :${patients}">
-                        <div class="product" id="product" th:text="${#lists.size(patients)}"></div>
                         <div class="row ">
                             <div class="card w-50  shadow-lg rounded-2 text-black font-weight-bold col-7"
                                  style="margin: .50rem .25rem .25rem .50rem">
 
                                 <div class="card-body">
                                     <label>
-                                        <input type="checkbox" th:id="'c'+${patient.orderId}"
+                                        <span class="bg-gradient text-info font-weight-bold" style="margin-right: .1rem">SELECT THIS ORDER: </span>
+                                        <input type="checkbox" class="" th:id="'c'+${patient.orderId}"
                                                th:value="${patient.orderId}">
                                     </label>
 
@@ -129,12 +129,13 @@
 
                 </div>
 
-                    <div class="float-lg-end ">
-                        <button type="button" class="btn-outline-info" style="margin-bottom: .25rem"
+
+                    <div class="float-lg-end" th:unless="${#lists.isEmpty(patients)}">
+                        <button type="button" class="btn btn-info" style="margin-bottom: .25rem"
                                 onclick="addOrder()">Add Orders
                         </button>
+                    </div>
 
-                </div>
             </div>
             </tbody>
 
