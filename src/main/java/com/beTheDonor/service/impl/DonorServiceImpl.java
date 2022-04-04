@@ -33,9 +33,7 @@ public class DonorServiceImpl implements DonorService {
             order = orderRepository.getById(id);
             order.setOrderStatus("pending delivery");
             orderRepository.save(order);
-
         }
-
         return true;
     }
 

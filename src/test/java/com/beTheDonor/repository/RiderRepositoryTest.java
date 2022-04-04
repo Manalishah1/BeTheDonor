@@ -13,8 +13,7 @@ import java.util.List;
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestPropertySource(locations = "classpath:application-integrationtest.properties")
-class RiderRepositoryTest
-{
+class RiderRepositoryTest {
     @Autowired
     private RiderRepository riderRepository;
 
@@ -23,7 +22,7 @@ class RiderRepositoryTest
     @DisplayName("Testing riders method in repository layer")
     @Rollback(value = false)
     public void saveRidersTest() {
-        Riders riders = Riders.builder().id(1L).driverName("jayshree").age(28L).delivery(true).build();
+        Riders riders = Riders.builder().id(1L).driverName("Dharmik").age(28L).delivery(true).build();
         riderRepository.save(riders);
         Assertions.assertThat(riders.getId()).isGreaterThan(0);
     }
@@ -35,9 +34,20 @@ class RiderRepositoryTest
     public void findAllByDeliveryTest() {
         Riders riders = new Riders();
         List<Riders> ridersList = riderRepository.findAllByDelivery(true);
-        if(ridersList.size()>0){
+        if (ridersList.size() > 0) {
             riders = ridersList.get(0);
         }
-        Assertions.assertThat(riders.getDriverName().equals("jayshree"));
+        Assertions.assertThat(riders.getDriverName().equals("Dharmik"));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Testing findAll() methof")
+    @Rollback(value = false)
+    void findAll() {
+        Riders riders = Riders.builder().id(1L).driverName("Dharmik").age(22L).delivery(true).build();
+        riderRepository.save(riders);
+        List<Riders> ridersList = riderRepository.findAll();
+        Assertions.assertThat(ridersList.size()).isEqualTo(1);
     }
 }

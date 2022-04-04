@@ -3,6 +3,7 @@ package com.beTheDonor.config;
 
 import com.beTheDonor.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -23,6 +24,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @EnableWebSecurity
 /*@Profile("default")*/
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
 
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
