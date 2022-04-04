@@ -84,7 +84,7 @@ $(document).on("click", '[id^="up"]', function() {
     if (value <= max - 1) {
         value = parseInt(value) + parseInt("1");
     } else {
-        $(this).closest('div div').find('.showError').attr("style", "display:block");
+        $(this).closest('div').parent('div').find('.showError').attr("style", "display:block");
     }
     $("#" + itemId).attr("value", value);
     $("#" + itemId).val(value);
