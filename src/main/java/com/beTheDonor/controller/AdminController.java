@@ -49,7 +49,7 @@ public class AdminController {
     public String addProducts(@ModelAttribute ProductRequest productRequest)
     {
         adminService.add(productRequest);
-        return "redirect:/admindashboard";
+        return "redirect:/api/v1/admin";
     }
 
     @GetMapping("/api/v1/admin/deleteProduct/{id}")
