@@ -24,12 +24,12 @@ function fetchProducts() {
                 if (resultJSON.result[i].orderStatus.indexOf("Order Placed") > -1) {
 
                     $('#product0').clone().insertBefore('.totals').attr('id', 'product' + (i + 1)).css('display', 'block');
-                    $('#product' + (i + 1)).find('.product-details').children(".product-title").html(resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
-                    $('#product' + (i + 1)).find('.product-details').children(".product-description").html(resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".product-title").html("Patient Name :" +resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".product-description").html("Products List: "+resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
                     $('#product' + (i + 1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id', 'product-price' + (i + 1));
                     $('#product' + (i + 1)).find('.product-quantity').children().attr('id', 'product-quantity' + (i + 1));
                     $('#product' + (i + 1)).find('.product-line-price').attr('id', 'product-line-price' + (i + 1));
-                    $('#product' + (i + 1)).find('.product-details').children(".order-id").html(resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".order-id").html("Order id : "+ resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
                 }
             }
         },
@@ -183,7 +183,7 @@ function getDonation() {
             resultStr = "{\"result\":" + JSON.stringify(result) + "}";
             resultJSON = JSON.parse(resultStr);
             console.log(resultJSON["result"]["data"]["amount"]);
-            $('#totalDonation').append(resultJSON["result"]["data"]["amount"]);
+            $('#totalDonation').append(resultJSON["result"]["data"]["amount"]).append("$");
         },
         error: function (e) {
             console.log("ERROR: ", e);
@@ -250,7 +250,7 @@ $(function () {
 
     function finalOrder() {
         var totalAmountList = new Array();
-        var myList = new Array();
+        var selectedOrders = new Array();
         var nameList ="";
         var orderList = new Array();
         for (var i = 0; i < resultJSON.result.length; i++) {
@@ -261,14 +261,14 @@ $(function () {
         for (var j = 0; j <= orderList.length; j++) {
             var num = j + 1;
             if ($('#product-quantity' + num).is(':checked')) {
-                myList.push(orderList[j]);
+                selectedOrders.push(orderList[j]);
                 totalAmountList.push(resultJSON.result[j].totalAmount);
                 nameList += '"'+resultJSON.result[j].firstName+'",';
 
             }
         }
         nameList = nameList.slice(0, -1);
-        var str = "{\"orderId\":[" + myList.toString() + "]}";
+        var str = "{\"orderId\":[" + selectedOrders.toString() + "]}";
         strJson = JSON.parse(str);
         $.ajax({
             type: "POST",
