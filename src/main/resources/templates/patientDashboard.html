@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shopping Cart UI</title>
+    <title>Patient Dashboard</title>
     <link rel="stylesheet" type="text/css" href="/styles/css/patient.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -25,12 +25,20 @@
                 <div class="Subtotal">Sub-Total</div>
                 <div class="items-count"></div>
             </div>
-            <div class="total-amount"></div>
+            <div class="total-amount">$0</div>
+        </div>
+        <br/>
+        <div class="total">
+            <div>
+                <div class="Subtotal">To Pay</div>
+            </div>
+            <div class="to-pay">$0</div>
         </div>
         <a th:href="@{/patient/deliveryAddress}">
             <button class="continue-button">Continue</button>
+        </a>
     </div>
-    </a>
+</div>
 </div>
 </body>
 </html>
