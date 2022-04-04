@@ -167,6 +167,12 @@ hr{
   font-weight: 900;
   color: #202020;
 }
+.to-pay{
+  font-size: 36px;
+  font-family: 'Open Sans';
+  font-weight: 900;
+  color: #202020;
+}
 .continue-button{
   margin-top: 10px;
   width: 100%;
@@ -207,4 +213,9 @@ hr{
   overflow: hidden;
   background-color: #333;
   align-content: center;
+}
+
+.showError {
+  color: #D8000C;
+  background-color: #FFBABA;
 }
