@@ -32,4 +32,25 @@ $(function () {
         handlePayments();
     });
 
+    //handle card submission
+    function handlePayments() {
+        console.log("Amount : ",AMOUNT);
+        stripe.createToken(card).then(function (result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                var token = result.token.id;
+                var email = $('#email').val();
+                $.post(
+                    "/api/v1/create-charge",
+                    {email: email, token: token, amount : AMOUNT},
+                    function (data) {
+                        window.location = '/paymentSuccess';
+                    }, 'json');
+            }
+        });
+    }
 });
