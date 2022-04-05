@@ -98,7 +98,12 @@
             });
         }
 
-
+        function deliverMail(Id) {
+            $.post(
+                "/api/v1/analytics/updateRiderHelp",
+            function (data) {
+            }, 'json');
+        }
 
     </script>
 
