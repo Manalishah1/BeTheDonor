@@ -28,7 +28,7 @@ class DonorRepositoryTest
     @DisplayName("Testing donor method in repository layer")
     @Rollback(value = false)
     public void saveDonorTest() {
-        Donors donors = Donors.builder().id(1L).donorName("jayshree").age(28L).helpDone(true).build();
+        Donors donors = Donors.builder().id(1L).donorName("jayshree").helpDone(true).build();
         donorRepository.save(donors);
         Assertions.assertThat(donors.getId()).isGreaterThan(0);
     }

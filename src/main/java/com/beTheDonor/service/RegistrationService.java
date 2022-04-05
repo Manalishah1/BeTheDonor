@@ -23,6 +23,7 @@ public class RegistrationService {
     private final ApplicationUserService applicationUserService;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender ;
+    private final AnalyticsService analyticsService;
 
 
     public boolean register(RegistrationRequest registrationRequest)
@@ -60,6 +61,7 @@ public class RegistrationService {
         System.out.println(registrationRequest.getEmail());
         emailSender.send(registrationRequest.getEmail(),buildEmail(registrationRequest.getFirstName(),link));
         System.out.println("Email sent");
+        analyticsService.addUser(registrationRequest.getFirstName(), registrationRequest.getEmail(), registrationRequest.getApplication_user_role());
         return true;
     }
 
@@ -85,6 +87,7 @@ public class RegistrationService {
 
             confirmationTokenService.setConfirmedAt(token);
             applicationUserService.enableApplicationUser(userConfirmationToken.getApplicationUser().getEmail());
+            analyticsService.enableUser(userConfirmationToken.getApplicationUser().getEmail(), userConfirmationToken.getApplicationUser().getApplicationUserRole(), userConfirmationToken.getApplicationUser().getId());
 
             return "confirmation";
         }
