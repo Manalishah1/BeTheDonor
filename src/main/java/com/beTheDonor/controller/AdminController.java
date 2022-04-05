@@ -22,41 +22,34 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminController {
     ProductService productService;
-    AdminService as;
+    AdminService adminService;
     @GetMapping("/api/v1/admin")
     public String adminDashboard(Model model)
     {
         List<Product> products = productService.getProducts();
         model.addAttribute("products",products);
 
-        List<ApplicationUser> users = as.getUsers();
+        List<ApplicationUser> users = adminService.getUsers();
         model.addAttribute("users", users);
 
-        List<ApplicationUser> patients = as.getPatients();
+        List<ApplicationUser> patients = adminService.getPatients();
         model.addAttribute("patients", patients);
 
-        List<ApplicationUser> riders = as.getRiders();
+        List<ApplicationUser> riders = adminService.getRiders();
         model.addAttribute("riders", riders);
 
-        List<ApplicationUser> donors = as.getDonors();
+        List<ApplicationUser> donors = adminService.getDonors();
         model.addAttribute("donors", donors);
 
         model.addAttribute("product",new ProductRequest());
         return "admindashboard";
     }
 
-//    @PostMapping()
-////	ResponseEntity class<T> which extends HttpClass<T>
-//    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-////		adds the HTTPStatus code
-////		Calling the addQuantity method of the interface ProductService
-//        return new ResponseEntity<Product>(productService.addProduct(product), HttpStatus.OK);
-//    }
     @GetMapping("/api/v1/admin/addProductsInTable")
     public String addProducts(@ModelAttribute ProductRequest productRequest)
     {
-        as.add(productRequest);
-        return "redirect:/admindashboard";
+        adminService.add(productRequest);
+        return "redirect:/api/v1/admin";
     }
 
     @GetMapping("/api/v1/admin/deleteProduct/{id}")
@@ -64,14 +57,13 @@ public class AdminController {
         public void delete(@PathVariable long id)
     {
         System.out.println(id);
-        as.delete(id);
-//        //System.out.println("PRODUCTID:::::::::"+productRequest.getProductName());
+        adminService.delete(id);
     }
 
     @GetMapping("/api/v1/admin/updateProductsInTable/{qty}/{price}/{id}")
     public String updateProducts(@PathVariable int qty, @PathVariable double price, @PathVariable long id )
     {
-        as.update(qty, price, id);
+        adminService.update(qty, price, id);
         return "redirect:/admindashboard";
     }
 }

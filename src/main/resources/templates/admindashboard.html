@@ -39,41 +39,6 @@
         >
             <span class="navbar-toggler-icon"></span>
         </button>
-<!--        <div class="collapse navbar-collapse" id="topNavBar">-->
-<!--            <form class="d-flex ms-auto my-3 my-lg-0">-->
-<!--                <div class="input-group">-->
-<!--                    <input-->
-<!--                            class="form-control"-->
-<!--                            type="search"-->
-<!--                            placeholder="Search"-->
-<!--                            aria-label="Search"-->
-<!--                    />-->
-<!--                    <button class="btn btn-primary" type="submit">-->
-<!--                        <i class="bi bi-search"></i>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--            <ul class="navbar-nav">-->
-<!--                <li class="nav-item dropdown">-->
-<!--                    <a-->
-<!--                            class="nav-link dropdown-toggle ms-2"-->
-<!--                            href="#"-->
-<!--                            role="button"-->
-<!--                            data-bs-toggle="dropdown"-->
-<!--                            aria-expanded="false"-->
-<!--                    >-->
-<!--                        <i class="bi bi-person-fill"></i>-->
-<!--                    </a>-->
-<!--                    <ul class="dropdown-menu dropdown-menu-end">-->
-<!--                        <li><a class="dropdown-item" href="#">Action</a></li>-->
-<!--                        <li><a class="dropdown-item" href="#">Another action</a></li>-->
-<!--                        <li>-->
-<!--                            <a class="dropdown-item" href="#">Something else here</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </div>-->
     </div>
 </nav>
 <!-- top navigation bar -->
@@ -157,14 +122,14 @@
                                     </thead>
                                     <tbody>
                                     <form th:action="@{/api/v1/admin/addProductsInTable}" method="get" th:object="${product}" class="col-md-12 mb-3">
-                                    <tr>
-                                        <td><input type="text" id="product_name" class="form-control" placeholder="Name" th:field="*{productName}"/></td>
-                                        <td><input type="number" id="product_quantity" class="form-control"  placeholder="Quantity" th:field="*{quantity}"/></td>
-                                        <td><input type="number" id="product_price" class="form-control"  placeholder="Price" th:field="*{price}"/></td>
-                                        <td><input type="text" id="product_category" class="form-control"  placeholder="Category" th:field="*{category}"/></td>
-                                        <td><input type="text" id="product_comment" class="form-control"  placeholder="Measure" th:field="*{comment}"/></td>
-                                        <td><button type="submit" class="btn btn-info btn-lg">Add</button></td>
-                                    </tr>
+                                        <tr>
+                                            <td><input type="text" id="product_name" class="form-control" placeholder="Name" th:field="*{productName}"/></td>
+                                            <td><input type="number" id="product_quantity" class="form-control"  placeholder="Quantity" th:field="*{quantity}"/></td>
+                                            <td><input type="number" id="product_price" class="form-control"  placeholder="Price" th:field="*{price}"/></td>
+                                            <td><input type="text" id="product_category" class="form-control"  placeholder="Category" th:field="*{category}"/></td>
+                                            <td><input type="text" id="product_comment" class="form-control"  placeholder="Measure" th:field="*{comment}"/></td>
+                                            <td><button type="submit" onclick="add()" class="btn btn-info btn-lg">Add</button></td>
+                                        </tr>
                                     </form>
                                     </tbody>
                                 </table>
@@ -200,13 +165,10 @@
                                 <tbody>
                                 <tr th:each="product : ${products}">
                                     <td><input type="text" id="productName" class="form-control"  disabled th:placeholder="${product.productName}" th:value = "${product.productName}"/></td>
-<!--                                    th:field="*{productName}"-->
                                     <td><input type="text" th:id="'qty_'+${product.productId}" class="form-control"  th:placeholder="${product.quantity}" th:value = "${product.quantity}"/></td>
                                     <td><input type="text" th:id="'price_'+${product.productId}" class="form-control"  th:placeholder="${product.price}" th:value = "${product.price}"/></td>
                                     <td><input type="text" th:id="Category" class="form-control" disabled th:placeholder="${product.category}" th:value = "${product.category}"/></td>
                                     <td><input type="text" th:id="Comment" class="form-control" disabled th:placeholder="${product.comment}" th:value = "${product.comment}"/></td>
-<!--                                    <td th:text="${product.quantity}"></td>-->
-<!--                                    <td th:text="${product.price}"></td>-->
                                     <td><button type="button" th:data-id = "${product.productId}" th:data-qty = "${product.quantity}" th:data-price = "${product.price}" class="btn btn-primary btn-lg"  onclick="updateP(this.getAttribute('data-id'))">Update</button>
                                         <button type="button" th:data-id = "${product.productId}"  class="btn btn-danger btn-lg"  onclick="delP(this.getAttribute('data-id'))">Delete</button></td>
                                 </tr>
@@ -228,10 +190,6 @@
                            function updateP(pId){
                                var updatePrice = $("#price_"+pId).val();
                                var updateQty = $("#qty_"+pId).val();
-
-                               console.log(updatePrice);
-                               console.log(updateQty);
-                               console.log("------"+pId+"------"+updateQty+"------"+updatePrice);
 
                                  $.ajax({
                                      url : "/api/v1/admin/updateProductsInTable/" + updateQty +"/" + updatePrice +"/" + pId,
