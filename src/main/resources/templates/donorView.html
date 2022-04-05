@@ -17,27 +17,44 @@
     <script type="text/javascript" th:src="@{/js/donorjs.js}"></script>
 
 </head>
-<div th:replace="signupheader.html::signupheader"></div>
+
+<nav class="navbar navbar-expand-lg navbar-fixed-top bg-info ">
+    <img th:src="@{/images/donate.png}" width="30" height="30"/>
+    <span class="text-white font-monospace" style="margin-left: .5rem"> Be The Donor</span>
+    <a th:href="@{/api/v1/login}" class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0"
+       style="margin-right: 0.5rem" id="navbarSupportedContents">
+        <span class="btn btn-outline-light" type="submit">Logout</span>
+    </a>
+
+</nav>
 <section class="vh-100 bg-white">
+
     <body>
-    <h1>Donor DashBoard</h1>
-    <div class = "row">
-        <div class="col-3">Total Donation made by You </div>
-        <div class="col-3" id="totalDonation"></div>
+    <h1>DashBoard</h1>
+
+    <div class="card-footer shadow bg-light " style="margin-bottom: 0.5rem">
+        <div class="row">
+            <div class="col">
+                <p class="text-black"> Total Donation Made By You: <span class=" rounded-2 bg-success text-white p-2" id="totalDonation"> </span></p>
+            </div>
+        </div>
     </div>
 
-    <div class="vh-100 bg-info">
+
+    <div class="bg-info p-1">
 
         <div class="column-labels">
             <label class="product-image">Image</label>
             <label class="label-details">Orders</label>
-            <label class="product-price">OrderAmount</label>
+            <label class="product-price">Amount</label>
             <label class="product-quantity">Select</label>
             <label class="product-removal">Remove</label>
             <label class="product-line-price">Total</label>
         </div>
+    </div>
 
-        <div class="product" id="product0" style="display: none">
+    <div style="margin-top: 0.3rem">
+        <div class="product bg-light  border border-info rounded-1 shadow p-1" id="product0" style="display: none" >
             <div class="product-image">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Patient_Care_Cartoon.svg/1280px-Patient_Care_Cartoon.svg.png">
             </div>
@@ -45,7 +62,7 @@
             <div class="product-details">
                 <div class="order-id">1</div>
                 <div class="product-title" id="pt">Prachi Raval</div>
-                <p class="product-description" id="pd">Oil,Butter,Bread</p>
+                <p id="pd" style="margin-top: 0.1rem"><span class=" product-description  p-1 alert-warning border ">Oil,Butter,Bread</span></p>
             </div>
             <div class="product-price" id="pp1">12</div>
             <div class="product-quantity">
@@ -58,7 +75,7 @@
             <div class="product-line-price" id="pl1">0</div>
         </div>
 
-        <div class="totals">
+        <div class="totals bg-light card">
             <div class="totals-item">
                 <label>Subtotal</label>
                 <div class="totals-value" id="cart-subtotal">0</div>
@@ -77,9 +94,18 @@
             </div>
         </div>
 
-        <button class="checkout" type="submit" onclick="finalOrder()">Checkout</button>
+        <button class=" checkout btn-lg btn-info" type="submit" onclick="finalOrder()">Checkout</button>
+
+
 
     </div>
+
+
+
+
+    </body>
+
+    <!-- Footer -->
     <footer class="page-footer font-small ">
 
         <!-- Copyright -->
@@ -90,10 +116,13 @@
 
     </footer>
     <!-- Footer -->
-    </body>
-    <script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-    <script type="text/javascript">
-    </script>
+
+
 </section>
+
+<script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+</script>
+
 </html>

@@ -68,7 +68,7 @@ public class RegistrationService {
         Optional<UserConfirmationToken> userConfirmationToken = confirmationTokenService.getToken(token);
 
         if (userConfirmationToken.isPresent()) {
-            UserConfirmationToken userConfirmationTokens = confirmationTokenService.getToken(token).get();
+            UserConfirmationToken userConfirmationTokens = userConfirmationToken.get();
 
             if (userConfirmationTokens.getConfirmedAt() != null) {
                 System.out.println("Email already exist");
@@ -81,7 +81,6 @@ public class RegistrationService {
             }
 
             confirmationTokenService.setConfirmedAt(token);
-            applicationUserService.enableApplicationUser(userConfirmationTokens.getApplicationUser().getEmail());
             applicationUserService.enableApplicationUser(userConfirmationTokens.getApplicationUser().getEmail());
             analyticsService.enableUser(userConfirmationTokens.getApplicationUser().getEmail(), userConfirmationTokens.getApplicationUser().getApplicationUserRole(), userConfirmationTokens.getApplicationUser().getId());
 

@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(UserLoginController.class)
-/*@ActiveProfiles("test")*/
 class UserLoginControllerTest {
 
 

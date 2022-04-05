@@ -5,6 +5,7 @@ var fadeTime = 300;
 var listPatients = []
 
 $(document).ready(function () {
+    console.log("ready");
     fetchProducts();
     getDonation();
 });
