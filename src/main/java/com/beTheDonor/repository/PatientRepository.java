@@ -10,4 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PatientRepository extends JpaRepository<Patients, Long> {
 	List<Patients> findAllByIshelped(Boolean flag);
 	List<Patients> findAll();
+
+	List<Patients> findAllByEmailId(String email);
+	List<Patients> findAllByStatus(boolean b);
+	List<Patients> findAllByPatientName(String name);
 }
