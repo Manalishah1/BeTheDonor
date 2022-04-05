@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class DonateByAmount {
@@ -16,8 +17,8 @@ public class DonateByAmount {
 
     @RequestMapping(value = "/donate")
     public String donateByAmount(Model model) {
-            CreditAmount creditAmount = creditAmountRepository.getById(1);
-            model.addAttribute("fundRaised", creditAmount.getFundRaised());
+        CreditAmount creditAmount = creditAmountRepository.getById(1);
+        model.addAttribute("fundRaised", creditAmount.getFundRaised());
         return "donate";
     }
 
