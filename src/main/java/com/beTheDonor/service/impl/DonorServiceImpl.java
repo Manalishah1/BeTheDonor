@@ -64,6 +64,7 @@ public class DonorServiceImpl implements DonorService {
                 // donor.setEmail(user.getEmail());
             }
         }
+        donor.setHelpDone(true);
         donorRepository.save(donor);
         return true;
     }
