@@ -65,7 +65,7 @@
                         </button>
                     </td>
                     <td>
-                        <button th:data-id="${order.order_id}" onclick="deliverMail(this.getAttribute('data-id'))"
+                        <button th:data-id="${order.order_id}" onclick="changeStatus(this.getAttribute('data-id'));this.disabled=true;"
                                 class="btn btn-outline-success">Deliver
                         </button>
                     </td>

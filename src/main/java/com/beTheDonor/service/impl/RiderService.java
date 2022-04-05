@@ -53,8 +53,13 @@ public class RiderService {
 
     public void getOrderById(Long orderId)
     {
-        Orders order = orderRepository.getById(orderId);
-        order.setOrderStatus("pending delivery");
+       Orders order = orderRepository.getById(orderId);
+        if(order.getOrderStatus().equals("pending delivery")) {
+            order.setOrderStatus("delivered");
+        }
+        else {
+            order.setOrderStatus("pending delivery");
+        }
         orderRepository.save(order);
     }
 }
