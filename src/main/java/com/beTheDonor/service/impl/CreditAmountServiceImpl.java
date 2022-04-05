@@ -24,19 +24,17 @@ public class CreditAmountServiceImpl implements CreditAmountService {
 
     @Override
     public void orderFromCredits() {
-
         CreditAmount creditAmount = creditAmountRepository.getById(1);
         Double currentAmount = creditAmount.getCreditAmount();
         Double tip = creditAmountRepository.getById(1).getRiderTipPercent();
-        List<Orders> orders = orderRepository.findByOrderStatusAndTotalLessThanEqual("pending payment", currentAmount - tip);
-        for (int i = 0; i < orders.size(); i++) {
-            int getPercentage = 100;
-            if (currentAmount >= orders.get(i).getTotal() + tip) {
+        List<Orders> orders = orderRepository.findByOrderStatusAndTotalLessThanEqual("pending payment",currentAmount-(currentAmount*tip/100));
+        for(int i=0;i<orders.size();i++) {
+            if(currentAmount >= orders.get(i).getTotal() + tip) {
                 currentAmount -= orders.get(i).getTotal() + tip;
                 creditAmount.setCreditAmount(currentAmount);
                 orders.get(i).setOrderStatus("pending delivery");
                 orders.get(i).setOrderPaidOn(new Date());
-                orders.get(i).setRiderTip(creditAmount.getRiderTipPercent() * orders.get(i).getTotal() / getPercentage);
+                orders.get(i).setRiderTip(creditAmount.getRiderTipPercent()*orders.get(i).getTotal()/100);
                 creditAmountRepository.save(creditAmount);
                 orderRepository.save(orders.get(i));
             }
@@ -53,8 +51,8 @@ public class CreditAmountServiceImpl implements CreditAmountService {
     @Override
     public void updateCreditAmount(Double amount) {
         CreditAmount creditAmount = creditAmountRepository.getById(1);
-        creditAmount.setCreditAmount(creditAmount.getCreditAmount() + amount);
-        creditAmount.setFundRaised(creditAmount.getFundRaised() + amount);
+        creditAmount.setCreditAmount(creditAmount.getCreditAmount()+amount);
+        creditAmount.setFundRaised(creditAmount.getFundRaised()+amount);
         creditAmountRepository.save(creditAmount);
         orderFromCredits();
     }

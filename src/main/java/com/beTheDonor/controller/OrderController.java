@@ -37,8 +37,6 @@ public class OrderController
 
     ErrorResponse er = new ErrorResponse();
 
-    int successCode = 200;
-    int failCode= 500;
     @PostMapping(value = "/api/v1/patient/order")
     public ErrorResponse addOrder(@RequestBody JSONObject payload, HttpServletRequest request) throws Exception {
         Principal principal = request.getUserPrincipal();
@@ -46,11 +44,11 @@ public class OrderController
         Boolean response = orderService.addOrder(payload,userId);
         if(response == true) {
             creditAmountService.orderFromCredits();
-            er.setCode(successCode);
+            er.setCode(200);
             er.setMessage("Order Added Successfully.");
         }
         else {
-            er.setCode(failCode);
+            er.setCode(500);
             er.setMessage("Failed to add order. Try after sometime.");
         }
         return er;
@@ -58,7 +56,7 @@ public class OrderController
 
     @GetMapping(value = "/api/v1/patient/getOrders")
     @ResponseBody
-    public List<PatientOrdersResponse> getOrdersByUserId(HttpServletRequest request) throws Exception {
+    public List<PatientOrdersResponse> getOrdersByUserId(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         String userId = principal.getName();
         List<PatientOrdersResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);
