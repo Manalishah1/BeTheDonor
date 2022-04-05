@@ -32,16 +32,15 @@ public class ApplicationUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        return userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException(String.format(USER_NOT_FOUND,email)));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
 //
     }
 
-    public String signUpUser(ApplicationUser applicationUser)
-    {
+    public String signUpUser(ApplicationUser applicationUser) {
         boolean userExist = userRepository.findByEmail(applicationUser.getEmail()).isPresent();
         if(userExist)
         {
-            throw new IllegalStateException("Email already exist");
+           return "emailFound";
         }
         String encodedPassword = bCryptPasswordEncoder.encode(applicationUser.getPassword());
         applicationUser.setPassword(encodedPassword);
@@ -49,18 +48,18 @@ public class ApplicationUserService implements UserDetailsService {
 
         userRepository.save(applicationUser);
 
-        String token =  UUID.randomUUID().toString();
-
+        String token = UUID.randomUUID().toString();
+        int emailExpireTime = 15;
         UserConfirmationToken userConfirmationToken = new UserConfirmationToken(
                 token,
                 LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
+                LocalDateTime.now().plusMinutes(emailExpireTime),
                 applicationUser
         );
 
         confirmationTokenService.saveConfirmationToken(userConfirmationToken);
 
-        return token ;
+        return token;
     }
 
     public void enableApplicationUser(String email) {
@@ -68,45 +67,45 @@ public class ApplicationUserService implements UserDetailsService {
 
     }
 
-    public List<ApplicationUser> getPatients(){ return userRepository.getPatient();}
+    public List<ApplicationUser> getPatients() {
+        return userRepository.getPatient();
+    }
 
-    public List<ApplicationUser> getRider(){ return userRepository.getRider();}
+    public List<ApplicationUser> getRider() {
+        return userRepository.getRider();
+    }
 
-    public List<ApplicationUser> getDonor(){ return userRepository.getDonor();}
+    public List<ApplicationUser> getDonor() {
+        return userRepository.getDonor();
+    }
 
-    public List<ApplicationUser> findAll(){
+    public List<ApplicationUser> findAll() {
         return userRepository.findAll();
     }
-    public Optional<ApplicationUser> findByEmail(String email){
+
+    public Optional<ApplicationUser> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public ApplicationUser findUserByEmail(String email)
-    {
+    public ApplicationUser findUserByEmail(String email) {
         return userRepository.getByEmail(email);
     }
 
-    public void updateResetPasswordToken(String token, String email)
-    {
+    public void updateResetPasswordToken(String token, String email) {
         ApplicationUser applicationUser = userRepository.getByEmail(email);
-        if(applicationUser != null)
-        {
+        if (applicationUser != null) {
             applicationUser.setResetPasswordToken(token);
             userRepository.save(applicationUser);
-        }
-        else
-        {
+        } else {
             throw new UsernameNotFoundException("User with gven email not found");
         }
     }
 
-    public ApplicationUser getByResetPasswordToken(String token)
-    {
+    public ApplicationUser getByResetPasswordToken(String token) {
         return userRepository.findByResetPasswordToken(token);
     }
 
-    public void updatePassword(ApplicationUser applicationUser, String newPassword)
-    {
+    public void updatePassword(ApplicationUser applicationUser, String newPassword) {
         String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
         applicationUser.setPassword(encodedPassword);
         applicationUser.setResetPasswordToken(null);

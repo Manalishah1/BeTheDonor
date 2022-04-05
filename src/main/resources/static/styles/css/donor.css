@@ -1,14 +1,9 @@
-.donor-dashboard {
-    background-color: white;
-}
-
 .column-labels {
-    background-color: #0dcaf0;
-
+    //background-color: #0dcaf0;
 }
 
 .totals-item {
-    background-color: #0dcaf0;
+   // background-color: #0dcaf0;
 }
 
 .product-image {
@@ -102,7 +97,7 @@ label {
 .product {
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
+   // border-bottom: 1px solid #eee;
 }
 
 .product .product-image {
@@ -135,9 +130,7 @@ label {
     border-radius: 3px;
 }
 
-.product .remove-product:hover {
-    background-color: #0d6efd;
-}
+
 
 /* Totals section */
 .totals .totals-item {

@@ -25,7 +25,7 @@ public class RegistrationService {
     private final EmailSender emailSender ;
 
 
-    public void register(RegistrationRequest registrationRequest)
+    public boolean register(RegistrationRequest registrationRequest)
     {
         boolean validBody = bodyValidator.validate(registrationRequest);
         if(!validBody)
@@ -52,10 +52,15 @@ public class RegistrationService {
                 registrationRequest.getPassword(),
                 registrationRequest.getApplication_user_role()
         ));
+        if(token.equals("emailFound"))
+        {
+            return false;
+        }
         String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
         System.out.println(registrationRequest.getEmail());
         emailSender.send(registrationRequest.getEmail(),buildEmail(registrationRequest.getFirstName(),link));
-        System.out.println("Email sent");;
+        System.out.println("Email sent");
+        return true;
     }
 
 

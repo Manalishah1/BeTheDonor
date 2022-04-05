@@ -4,10 +4,12 @@ package com.beTheDonor.controller;
 import com.beTheDonor.controller.requestbody.RegistrationRequest;
 import com.beTheDonor.service.RegistrationService;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.model.IModel;
 
 import javax.validation.Valid;
 
@@ -31,8 +33,11 @@ public class UserRegistrationController
         {
             return "registration";
         }
-        System.out.println("firstname is: "+ registrationRequest.getFirstName());
-        registrationService.register(registrationRequest);
+        boolean value = registrationService.register(registrationRequest);
+        if(!value)
+        {
+            return "redirect:/api/v1/registration?emailFound";
+        }
         System.out.println("Registration email successfully sent to the mail " + registrationRequest.getEmail());
         return "redirect:/api/v1/registration?emailSent";
     }

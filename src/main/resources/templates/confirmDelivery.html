@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Confirm Delivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script th:src="@{/js/confirmDelivery.js}"></script>
+
+</head>
+<body>
+
+<!-- Image and text -->
+<nav class="navbar navbar-expand-lg navbar-fixed-top bg-info">
+
+    <div>
+        <img width="40" height="40" alt="Sample image" class="img-fluid" th:src="@{/images/scooter.png}">
+    </div>
+    <a class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin: .30rem"
+       onclick="$('#form1').submit();" id="navbarSupportedContent">
+        <span class="btn btn-outline-light " type="submit">Go Back </span>
+    </a>
+    <form style="visibility: hidden" id="form1" method="get" action="#" th:action="@{/riderDashboard}"></form>
+
+</nav>
+
+
+<div class="container" style="margin-top: 5rem">
+
+
+    <div class="card shadow bg-info">
+        <div class="card-header">
+            <p class="text-white font-weight-bold"> Review Selected Orders:</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(orders)}">
+            <table class="table table-striped table-info">
+                <thead>
+                <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Patient</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Contact</th>
+                    <th scope="col">Remove</th>
+                    <th scope="col">Deliver</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order:${orders}">
+                    <th scope="row" th:text="${order.order_id}"></th>
+                    <td><span th:text="${order.firstname}"></span></td>
+                    <td><span th:text="${order.address}"></span></td>
+                    <td><span th:text="${order.phone_number}"></span></td>
+                    <td>
+                        <button th:data-id="${order.order_id}" onclick="changeStatus(this.getAttribute('data-id'))"
+                                class="btn btn-outline-danger">Remove Order
+                        </button>
+                    </td>
+                    <td>
+                        <button th:data-id="${order.order_id}" onclick="deliverMail(this.getAttribute('data-id'))"
+                                class="btn btn-outline-success">Deliver
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-gradient bg-light">
+            <div class="row">
+                <div class="col">
+                    <p> Tips Pending: <span th:text="*{tipPending}"> </span></p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+
+        function changeStatus(oId) {
+            console.log("------" + oId);
+            $.ajax({
+                url: "/riderDashboard/changeStatus/" + oId,
+                type: "GET",
+                success: function () {
+                    location.reload();
+                }
+            });
+        }
+
+
+
+    </script>
+
+
+</div>
+
+
+</body>
+</html>

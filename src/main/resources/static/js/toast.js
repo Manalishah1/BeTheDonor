@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function(){
 
     var element = document.getElementById("myToast");
-    var btn= document.getElementById("hideBtn")
+    var btn= document.getElementsByClassName("hideBtn")
 
     // Create toast instance
     var myToast = new bootstrap.Toast(element);
