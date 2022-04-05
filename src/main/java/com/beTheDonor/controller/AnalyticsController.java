@@ -2,20 +2,22 @@ package com.beTheDonor.controller;
 
 import java.util.List;
 
+import com.beTheDonor.entity.*;
 import com.beTheDonor.repository.DonorRepository;
 import com.beTheDonor.repository.PatientRepository;
 import com.beTheDonor.repository.RiderRepository;
-import com.beTheDonor.entity.Donors;
-import com.beTheDonor.entity.Patients;
-import com.beTheDonor.entity.Riders;
-import com.beTheDonor.entity.TotalAmount;
 import com.beTheDonor.service.AnalyticsService;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
 
 
 @Controller
@@ -26,13 +28,15 @@ public class AnalyticsController {
 	private final PatientRepository patientRepository;
 	private final RiderRepository riderRepository;
 	private final DonorRepository donorRepository;
+	final ObjectFactory<HttpSession> httpSessionFactory;
 
-	public AnalyticsController(AnalyticsService analyticsService, PatientRepository patientRepository, RiderRepository riderRepository, DonorRepository donorRepository) {
+	public AnalyticsController(AnalyticsService analyticsService, PatientRepository patientRepository, RiderRepository riderRepository, DonorRepository donorRepository, ObjectFactory<HttpSession> httpSessionFactory) {
 		super();
 		this.analyticsService = analyticsService;
 		this.patientRepository = patientRepository;
 		this.riderRepository = riderRepository;
 		this.donorRepository = donorRepository;
+		this.httpSessionFactory = httpSessionFactory;
 	}
 	
 //	making call to the api /api/v1/analytics/patients and checking if we are getting success response (200 OK) or not
@@ -60,6 +64,20 @@ public class AnalyticsController {
 		totalAmount.setTotalAmount(analyticsService.totalAmountOfHelp());
 		return new ResponseEntity<TotalAmount>(totalAmount, HttpStatus.OK);
 		
+	}
+
+	@PostMapping("/updatePatientHelp")
+	public @ResponseBody Response updatePatients(String patient) {
+		analyticsService.updatePatient(patient.toString());
+		return new Response(true, "Updated patients");
+	}
+
+	@PostMapping("/updateRiderHelp")
+	public @ResponseBody Response updateRiders() {
+		HttpSession session = httpSessionFactory.getObject();
+		String loginUser = session.getAttribute("loginUserEmail").toString();
+		analyticsService.updateRider(loginUser.toString());
+		return new Response(true, "Updated patients");
 	}
 
 	@GetMapping("")
