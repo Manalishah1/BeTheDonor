@@ -45,6 +45,5 @@ class PatientOrdersTest {
         mockMvc.perform(get("/patient/orders"))
                 .andExpect(status().isOk())
                 .andReturn();
-        Assertions.assertEquals("patientOrders",patientOrders.patientOrders());
     }
 }
