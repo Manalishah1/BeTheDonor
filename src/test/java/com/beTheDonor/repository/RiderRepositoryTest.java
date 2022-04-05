@@ -22,7 +22,7 @@ class RiderRepositoryTest {
     @DisplayName("Testing riders method in repository layer")
     @Rollback(value = false)
     public void saveRidersTest() {
-        Riders riders = Riders.builder().id(1L).driverName("Dharmik").age(28L).delivery(true).build();
+        Riders riders = Riders.builder().id(1L).driverName("Dharmik").delivery(true).build();
         riderRepository.save(riders);
         Assertions.assertThat(riders.getId()).isGreaterThan(0);
     }
@@ -45,7 +45,7 @@ class RiderRepositoryTest {
     @DisplayName("Testing findAll() methof")
     @Rollback(value = false)
     void findAll() {
-        Riders riders = Riders.builder().id(1L).driverName("Dharmik").age(22L).delivery(true).build();
+        Riders riders = Riders.builder().id(1L).driverName("Dharmik").delivery(true).build();
         riderRepository.save(riders);
         List<Riders> ridersList = riderRepository.findAll();
         Assertions.assertThat(ridersList.size()).isEqualTo(1);

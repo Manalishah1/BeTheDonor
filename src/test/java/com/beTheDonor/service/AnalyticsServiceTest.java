@@ -36,9 +36,9 @@ class AnalyticsServiceTest {
     @DisplayName("Testing getAllHelpedPatients Function")
     @Order(1)
     void getAllHelpedPatientsTest() {
-        Mockito.doReturn(Arrays.asList(new Patients(1L,"jayshree",28L,true),new Patients(2L,"jayshree2",29L,true))).when(patientRepository).findAllByIshelped(true);
+        Mockito.doReturn(Arrays.asList(new Patients(1L,"jayashree",true,"jayashree1@gmail.com",true),new Patients (2L,"jayashree2",true,"jayashree2@gmail.com",true))).when(patientRepository).findAllByIshelped(true);
         List<Patients> patientsList = analyticsService.getAllHelpedPatients();
-        Assertions.assertEquals("jayshree",patientsList.get(0).getPatientName());
+        Assertions.assertEquals("jayashree",patientsList.get(0).getPatientName());
     }
 
    /* @Test
@@ -55,9 +55,9 @@ class AnalyticsServiceTest {
     @DisplayName("Testing getAllRidersWhoDeliver Function")
     @Order(3)
     void getAllRidersWhoDeliverTest() {
-        Mockito.doReturn(Arrays.asList(new Riders(1L,"jayshree",28L,true))).when(riderRepository).findAllByDelivery(true);
+        Mockito.doReturn(Arrays.asList(new Riders(1L,"jayashree",true,"jayashree3@gmal.com",true))).when(riderRepository).findAllByDelivery(true);
         List<Riders> riderList = analyticsService.getAllRidersWhoDeliver();
-        Assertions.assertEquals("jayshree", riderList.get(0).getDriverName());
+        Assertions.assertEquals("jayashree", riderList.get(0).getDriverName());
     }
 
     @Test

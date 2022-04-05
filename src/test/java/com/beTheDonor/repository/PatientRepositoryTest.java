@@ -23,7 +23,7 @@ class PatientRepositoryTest
     @DisplayName("Testing patient method in repository layer")
     @Rollback(value = false)
     public void savePatientTest() {
-        Patients donors = Patients.builder().id(1L).patientName("jayshree").age(28L).ishelped(true).build();
+        Patients donors = Patients.builder().id(1L).patientName("jayshree").ishelped(true).build();
         patientRepository.save(donors);
         Assertions.assertThat(donors.getId()).isGreaterThan(0);
     }
