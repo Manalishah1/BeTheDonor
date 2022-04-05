@@ -1,7 +1,13 @@
 package com.beTheDonor.entity;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+import java.util.List;
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PatientOrdersResponse {
     Long orderId;
     Double TotalAmount;

@@ -1,5 +1,5 @@
 package com.beTheDonor.controller;
-
+import com.beTheDonor.entity.CreditAmount;
 import com.beTheDonor.repository.CreditAmountRepository;
 import com.beTheDonor.service.CreditAmountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,9 @@ public class CreditAmountController {
     @RequestMapping("/getTipPercent")
     @ResponseBody
     Double getTip() {
-        return creditAmountRepository.getById(1).getRiderTipPercent();
+        CreditAmount amount = creditAmountRepository.getById(1);
+        Double tip = amount.getRiderTipPercent();
+        return tip;
     }
 
     @RequestMapping("/updateCreditAmount/{amount}")
@@ -35,6 +37,6 @@ public class CreditAmountController {
     String updateCreditAmount(@PathVariable Double amount){
         System.out.println("reached"+amount);
         creditAmountService.updateCreditAmount(amount);
-        return "patientOrderSuccessPage";
+        return "redirect:thank-you";
     }
 }

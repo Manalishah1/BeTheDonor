@@ -26,6 +26,9 @@ import java.util.Date;
 @SqlResultSetMapping(name = "ReadyToDeliverModel",classes = @ConstructorResult(targetClass = ReadyToDeliverModel.class,columns = { @ColumnResult(name = "order_id"),@ColumnResult(name = "address"),@ColumnResult(name = "firstname"),@ColumnResult(name = "phone_number")}))
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
