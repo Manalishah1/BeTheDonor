@@ -136,7 +136,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public static class PatientRest{
 		private Long id;
 		private String patientName;
-		private Boolean ishelped;
 	}
 
 	@AllArgsConstructor
@@ -147,7 +146,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 		private Long id;
 		private String donorName;
 		private Double amount;
-		private Boolean helpDone;
 	}
 
 	@AllArgsConstructor
@@ -157,7 +155,6 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	public static class RiderRest{
 		private Long id;
 		private String driverName;
-		private Boolean delivery;
 	}
 
 	

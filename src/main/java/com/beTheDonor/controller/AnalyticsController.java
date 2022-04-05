@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.beTheDonor.entity.*;
@@ -7,6 +8,7 @@ import com.beTheDonor.repository.DonorRepository;
 import com.beTheDonor.repository.PatientRepository;
 import com.beTheDonor.repository.RiderRepository;
 import com.beTheDonor.service.AnalyticsService;
+import com.beTheDonor.service.impl.AnalyticsServiceImpl;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,21 +43,34 @@ public class AnalyticsController {
 	
 //	making call to the api /api/v1/analytics/patients and checking if we are getting success response (200 OK) or not
 	@GetMapping("/patients")
-	public ResponseEntity<List<Patients>> getAllHelpedPatients(){
-		return new ResponseEntity<List<Patients>>(analyticsService.getAllHelpedPatients(), HttpStatus.OK);
+	public ResponseEntity<List<AnalyticsServiceImpl.PatientRest>> getAllHelpedPatients(){
+		List<Patients> patientsList = analyticsService.getAllHelpedPatients();
+		List<AnalyticsServiceImpl.PatientRest> patientRestList = new ArrayList<>();
+		for(Patients patients : patientsList){
+			patientRestList.add(new AnalyticsServiceImpl.PatientRest(patients.getId(),patients.getPatientName()));
+		}
+		return new ResponseEntity<>(patientRestList, HttpStatus.OK);
 		
 	}
 //	making call to the api /api/v1/analytics/donors and checking if we are getting success response (200 OK) or not
 	@GetMapping("/donors")
-	public ResponseEntity<List<Donors>> getAllDonorsWhoHelped(){
-		return new ResponseEntity<List<Donors>>(analyticsService.getAllDonorsWhoHelped(), HttpStatus.OK);
-		
+	public ResponseEntity<List<AnalyticsServiceImpl.DonorRest>> getAllDonorsWhoHelped(){
+		List<Donors> donorsList = analyticsService.getAllDonorsWhoHelped();
+		List<AnalyticsServiceImpl.DonorRest> donorRestList = new ArrayList<>();
+		for(Donors donors : donorsList){
+			donorRestList.add(new AnalyticsServiceImpl.DonorRest(donors.getId(),donors.getDonorName(), donors.getAmount()));
+		}
+		return new ResponseEntity<>(donorRestList, HttpStatus.OK);
 	}
 //	making call to the api /api/v1/analytics/riders and checking if we are getting success response (200 OK) or not
 	@GetMapping("/riders")
-	public ResponseEntity<List<Riders>> getAllRidersWhoDeliver(){
-		return new ResponseEntity<List<Riders>>(analyticsService.getAllRidersWhoDeliver(), HttpStatus.OK);
-		
+	public ResponseEntity<List<AnalyticsServiceImpl.RiderRest>> getAllRidersWhoDeliver(){
+		List<Riders> ridersList = analyticsService.getAllRidersWhoDeliver();
+		List<AnalyticsServiceImpl.RiderRest> riderRestList = new ArrayList<>();
+		for(Riders riders : ridersList){
+			riderRestList.add(new AnalyticsServiceImpl.RiderRest(riders.getId(),riders.getDriverName()));
+		}
+		return new ResponseEntity<>(riderRestList, HttpStatus.OK);
 	}
 //	making call to the api /api/v1/analytics/total and checking if we are getting success response (200 OK) or not
 	@GetMapping("/total")
