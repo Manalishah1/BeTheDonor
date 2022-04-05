@@ -20,21 +20,21 @@ public class RegistrationRequest {
 
     @NotEmpty(message = "user first name can not be empty")
     @Size(min = 3,max = 70)
-    public String firstName;
+    private String firstName;
     @NotEmpty(message = "user last name can not be empty")
     @Size(min = 3,max = 70)
-    public String lastName;
+    private String lastName;
     @NotEmpty(message = "user email can not be empty")
     @Email(message = "Please Provide a valid Gmail")
     @Pattern(regexp = "^[a-zA-Z][-_.a-zA-Z0-9]{5,29}@g(oogle)?mail.com$",message = " Please enter valid gmail (google mail address)")
-    public String email;
+    private String email;
     @NotNull(message = "Please fill the phone number field")
     @Size(min = 9,max = 10)
-    public String phone_number;
-    public String application_user_role;
+    private String phone_number;
+    private String application_user_role;
     @NotEmpty(message = "Password can not be empty")
-    public String password;
+    private String password;
     @NotEmpty(message = "Confirm Password can not be empty")
-    public String confirm_password;
+    private String confirm_password;
 
 }
