@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -22,26 +23,22 @@ public class RegistrationService {
     private BodyValidator bodyValidator;
     private final ApplicationUserService applicationUserService;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender ;
+    private final EmailSender emailSender;
     private final AnalyticsService analyticsService;
 
 
-    public boolean register(RegistrationRequest registrationRequest)
-    {
+    public boolean register(RegistrationRequest registrationRequest) {
         boolean validBody = bodyValidator.validate(registrationRequest);
-        if(!validBody)
-        {
+        if (!validBody) {
             System.out.println("Empty field found");
         }
         boolean validEmail = emailValidator.validate(registrationRequest.getEmail());
-        if(!validEmail)
-        {
+        if (!validEmail) {
             System.out.println("not a valid email");
         }
 
         boolean password_matched = registrationRequest.getPassword().equals(registrationRequest.getConfirm_password());
-        if(!password_matched)
-        {
+        if (!password_matched) {
             System.out.println("Password and Confirm password do not match");
         }
         String token = applicationUserService.signUpUser(new ApplicationUser(
@@ -49,17 +46,16 @@ public class RegistrationService {
                 registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPhone_number(),
-               // registrationRequest.getType_of_user(),
+                // registrationRequest.getType_of_user(),
                 registrationRequest.getPassword(),
                 registrationRequest.getApplication_user_role()
         ));
-        if(token.equals("emailFound"))
-        {
+        if (token.equals("emailFound")) {
             return false;
         }
-        String link = "http://localhost:8080/api/v1/registration/confirm?token="+token;
+        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
         System.out.println(registrationRequest.getEmail());
-        emailSender.send(registrationRequest.getEmail(),buildEmail(registrationRequest.getFirstName(),link));
+        emailSender.send(registrationRequest.getEmail(), buildEmail(registrationRequest.getFirstName(), link));
         System.out.println("Email sent");
         analyticsService.addUser(registrationRequest.getFirstName(), registrationRequest.getEmail(), registrationRequest.getApplication_user_role());
         return true;
@@ -69,37 +65,31 @@ public class RegistrationService {
     @Transactional
     public String confirmToken(String token) {
 
-        if(confirmationTokenService.getToken(token).isPresent())
-        {
-            UserConfirmationToken userConfirmationToken = confirmationTokenService.getToken(token).get();
+        Optional<UserConfirmationToken> userConfirmationToken = confirmationTokenService.getToken(token);
 
-            if(userConfirmationToken.getConfirmedAt()!=null)
-            {
+        if (userConfirmationToken.isPresent()) {
+            UserConfirmationToken userConfirmationTokens = confirmationTokenService.getToken(token).get();
+
+            if (userConfirmationTokens.getConfirmedAt() != null) {
                 System.out.println("Email already exist");
             }
 
-            LocalDateTime expiredAt = userConfirmationToken.getExpiresAt();
+            LocalDateTime expiredAt = userConfirmationTokens.getExpiresAt();
 
-            if(expiredAt.isBefore(LocalDateTime.now()))
-            {
+            if (expiredAt.isBefore(LocalDateTime.now())) {
                 System.out.println("Token expired");
             }
 
             confirmationTokenService.setConfirmedAt(token);
-            applicationUserService.enableApplicationUser(userConfirmationToken.getApplicationUser().getEmail());
-            analyticsService.enableUser(userConfirmationToken.getApplicationUser().getEmail(), userConfirmationToken.getApplicationUser().getApplicationUserRole(), userConfirmationToken.getApplicationUser().getId());
+            applicationUserService.enableApplicationUser(userConfirmationTokens.getApplicationUser().getEmail());
+            applicationUserService.enableApplicationUser(userConfirmationTokens.getApplicationUser().getEmail());
+            analyticsService.enableUser(userConfirmationTokens.getApplicationUser().getEmail(), userConfirmationTokens.getApplicationUser().getApplicationUserRole(), userConfirmationTokens.getApplicationUser().getId());
 
             return "confirmation";
-        }
-        else
-        {
+        } else {
             return "Token not found";
         }
-
-
-
     }
-
 
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
@@ -169,7 +159,6 @@ public class RegistrationService {
                 "\n" +
                 "</div></div>";
     }
-
 
 
 }
