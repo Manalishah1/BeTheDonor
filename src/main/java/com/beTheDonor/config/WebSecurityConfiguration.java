@@ -3,6 +3,7 @@ package com.beTheDonor.config;
 
 import com.beTheDonor.service.ApplicationUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -24,6 +25,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 /*@Profile("default")*/
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+
     private final ApplicationUserService applicationUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -32,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**","/forgotPassword","/reset_password").permitAll()
+                .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**","/forgotPassword","/reset_password","/homePage","/donate","/thank-you","/api/v1/create-charge").permitAll()
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
                 .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")

@@ -47,3 +47,5 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+STRIPE_SECRET_KEY : sk_test_51Kk3ylF7Q5o75Cq7iWlkSvUFxseuFv8Pn9X05wRWgd32NR1HqXGMnpPXriKHIldDDplIMf5kpkeSsAI1v0NujML50076CQe4Zn
+STRIPE_PUBLIC_KEY : pk_test_51Kk3ylF7Q5o75Cq78Bl0G00iWpJ1ITQcF5kFImeeIosv1OUAwbitTabCMJC2Yb6SD7NDkewC3XDu4mLqKR1vuBnd00HAgGzZ8f
