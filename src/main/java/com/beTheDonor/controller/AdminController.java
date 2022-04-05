@@ -54,7 +54,7 @@ public class AdminController {
 
     @GetMapping("/api/v1/admin/deleteProduct/{id}")
     @ResponseBody
-        public void delete(@PathVariable long id)
+    public void delete(@PathVariable long id)
     {
         System.out.println(id);
         adminService.delete(id);

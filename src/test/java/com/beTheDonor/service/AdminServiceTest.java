@@ -1,11 +1,21 @@
 package com.beTheDonor.service;
 
+import com.beTheDonor.controller.requestbody.ProductRequest;
 import com.beTheDonor.entity.ApplicationUser;
+import com.beTheDonor.entity.Product;
 import com.beTheDonor.repository.UserRepository;
+import com.beTheDonor.service.impl.ProductServiceImpl;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,82 +23,90 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
-class AdminServiceTest {
-    // creating a mock object of the class ProductRepository
+class AdminServiceTest{
+
     @Mock
-    private UserRepository userRepository;
-    // calling junit
+    AdminService adminServiceMock;
+
+    @Mock
+    ApplicationUserService applicationUserService;
+
+    @Mock
+    ProductServiceImpl productServiceImpl;
+
+    @MockBean
+    ApplicationUser applicationUser;
+
+    @Mock
+    ProductRequest productRequest;
+
+    @Autowired
+    AdminService adminServiceAuto;
+
     @InjectMocks
-    ApplicationUserService service;
+    AdminService adminService;
 
-    //    Creating mock product with the name "Dummy", with price 200 and with quantity 5
-
-    @Test
-    void getUsers() {
-        List<ApplicationUser> listUser = new ArrayList<ApplicationUser>();
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setFirstname("firstName");
-        listUser.add(applicationUser);
-//		Checking with dummy data,if it exists, then returning the list of products
-        when(userRepository.findAll()).thenReturn(listUser);
-//      Checking with dummy data and checking to see if it not null and has at least 1 product
-        List<ApplicationUser> userResp = service.findAll();
-        assertThat(userResp).isNotNull();
-        assertThat(userResp).hasSize(1);
+    @BeforeEach
+    void setUp() {
+        adminServiceAuto = Mockito.spy(adminServiceAuto);
     }
 
     @Test
-    void getPatients() {
-        List<ApplicationUser> listUser = new ArrayList<ApplicationUser>();
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setFirstname("firstName");
-        listUser.add(applicationUser);
-//		Checking with dummy data,if it exists, then returning the list of products
-        when(userRepository.getPatient()).thenReturn(listUser);
-//      Checking with dummy data and checking to see if it not null and has at least 1 product
-        List<ApplicationUser> userResp = service.getPatients();
-        assertThat(userResp).isNotNull();
-        assertThat(userResp).hasSize(1);
+    void getUsers(){
+        List<ApplicationUser> applicationUsers = new ArrayList<>();
+        applicationUsers.add(applicationUser);
+        Mockito.doReturn(applicationUsers).when(applicationUserService).findAll();
+        Assertions.assertEquals(applicationUsers,adminService.getUsers());
     }
 
     @Test
-    void getRiders() {
-        List<ApplicationUser> listUser = new ArrayList<ApplicationUser>();
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setFirstname("firstName");
-        listUser.add(applicationUser);
-//		Checking with dummy data,if it exists, then returning the list of products
-        when(userRepository.getRider()).thenReturn(listUser);
-//      Checking with dummy data and checking to see if it not null and has at least 1 product
-        List<ApplicationUser> userResp = service.getRider();
-        assertThat(userResp).isNotNull();
-        assertThat(userResp).hasSize(1);
+    void getPatient(){
+        List<ApplicationUser> applicationUsers = new ArrayList<>();
+        applicationUsers.add(applicationUser);
+        Mockito.doReturn(applicationUsers).when(applicationUserService).getPatients();
+        Assertions.assertEquals(applicationUsers,adminService.getPatients());
     }
 
     @Test
-    void getDonors() {
-        List<ApplicationUser> listUser = new ArrayList<ApplicationUser>();
-        ApplicationUser applicationUser = new ApplicationUser();
-        applicationUser.setFirstname("firstName");
-        listUser.add(applicationUser);
-//		Checking with dummy data,if it exists, then returning the list of products
-        when(userRepository.getDonor()).thenReturn(listUser);
-//      Checking with dummy data and checking to see if it not null and has at least 1 product
-        List<ApplicationUser> userResp = service.getDonor();
-        assertThat(userResp).isNotNull();
-        assertThat(userResp).hasSize(1);
+    void getDonor(){
+        List<ApplicationUser> applicationUsers = new ArrayList<>();
+        applicationUsers.add(applicationUser);
+        Mockito.doReturn(applicationUsers).when(applicationUserService).getDonor();
+        Assertions.assertEquals(applicationUsers,adminService.getDonors());
     }
 
     @Test
-    void add() {
+    void getRider(){
+        List<ApplicationUser> applicationUsers = new ArrayList<>();
+        applicationUsers.add(applicationUser);
+        Mockito.doReturn(applicationUsers).when(applicationUserService).getRider();
+        Assertions.assertEquals(applicationUsers,adminService.getRiders());
     }
 
     @Test
-    void delete() {
+    void delete(){
+        long id = 1;
+        adminService.delete(id);
+        Mockito.doNothing().when(productServiceImpl).deleteProductinTable(id);
     }
 
     @Test
-    void update() {
+    void update(){
+        int qty = 20;
+        double price = 60.0;
+        long id = 1;
+        adminService.update(qty,price,id);
+        Mockito.doNothing().when(productServiceImpl).updateProductinTable(qty,price,id);
+    }
+
+    @Test
+    void add(){
+        ProductRequest productRequest = new ProductRequest();
+        Product product = new Product("demo",15,20.0,"cat","kg");
+        adminService.add(productRequest);
+        Mockito.doNothing().when(productServiceImpl).addProductinTable(product);
     }
 }
