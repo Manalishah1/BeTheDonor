@@ -17,20 +17,18 @@ public class AdminService {
     ProductRequest productRequest;
     @Autowired
     ProductServiceImpl psi;
-    public List<ApplicationUser> getUsers() {
-        return ap.findAll();
-    }
+    public List<ApplicationUser> getUsers() { return ap.findAll();}
     public List<ApplicationUser> getPatients(){ return ap.getPatients(); }
     public List<ApplicationUser> getRiders(){ return ap.getRider(); }
     public List<ApplicationUser> getDonors(){ return ap.getDonor(); }
     public void add(ProductRequest productRequest)
     {
-       psi.addProductinTable(new Product(
+        psi.addProductinTable(new Product(
                 productRequest.getProductName(),
                 productRequest.getQuantity(),
                 productRequest.getPrice(),
-               productRequest.getCategory(),
-               productRequest.getComment()
+                productRequest.getCategory(),
+                productRequest.getComment()
         ));
     }
     public void delete(long id)

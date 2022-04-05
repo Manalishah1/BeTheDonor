@@ -58,7 +58,7 @@ public class OrderController
 
     @GetMapping(value = "/api/v1/patient/getOrders")
     @ResponseBody
-    public List<PatientOrdersResponse> getOrdersByUserId(HttpServletRequest request) throws Exception {
+    public List<PatientOrdersResponse> getOrdersByUserId(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         String userId = principal.getName();
         List<PatientOrdersResponse> orderResponses = orderService.getOrdersResponseByUserId(userId);

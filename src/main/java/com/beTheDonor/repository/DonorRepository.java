@@ -23,6 +23,9 @@ public interface DonorRepository extends JpaRepository<Donors, Long> {
     @Query("SELECT SUM(m.amount) FROM Donors m where m.helpDone = true")
     Double selectTotals();
 
+    List<Donors> findAllByEmailId(String email);
+
+    List<Donors> findAllByStatus(boolean b);
 
     Donors findByDonorId(Long id);
 }

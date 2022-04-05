@@ -21,6 +21,8 @@ build:
   script:
     - mvn clean compile
 
+
+
 code-quality:
   stage: code-quality
   image: maven:3-jdk-11

@@ -3,13 +3,15 @@ package com.beTheDonor.controller.pages;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class riderDashboard
 {
     @RequestMapping("/riderDashboard")
-    public String getRiderPage()
-    {
-        return "riderDashboard";
+    public ModelAndView getRiderPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("riderDashboard.html");
+        return modelAndView;
     }
 }

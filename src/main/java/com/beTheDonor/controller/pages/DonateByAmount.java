@@ -3,27 +3,31 @@ package com.beTheDonor.controller.pages;
 import com.beTheDonor.entity.CreditAmount;
 import com.beTheDonor.repository.CreditAmountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class DonateByAmount {
 
     @Autowired
     CreditAmountRepository creditAmountRepository;
 
-    @RequestMapping(value = "/donate")
-    public String donateByAmount(Model model) {
-            CreditAmount creditAmount = creditAmountRepository.getById(1);
-            model.addAttribute("fundRaised", creditAmount.getFundRaised());
-        return "donate";
+    @RequestMapping("/donate")
+    public ModelAndView donateByAmount(Model model) {
+        CreditAmount creditAmount = creditAmountRepository.getById(1);
+        model.addAttribute("fundRaised", creditAmount.getFundRaised());
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("donate.html");
+        return modelAndView;
     }
 
-    @RequestMapping(value = "/thank-you")
-    public String thankYou() {
-        return "thank-you";
+    @RequestMapping("/thank-you")
+    public ModelAndView thankYou() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("thank-you.html");
+        return modelAndView;
     }
 }
 

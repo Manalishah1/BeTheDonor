@@ -63,6 +63,7 @@ public class DonorServiceImpl implements DonorService {
                 donor.setDonorName(user.getFirstname());
             }
         }
+        donor.setHelpDone(true);
         donorRepository.save(donor);
         return true;
     }

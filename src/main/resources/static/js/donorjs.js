@@ -2,9 +2,10 @@
 var taxRate = 0.05;
 var shippingRate = 15.00;
 var fadeTime = 300;
-
+var listPatients = []
 
 $(document).ready(function () {
+    console.log("ready");
     fetchProducts();
     getDonation();
 });
@@ -44,8 +45,13 @@ function callf(ele) {
     let orderNumber = $(ele).attr('id').split('product-quantity')[1];
     if ($('#product-quantity' + orderNumber).is(':checked')) {
         $('#product-line-price' + orderNumber).html($('#product-price' + orderNumber).html());
+        listPatients.push($('#product-title' + orderNumber).html());
     } else {
         $('#product-line-price' + orderNumber).html('0');
+         const index = listPatients.indexOf($('#product-title' + orderNumber).html());
+         if (index > -1) {
+            listPatients.splice(index, 1); // 2nd parameter means remove one item only
+         }
     }
     updateTotal();
 }
@@ -113,6 +119,14 @@ function finalOrder() {
             console.log("ERROR: ", e);
         },
     });
+    console.log("Patients : ",listPatients);
+    for (const x of listPatients) {
+        $.post(
+            "/api/v1/analytics/updatePatientHelp",
+            {patient: x},
+            function (data) {
+            }, 'json');
+    }
     $.ajax({
            type: "POST",
             url: "/paymentAmount",

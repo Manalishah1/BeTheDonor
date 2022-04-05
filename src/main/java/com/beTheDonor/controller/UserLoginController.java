@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,6 +67,7 @@ public class UserLoginController {
         // Create a new session and add the security context.
         HttpSession session = request.getSession(true);
         session.setAttribute(applicationUser.getEmail(), securityContext);
+        session.setAttribute("loginUserEmail",applicationUser.getEmail());
 
         if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Donor"))) {

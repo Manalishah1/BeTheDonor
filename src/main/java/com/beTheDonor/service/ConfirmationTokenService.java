@@ -4,6 +4,7 @@ package com.beTheDonor.service;
 import com.beTheDonor.repository.ConfirmationTokenRepository;
 import com.beTheDonor.entity.UserConfirmationToken;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ConfirmationTokenService
 {
+    @Autowired
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
     public void saveConfirmationToken(UserConfirmationToken token)

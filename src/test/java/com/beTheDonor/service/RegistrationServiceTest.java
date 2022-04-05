@@ -39,6 +39,8 @@ class RegistrationServiceTest {
     @Mock
     private EmailValidator emailValidator;
     private ApplicationUser Donor;
+    @Mock
+    private AnalyticsService analyticsService;
 
     @Test
     @DisplayName("Testing register method of service layer for valid user information")
@@ -53,6 +55,7 @@ class RegistrationServiceTest {
         Mockito.doNothing().when(emailSender).send(any(), any());
         Mockito.doReturn(true).when(bodyValidator).validate(registrationRequest);
         Mockito.doReturn(true).when(emailValidator).validate(registrationRequest.getEmail());
+        Mockito.doNothing().when(analyticsService).addUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
         registrationService.register(registrationRequest);
     }
 
@@ -69,10 +72,18 @@ class RegistrationServiceTest {
         Mockito.doNothing().when(emailSender).send(any(), any());
         Mockito.doReturn(false).when(bodyValidator).validate(registrationRequest);
         Mockito.doReturn(false).when(emailValidator).validate(registrationRequest.getEmail());
-
+        Mockito.doNothing().when(analyticsService).addUser(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
         registrationService.register(registrationRequest);
 
 
     }
 
+    @Test
+    @DisplayName("Testing confirmToken() method")
+    @Order(3)
+    void confirmToken()
+    {
+        String token = "abc";
+
+    }
 }
