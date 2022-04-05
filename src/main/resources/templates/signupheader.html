@@ -16,14 +16,13 @@
     <nav class="navbar navbar-expand-lg navbar-fixed-top bg-info ">
         <img th:src="@{/images/donate.png}" width="30" height="30"/>
         <span  class="text-white font-monospace" style="margin-left: .5rem"> Be The Donor</span>
-        <a class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin-right: 7rem"  onclick="$('#form2').submit();" id="navbarSupportedContents">
+        <a th:href="@{/homePage}" class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin-right: 7rem"  id="navbarSupportedContents">
             <span class= "btn btn-outline-light" type="submit">Go To Home Page</span>
         </a>
-        <a class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin: 0 .30rem .30rem 0"  onclick="$('#form1').submit();" id="navbarSupportedContent">
+        <a th:href="@{/api/v1/login}" class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin: 0 .30rem .30rem 0"  id="navbarSupportedContent">
             <span class="btn btn-outline-light " type="submit">Login Here</span>
         </a>
-        <form style="visibility: hidden" id="form1" method="get"  th:action="@{/api/v1/login}"></form>
-        <form style="visibility: hidden" id="form2" method="get"  th:action="@{/homePage}"></form>
+
     </nav>
 </div>
 

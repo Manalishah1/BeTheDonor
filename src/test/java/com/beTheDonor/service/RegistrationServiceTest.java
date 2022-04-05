@@ -78,4 +78,12 @@ class RegistrationServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Testing confirmToken() method")
+    @Order(3)
+    void confirmToken()
+    {
+        String token = "abc";
+
+    }
 }

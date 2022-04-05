@@ -1,14 +1,12 @@
 package com.beTheDonor.controller;
 
 import com.beTheDonor.entity.Donors;
-import com.beTheDonor.entity.Response;
 import com.beTheDonor.exception.ErrorResponse;
 import com.beTheDonor.repository.*;
 import com.beTheDonor.config.PasswordEncoder;
 import com.beTheDonor.service.ApplicationUserService;
 import com.beTheDonor.service.DonorService;
 import com.beTheDonor.service.ProductService;
-import lombok.AllArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-
 public class DonorController {
     @Autowired
     ApplicationUserService applicationUserService;
