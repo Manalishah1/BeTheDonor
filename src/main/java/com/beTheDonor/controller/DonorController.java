@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import com.beTheDonor.entity.ApplicationUser;
 import com.beTheDonor.entity.Donors;
 import com.beTheDonor.entity.Response;
 import com.beTheDonor.exception.ErrorResponse;
@@ -67,7 +68,8 @@ public class DonorController {
         Principal principal = request.getUserPrincipal();
         Donors donor;
         String userId = principal.getName();
-        Long id = userRepository.getByEmail(userId).getId();
+        ApplicationUser user = userRepository.getByEmail(userId);
+        Long id = user.getId();
         Boolean response = donorService.storeTotalAmount(payload, id);
         return response;
     }

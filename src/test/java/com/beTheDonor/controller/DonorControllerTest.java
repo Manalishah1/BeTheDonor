@@ -1,89 +1,136 @@
-/*
 package com.beTheDonor.controller;
 
-import com.beTheDonor.config.WebSecurityConfiguration;
 import com.beTheDonor.entity.ApplicationUser;
+import com.beTheDonor.entity.Donors;
+import com.beTheDonor.repository.OrderRepository;
+import com.beTheDonor.repository.UserRepository;
 import com.beTheDonor.service.ApplicationUserService;
 import com.beTheDonor.service.DonorService;
-import com.beTheDonor.service.impl.DonorServiceImpl;
+import com.beTheDonor.service.impl.RiderService;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
+import org.springframework.web.context.WebApplicationContext;
 
-import javax.validation.Payload;
+import javax.servlet.http.HttpServletRequest;
+import java.net.http.HttpRequest;
+import java.security.Principal;
+import java.util.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@WebMvcTest(controllers = DonorControllerTest.class)
+@AutoConfigureMockMvc
+class DonorControllerTest {
 
-public class DonorControllerTest {
     @Autowired
     DonorController donorController;
     @MockBean
+    DonorService donorService;
+    @MockBean
+    Model model;
+    @MockBean
+    ApplicationUserService applicationUserService;
+    @MockBean
     BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private MockMvc mockMvc;
     @MockBean
-    private DonorService donorService;
+    OrderRepository orderRepository;
     @MockBean
-    private WebSecurityConfiguration webSecurityConfiguration;
+    UserRepository userRepository;
     @MockBean
-    private ApplicationUser applicationUser;
+    HttpServletRequest request;
     @MockBean
-    private DaoAuthenticationProvider authenticationManager;
-    @MockBean
-    private ApplicationUserService userDetailsService;
+    Principal principal;
 
+    @MockBean
+    ApplicationUser applicationUser;
+
+    @MockBean
+    Donors donor;
+    private MockMvc mockMvc;
     @Autowired
-    UserLoginController userLoginController;
+    private WebApplicationContext webApplicationContext;
 
     @BeforeEach
     void setUp() {
-        userLoginController = Mockito.spy(userLoginController);
-        mockMvc = MockMvcBuilders.standaloneSetup(userLoginController).build();
+        donorController = Mockito.spy(donorController);
+        mockMvc = MockMvcBuilders.standaloneSetup(donorController).build();
     }
+
     @Test
-    @DisplayName("success request testing")
     @Order(1)
-    void testChangeStatusAfterOrder() throws Exception {
-        Authentication authentication = new UsernamePasswordAuthenticationToken("dhsoni2510@gmail.com","123456", AuthorityUtils.createAuthorityList("Donor"));
+    @DisplayName("testing order Status Change to pending delivery after Checkout")
+    void checkStatusChangeIsTrue() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        Mockito.doReturn(true).when(donorService).changeStatusOfOrder(jsonObject);
+        Assertions.assertTrue(donorController.changeStatusAfterOrder(jsonObject));
 
-        Mockito.when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
+    }
 
-        Mockito.when(userDetailsService.loadUserByUsername(anyString())).thenReturn(new User("dhsoni2510@gmail.com","123456", AuthorityUtils.createAuthorityList("Donor")));
+    @Test
+    @Order(2)
+    @DisplayName("Testing storing total amount")
+    void checkStoreTotalAmountTrue() throws Exception {
+        JSONObject jsonObject = new JSONObject();
 
-        mockMvc.perform(post("/api/v1/authenticate")
+        String userId = "prachiraval2608@gmail.com";
+        Mockito.doReturn(principal).when(request).getUserPrincipal();
+        Mockito.doReturn(applicationUser).when(userRepository).getByEmail(userId);
+        Mockito.doReturn(1L).when(applicationUser).getId();
+
+        Long id = 1L;
+        Mockito.doReturn(true).when(donorService).storeTotalAmount(jsonObject, id);
+        mockMvc.perform(post("/donationInfo")
+                        .principal(principal)
                         .param("email","dhsoni2510@gmail.com")
                         .param("password","123456"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/donorview"));
-
-        JSONObject obj = new JSONObject();
-        Mockito.doReturn(true).when(donorService).changeStatusOfOrder(obj);
+                .andDo(print());
 
     }
 
+    @Test
+    @Order(3)
+    @DisplayName("Check donation amount by id")
+    void checkgetDonationById() throws Exception {
+        JSONObject jsonObject = new JSONObject();
+        String userId = "prachiraval2608@gmail.com";
+        Mockito.doReturn(principal).when(request).getUserPrincipal();
+        Mockito.doReturn(userId).when(principal).getName();
+        Long id = 1L;
+        mockMvc.perform(get("/getDonationById")
+                .param("email", userId)
+                .param("password", "123456"));
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("data", donor);
+        Mockito.doReturn(donor).when(donorService).getDonationById(id);
+
+
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Redirect to html page")
+    public void redirectToDonorView() throws Exception {
+        mockMvc.perform(get("/donorview", model))
+                .andDo(print())
+                .andExpect(view().name("donorView"));
+
+    }
 }
-*/

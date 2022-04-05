@@ -2,7 +2,6 @@ image: maven:latest
 
 stages:
   - build
-  - test
   - code-quality
   - deploy
 
@@ -21,14 +20,6 @@ build:
     - ugrad
   script:
     - mvn clean compile
-
-test:
-  stage: test
-  tags:
-    - ugrad
-  script:
-    - mvn test
-
 
 code-quality:
   stage: code-quality
