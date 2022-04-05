@@ -273,7 +273,7 @@ class OrderServiceImplTest {
 
     }*/
 
-    //@Test
+   // @Test
     /*void addOrder() {
         Mockito.doReturn(applicationUser).when(orderServiceAuto).getApplicationUser("test@gmail.com");
         HashMap<String,String> map = new HashMap<>();
