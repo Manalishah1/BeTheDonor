@@ -14,7 +14,7 @@ public interface AnalyticsService {
 	Double totalAmountOfHelp();
 
 	void addUser(String firstName, String email, String application_user_role);
-	void enableUser(String email, String application_user_role);
+	void enableUser(String email, String application_user_role, Long id);
 	void updateDonor(String email, double amount);
 	void updatePatient(String email);
 	void updateRider(String email);

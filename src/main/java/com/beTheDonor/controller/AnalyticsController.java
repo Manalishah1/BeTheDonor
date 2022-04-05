@@ -82,12 +82,17 @@ public class AnalyticsController {
 
 	@GetMapping("")
 	public String getAnalytics(Model model){
-		List<Patients> PatientsModel =patientRepository.findAll();
-		List<Donors> DonorModel = donorRepository.findAll();
-		List<Riders> RiderModel = riderRepository.findAll();
+		List<Patients> PatientsModel =patientRepository.findAllByIshelped(true);
+		List<Donors> DonorModel = donorRepository.findAllByHelpDone(true);
+		List<Riders> RiderModel = riderRepository.findAllByDelivery(true);
+		Double totalDonor = analyticsService.totalAmountOfHelp();
 		model.addAttribute("patients", PatientsModel);
 		model.addAttribute("donors",DonorModel);
 		model.addAttribute("riders",RiderModel);
+		model.addAttribute("totalAmountHelp", totalDonor);
+		model.addAttribute("patientCount", PatientsModel.size());
+		model.addAttribute("donorCount", DonorModel.size());
+		model.addAttribute("riderCount", RiderModel.size());
 		return "analyticsdashboard";
 	}
 

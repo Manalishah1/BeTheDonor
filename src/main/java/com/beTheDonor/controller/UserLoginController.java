@@ -89,6 +89,7 @@ public class UserLoginController {
         // Create a new session and add the security context.
         HttpSession session = request.getSession(true);
         session.setAttribute(applicationUser.getEmail(), securityContext);
+        session.setAttribute("loginUserEmail",applicationUser.getEmail());
 
         if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("Donor"))) {

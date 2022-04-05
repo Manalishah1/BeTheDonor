@@ -76,11 +76,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 	}
 
 	@Override
-	public void enableUser(String email, String application_user_role) {
+	public void enableUser(String email, String application_user_role, Long id) {
 		if (application_user_role.equals("Donor")){
 			List<Donors> donorsList = donorRepository.findAllByEmailId(email);
 			if (donorsList.size()>0){
 				donorsList.get(0).setStatus(true);
+				donorsList.get(0).setDonorId(id);
+				donorsList.get(0).setAmount(0D);
 			}
 			donorRepository.save(donorsList.get(0));
 		}else if (application_user_role.equals("Patient")){
@@ -111,7 +113,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
 	@Override
 	public void updatePatient(String name) {
-		List<Patients> patientsList = patientRepository.findAllByPatientName(name);
+		List<Patients> patientsList = patientRepository.findAllByPatientName(name.split(":")[1]);
 		if (patientsList.size()>0){
 			patientsList.get(0).setIshelped(true);
 		}
