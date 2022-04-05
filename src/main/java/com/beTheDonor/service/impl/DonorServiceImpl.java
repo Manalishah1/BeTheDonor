@@ -61,7 +61,6 @@ public class DonorServiceImpl implements DonorService {
                 donor.setDonorId(id);
                 donor.setAmount(sum.doubleValue());
                 donor.setDonorName(user.getFirstname());
-                // donor.setEmail(user.getEmail());
             }
         }
         donor.setHelpDone(true);

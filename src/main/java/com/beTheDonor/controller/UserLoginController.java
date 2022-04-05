@@ -27,7 +27,6 @@ import java.util.Map;
 public class UserLoginController {
 
 
-
     @Autowired
     private DaoAuthenticationProvider authenticationManager;
 
@@ -42,38 +41,16 @@ public class UserLoginController {
         return "login";
     }
 
-
-    @GetMapping("/loginSuccess1")
-    public String checkAuthentication() {
-
-        return "loginSuccess";
+    @GetMapping("/logoutSuccessful")
+    public String viewLogoutPage(Model model) {
+        model.addAttribute("user", new RegistrationRequest());
+        return "redirect:/api/v1/login";
     }
 
-
-    @RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> logoutSuccessful() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "Logout Successful");
-
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return response;
-    }
-
-    @RequestMapping(value = "/accessdenied", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> accessdenied() {
-        Map<String, Object> response = new HashMap<String, Object>();
-        try {
-            response.put("data", "access denied");
-
-        } catch (Exception ex) {
-            response.put("error", ex.getMessage());
-        }
-        return response;
+    @GetMapping("/acessdenied")
+    public String accessDenied(Model model) {
+        model.addAttribute("user", new RegistrationRequest());
+        return "redirect:/api/v1/login";
     }
 
 
@@ -83,7 +60,7 @@ public class UserLoginController {
         Authentication authentication = authenticate(applicationUser.getEmail(), applicationUser.getPassword());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(applicationUser.getEmail());
-        // Principal principal = request.getUserPrincipal();
+
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
 
@@ -111,10 +88,10 @@ public class UserLoginController {
 
         } else if (userDetails.getAuthorities().stream()
                 .anyMatch(r -> r.getAuthority().equals("ADMIN"))) {
-            return "redirect:/api/v1/loginSuccess";
+            return "redirect:/api/v1/admin";
             //Add Admin API
         } else {
-            return "redirect:/accessdenied";
+            return "redirect:/api/v1/login";
         }
 
     }

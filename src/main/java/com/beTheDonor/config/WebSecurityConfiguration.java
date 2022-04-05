@@ -22,7 +22,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-/*@Profile("default")*/
+@Profile("default")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -37,7 +37,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v*/**","/styles/css/**","/images/**","/templates/**","/js/**","/forgotPassword","/reset_password","/homePage","/donate","/thank-you","/api/v1/create-charge").permitAll()
                 .antMatchers("/accessdenied","/authenticate","userLogin")
                 .permitAll()
-                .antMatchers("/loginSuccess").hasAnyAuthority("ADMIN")
+                .antMatchers("/api/v1/admin").hasAnyAuthority("ADMIN")
                 .antMatchers("/riderDashboard").hasAnyAuthority("Rider")
                 .antMatchers("/donorview").hasAnyAuthority("Donor")
                 .antMatchers("/patient/**").hasAnyAuthority("Patient")
