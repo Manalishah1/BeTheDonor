@@ -30,18 +30,16 @@
     <a href="#work" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Work</a>
     <a href="#roles" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Roles</a>
     <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Contact</a>
+
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-button" title="Notifications">More Information <i class="fa fa-caret-down"></i></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block">
         <a th:href="@{/api/v1/analytics}" class="w3-bar-item w3-button">Analytics</a>
       </div>
     </div>
+    <a th:href="@{/api/v1/registration}" class="w3-button w3-right w3-theme">Register</a>
+    <a th:href="@{/api/v1/login}" class="w3-button w3-right w3-theme">Login</a>
 
-    <form   type="submit" id="form3" method="get"  th:action="@{/api/v1/login}">
-      <a class=" w3-right " style="margin: 0 .30rem .30rem 0"   id="navbarSupportedContent">
-        <span class="btn btn-outline-light " type="submit">Login</span>
-      </a>
-    </form>
   </div>
 
   <!-- Navbar on small screens -->

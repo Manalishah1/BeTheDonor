@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 @Controller
-public class ForgotPasswordController
-{
+public class ForgotPasswordController {
     @Autowired
     ApplicationUserService applicationUserService;
 
@@ -39,23 +38,19 @@ public class ForgotPasswordController
 
     @PostMapping("/forgotPassword")
     public String processForgotPassword(HttpServletRequest request, Model model) {
-
+        int tokenLength = 30;
         String email = request.getParameter("email");
-        String token = RandomString.make(30);
+        String token = RandomString.make(tokenLength);
 
         try {
 
-            applicationUserService.updateResetPasswordToken(token,email);
-            String resetPasswordLink  = Utility.getUrl(request) + "/reset_password?token="+token;
+            applicationUserService.updateResetPasswordToken(token, email);
+            String resetPasswordLink = Utility.getUrl(request) + "/reset_password?token=" + token;
             sendEmail(email, resetPasswordLink);
             model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
-        }
-        catch (UsernameNotFoundException ex)
-        {
-            model.addAttribute("error",ex.getMessage());
-        }
-        catch (UnsupportedEncodingException | MessagingException e)
-        {
+        } catch (UsernameNotFoundException ex) {
+            model.addAttribute("error", ex.getMessage());
+        } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute("error", "Error while sending email");
         }
 
@@ -63,36 +58,30 @@ public class ForgotPasswordController
     }
 
     @GetMapping("/reset_password")
-    public String showResetPasswordForm(@Param(value = "token") String token, Model model)
-    {
-       ApplicationUser applicationUser = applicationUserService.getByResetPasswordToken(token);
-       model.addAttribute("token",token);
+    public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
+        ApplicationUser applicationUser = applicationUserService.getByResetPasswordToken(token);
+        model.addAttribute("token", token);
 
-       if(applicationUser == null)
-       {
-           model.addAttribute("message","Invalid Token");
-           return "message";
-       }
+        if (applicationUser == null) {
+            model.addAttribute("message", "Invalid Token");
+            return "message";
+        }
 
-       return "resetPassword";
+        return "resetPassword";
 
     }
 
     @PostMapping("/reset_password")
-    public String processResetPassword(HttpServletRequest request, Model model)
-    {
+    public String processResetPassword(HttpServletRequest request, Model model) {
         String token = request.getParameter("token");
         String password = request.getParameter("password");
 
         ApplicationUser applicationUser = applicationUserService.getByResetPasswordToken(token);
-        if(applicationUser==null)
-        {
+        if (applicationUser == null) {
             return "redirect:/resetPassword";
-        }
-        else
-        {
-            applicationUserService.updatePassword(applicationUser,password);
-            model.addAttribute("message","You have Successfully Changed your Password");
+        } else {
+            applicationUserService.updatePassword(applicationUser, password);
+            model.addAttribute("message", "You have Successfully Changed your Password");
         }
         return "redirect:/api/v1/login";
 
@@ -106,16 +95,15 @@ public class ForgotPasswordController
         mimeMessageHelper.setTo(receiver_mail);
         String subject = "Here's the link to reset your password";
 
-        String  content  = createEmailContent(resetPasswordLink);
+        String content = createEmailContent(resetPasswordLink);
 
         mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setText(content,true);
+        mimeMessageHelper.setText(content, true);
         mailSender.send(message);
 
     }
 
-    private String createEmailContent(String resetPasswordLink)
-    {
+    private String createEmailContent(String resetPasswordLink) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +

@@ -24,12 +24,12 @@ function fetchProducts() {
                 if (resultJSON.result[i].orderStatus.indexOf("Order Placed") > -1) {
 
                     $('#product0').clone().insertBefore('.totals').attr('id', 'product' + (i + 1)).css('display', 'block');
-                    $('#product' + (i + 1)).find('.product-details').children(".product-title").html("Patient Name :" +resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
-                    $('#product' + (i + 1)).find('.product-details').children(".product-description").html("Products List: "+resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".product-title").html("Patient Name :" + resultJSON.result[i].firstName).attr('id', 'product-title' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".product-description").html("Products List: " + resultJSON.result[i].productName.join()).attr('id', 'product-description' + (i + 1));
                     $('#product' + (i + 1)).find('.product-price').html(resultJSON.result[i].totalAmount).attr('id', 'product-price' + (i + 1));
                     $('#product' + (i + 1)).find('.product-quantity').children().attr('id', 'product-quantity' + (i + 1));
                     $('#product' + (i + 1)).find('.product-line-price').attr('id', 'product-line-price' + (i + 1));
-                    $('#product' + (i + 1)).find('.product-details').children(".order-id").html("Order id : "+ resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
+                    $('#product' + (i + 1)).find('.product-details').children(".order-id").html("Order id : " + resultJSON.result[i].orderId).attr('id', 'order-id' + (i + 1));
                 }
             }
         },
@@ -97,7 +97,6 @@ function finalOrder() {
     });
 
     var str1 = {donationAmount: totalAmountList};
-    console.log(str1);
 
 
     $.ajax({
@@ -243,7 +242,7 @@ $(function () {
     //handle card submission
     function handlePayments() {
         var amountvalue = $('#cart-total').text();
-        console.log("Amount : ",amountvalue);
+        console.log("Amount : ", amountvalue);
         stripe.createToken(card).then(function (result) {
             if (result.error) {
                 // Inform the user if there was an error.
@@ -255,7 +254,7 @@ $(function () {
                 var email = $('#email').val();
                 $.post(
                     "/api/v1/create-charge",
-                    {email: email, token: token, amount : amountvalue},
+                    {email: email, token: token, amount: amountvalue},
                     function (data) {
                         finalOrder();
                         window.location = '/paymentSuccess';
@@ -267,7 +266,7 @@ $(function () {
     function finalOrder() {
         var totalAmountList = new Array();
         var selectedOrders = new Array();
-        var nameList ="";
+        var nameList = "";
         var orderList = new Array();
         for (var i = 0; i < resultJSON.result.length; i++) {
             orderList.push(resultJSON.result[i].orderId);
@@ -279,7 +278,7 @@ $(function () {
             if ($('#product-quantity' + num).is(':checked')) {
                 selectedOrders.push(orderList[j]);
                 totalAmountList.push(resultJSON.result[j].totalAmount);
-                nameList += '"'+resultJSON.result[j].firstName+'",';
+                nameList += '"' + resultJSON.result[j].firstName + '",';
 
             }
         }
@@ -301,7 +300,7 @@ $(function () {
             },
         });
 
-        var str1 = {donationAmount : totalAmountList};
+        var str1 = {donationAmount: totalAmountList};
         console.log(str1);
 
 
