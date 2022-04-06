@@ -21,7 +21,7 @@ import java.util.Date;
         query = "select order_id, da.address , firstname , phone_number from application_user " +
                 "inner join orders o on application_user.id = o.user_id " +
                 "inner join delivery_address da on o.address_id = da.address_id " +
-                "where order_status= 'ready to deliver'",
+                "where order_status IN ('ready to deliver', 'delivered')",
                 resultSetMapping = "ReadyToDeliverModel")
 @SqlResultSetMapping(name = "ReadyToDeliverModel",classes = @ConstructorResult(targetClass = ReadyToDeliverModel.class,columns = { @ColumnResult(name = "order_id"),@ColumnResult(name = "address"),@ColumnResult(name = "firstname"),@ColumnResult(name = "phone_number")}))
 
