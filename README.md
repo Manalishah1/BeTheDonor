@@ -1,4 +1,3 @@
-
 # Final Project
 
 Be The Donor is an application for helping out patients who are in need of basic amenities needed for daily usage. Items like milk, fruits,  vegetables and so on, can be ordered from out website. The admin manages an inventory for keeping track of the items. Registered patients can order items from avaialble inventory. Donors can either donate items anonymously as a credit amount or can register and select the orders placed by patients, by looking at the order details of each patient on donor dashboard.
@@ -6,7 +5,7 @@ Rider can see all the orders which have been paid and can select multiple orders
 
 * *Date Created*: 5 FEB 2022
 * *Last Modification Date*: 6 APRIL 2022
-* *Application URL*: https://tutorial3appb00896765.herokuapp.com/
+* *Application URL*: https://bethedonor-dev.herokuapp.com/
 * *Group Gitlab URL*: https://git.cs.dal.ca/courses/2022-winter/csci-5308/group23.git
 
 ## Authors
