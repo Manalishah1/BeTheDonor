@@ -1,6 +1,7 @@
 package com.beTheDonor.controller;
 
 
+import com.beTheDonor.constant.Constants;
 import com.beTheDonor.dto.PatientRiderDto;
 import com.beTheDonor.model.PatientRiderModel;
 import com.beTheDonor.model.ReadyToDeliverModel;
@@ -26,11 +27,6 @@ public class RiderController {
     RiderService riderService;
 
 
-/*    @PostMapping(value = "/finalOrderRider")
-    public void getRiderOrders() throws Exception
-    {
-
-    }*/
 
     @PostMapping("/showSelectedOrders")
     public String selected(@RequestBody JSONObject payload,Model model)
@@ -79,7 +75,7 @@ public class RiderController {
     @GetMapping("/keyword")
     public ResponseEntity<String> getRiders(@RequestParam(value = "q") String query) throws JsonProcessingException {
         System.out.println(query);
-        List<String> strings = riderService.getCities().stream().filter(city -> city.toLowerCase().contains(query)).limit(20).collect(Collectors.toList());
+        List<String> strings = riderService.getCities().stream().filter(city -> city.toLowerCase().contains(query)).limit(Constants.auto_limit).collect(Collectors.toList());
         System.out.println("Cities are: " + strings);
         ObjectMapper mapper = new ObjectMapper();
         String resp = "";

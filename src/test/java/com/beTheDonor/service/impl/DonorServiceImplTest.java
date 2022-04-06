@@ -90,27 +90,7 @@ class DonorServiceImplTest {
 
 
     }
-    @Test
-    @Order(3)
-    @DisplayName("Set total Amount donor has donated")
-    public void storeTotalAmountIdExists() {
-        ArrayList<Integer> jsonAddress = new ArrayList<>();
-        jsonAddress.add(1);
-        Integer i = 1;
-        Long id = 1L;
-        Mockito.doReturn(false).when(donorRepository).existsByDonorId(id);
-        Mockito.doReturn(jsonAddress).when(jsonObject).get("donationAmount");
-        Mockito.doReturn( applicationUser ).when(userRepository).findById(id);
-        Mockito.doReturn(donor).when(donorRepository).findByDonorId(id);
-        Mockito.doNothing().when(donor).setDonorId(Mockito.any());
-        Mockito.doNothing().when(donor).setAmount(Mockito.any());
-        Mockito.doNothing().when(donor).setDonorName(Mockito.any());
-        Mockito.doReturn(donor).when(donorRepository).save(donor);
-
-        Assertions.assertTrue(donorServiceImpl.storeTotalAmount(jsonObject, id));
-
 
     }
 
 
-}

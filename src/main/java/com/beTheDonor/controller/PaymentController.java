@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import com.beTheDonor.constant.Constants;
 import com.beTheDonor.entity.PatientOrdersResponse;
 import com.beTheDonor.entity.Response;
 import com.beTheDonor.service.AnalyticsService;
@@ -42,7 +43,7 @@ public class PaymentController {
         if (token == null) {
             return new Response(false, "Stripe payment token is missing. please try again later.");
         }
-        String chargeId = stripeService.createCharge(email, token, Double.parseDouble(amount)*100);// 9.99 usd
+        String chargeId = stripeService.createCharge(email, token, Double.parseDouble(amount)* Constants.multiply_value);// 9.99 usd
         HttpSession session = httpSessionFactory.getObject();
         if (chargeId == null) {
             session.setAttribute("payment_status","false");

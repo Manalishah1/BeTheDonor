@@ -1,5 +1,6 @@
 package com.beTheDonor.controller;
 
+import com.beTheDonor.constant.Constants;
 import com.beTheDonor.entity.ApplicationUser;
 import com.beTheDonor.service.ApplicationUserService;
 import com.beTheDonor.util.Utility;
@@ -38,7 +39,7 @@ public class ForgotPasswordController {
 
     @PostMapping("/forgotPassword")
     public String processForgotPassword(HttpServletRequest request, Model model) {
-        int tokenLength = 30;
+        int tokenLength = Constants.token_length;
         String email = request.getParameter("email");
         String token = RandomString.make(tokenLength);
 

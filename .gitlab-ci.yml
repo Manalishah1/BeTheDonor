@@ -55,7 +55,7 @@ deploy_dev:
     - dpl --provider=heroku --app=bethedonor-dev --api-key=$HEROKU_API_KEY
   environment:
     name: dev
-    url: https://bethedonor-dev.herokuapp.com
+    url: https://bethedonor-dev.herokuapp.com/
   only:
     - master
 
