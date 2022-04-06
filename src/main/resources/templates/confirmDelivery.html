@@ -22,9 +22,8 @@
 <!-- Image and text -->
 <nav class="navbar navbar-expand-lg navbar-fixed-top bg-info">
 
-    <div>
-        <img width="40" height="40" alt="Sample image" class="img-fluid" th:src="@{/images/scooter.png}">
-    </div>
+    <img th:src="@{/images/donate.png}" width="30" height="30"/>
+    <span  class="text-white font-monospace" style="margin-left: .5rem"> Be The Donor</span>
     <a class="collapse navbar-collapse text-decoration-none position-absolute top-0 end-0" style="margin: .30rem"
        onclick="$('#form1').submit();" id="navbarSupportedContent">
         <span class="btn btn-outline-light " type="submit">Go Back </span>
@@ -75,7 +74,7 @@
         </div>
         <div class="card-footer bg-gradient bg-light">
             <div class="row">
-                <div class="col">
+                <div class="col" th:unless="*{tipsPending == null}">
                     <p> Tips Pending: <span th:text="*{tipPending}"> </span></p>
                 </div>
 
@@ -84,6 +83,17 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="page-footer font-small ">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2022 Copyright:
+            <a href="#" class="text-info"> bethedonor.com </a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
 
     <script th:inline="javascript">
 

@@ -27,13 +27,12 @@ public class ApplicationUserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
-//    private final PasswordTokenRepository passwordTokenRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
-//
+
     }
 
     public String signUpUser(ApplicationUser applicationUser) {
@@ -44,7 +43,6 @@ public class ApplicationUserService implements UserDetailsService {
         }
         String encodedPassword = bCryptPasswordEncoder.encode(applicationUser.getPassword());
         applicationUser.setPassword(encodedPassword);
-
 
         userRepository.save(applicationUser);
 
@@ -81,14 +79,6 @@ public class ApplicationUserService implements UserDetailsService {
 
     public List<ApplicationUser> findAll() {
         return userRepository.findAll();
-    }
-
-    public Optional<ApplicationUser> findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    public ApplicationUser findUserByEmail(String email) {
-        return userRepository.getByEmail(email);
     }
 
     public void updateResetPasswordToken(String token, String email) {

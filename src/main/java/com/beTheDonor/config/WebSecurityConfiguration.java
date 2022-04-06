@@ -22,7 +22,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
-@Profile("default")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
