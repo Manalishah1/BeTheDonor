@@ -41,7 +41,6 @@ function addOrder() {
             console.log(myList.toString());
             pushOrderStatus(myList);
 
-
         },
         error: function (e) {
             console.log("ERROR: ", e);

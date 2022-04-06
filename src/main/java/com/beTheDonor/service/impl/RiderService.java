@@ -2,14 +2,17 @@ package com.beTheDonor.service.impl;
 
 
 import com.beTheDonor.entity.Orders;
+import com.beTheDonor.entity.Riders;
 import com.beTheDonor.model.PatientRiderModel;
 import com.beTheDonor.model.ReadyToDeliverModel;
 import com.beTheDonor.repository.OrderRepository;
+import com.beTheDonor.repository.RiderRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +20,9 @@ public class RiderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    RiderRepository riderRepository;
 
 
     public List<String> getCities() {
@@ -54,8 +60,15 @@ public class RiderService {
     public void getOrderById(Long orderId)
     {
        Orders order = orderRepository.getById(orderId);
-        if(order.getOrderStatus().equals("pending delivery")) {
+        System.out.println(order.getOrderStatus() +"----------" + order.getOrderStatus().equals("pending delivery"));
+        if(order.getOrderStatus().equals("Ready To Deliver")) {
             order.setOrderStatus("delivered");
+            order.setOrderDeliveredOn(new Date());
+            Riders riders = new Riders();
+            riders.setDriverName(order.getUserId().getFirstname());
+            riders.setDelivery(true);
+            riderRepository.save(riders);
+
         }
         else {
             order.setOrderStatus("pending delivery");
