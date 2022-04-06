@@ -28,8 +28,6 @@ public class ForgotPasswordController {
     @Autowired
     private JavaMailSender mailSender;
 
-
-
     @GetMapping("/forgotPassword")
     public String showForgotPasswordForm() {
 

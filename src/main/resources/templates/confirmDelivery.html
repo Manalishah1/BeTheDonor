@@ -74,10 +74,9 @@
         </div>
         <div class="card-footer bg-gradient bg-light">
             <div class="row">
-                <div class="col" th:unless="*{tipsPending == null}">
-                    <p> Tips Pending: <span th:text="*{tipPending}"> </span></p>
+                <div class="col">
+                    <p> Tips Pending: <span  class="rounded alert-success p-2"  th:text="*{tipPending}+'$'"> 0.00$</span></p>
                 </div>
-
             </div>
 
         </div>

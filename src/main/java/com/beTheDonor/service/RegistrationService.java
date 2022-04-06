@@ -53,7 +53,7 @@ public class RegistrationService {
         if (token.equals("emailFound")) {
             return false;
         }
-        String link = "/api/v1/registration/confirm?token=" + token;
+        String link = "https://bethedonor-dev.herokuapp.com/api/v1/registration/confirm?token=" + token;
         System.out.println(registrationRequest.getEmail());
         emailSender.send(registrationRequest.getEmail(), buildEmail(registrationRequest.getFirstName(), link));
         System.out.println("Email sent");
